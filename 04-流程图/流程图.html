@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>售后管家 — Day 4 流程图集</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f7fa;
+    color: #1f2937;
+    margin: 0;
+    padding: 32px 24px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1340px; margin: 0 auto; }
+  .header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 32px 36px;
+    border-radius: 16px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 12px rgba(30,58,138,.15);
+  }
+  .header h1 { margin: 0 0 8px; font-size: 26px; }
+  .header .sub { opacity: 0.85; font-size: 14px; }
+  .meta {
+    display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .tag {
+    background: rgba(255,255,255,.18); padding: 4px 12px; border-radius: 999px;
+  }
+
+  .fig {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    border: 1px solid #e5e7eb;
+  }
+  .fig h2 {
+    font-size: 20px;
+    margin: 0 0 6px;
+    color: #0f172a;
+  }
+  .fig .legend {
+    color: #6b7280;
+    font-size: 13px;
+    margin: 0 0 18px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  .legend-swatch {
+    width: 16px; height: 12px; border-radius: 3px; display: inline-block;
+  }
+  .legend-line {
+    display: inline-block; width: 24px; height: 0;
+    border-top: 2px solid #475569;
+    vertical-align: middle;
+  }
+  .legend-line.dashed {
+    border-top: 2px dashed #475569;
+  }
+
+  svg { width: 100%; height: auto; background: white; border-radius: 8px; display: block; }
+
+  .note {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    padding: 14px 18px;
+    margin-top: 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #78350f;
+  }
+  .note strong { color: #92400e; }
+
+  table.perm {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  table.perm th, table.perm td {
+    border: 1px solid #e5e7eb;
+    padding: 10px 12px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.perm thead th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #334155;
+  }
+  table.perm tbody th {
+    background: #f8fafc;
+    text-align: left;
+    font-weight: 600;
+    color: #334155;
+  }
+  table.perm td.row-label {
+    text-align: left;
+    background: #f8fafc;
+    font-weight: 600;
+    color: #334155;
+    width: 130px;
+  }
+  .ok { background: #dcfce7; color: #166534; font-weight: 700; }
+  .no { background: #fee2e2; color: #991b1b; font-weight: 700; }
+  .cond { background: #fef3c7; color: #92400e; font-weight: 700; }
+  .auto { background: #dbeafe; color: #1e40af; font-weight: 700; }
+  .row-comment {
+    text-align: left;
+    font-size: 12px;
+    color: #6b7280;
+    padding-top: 4px;
+  }
+  .footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 24px 0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <h1>售后管家 AfterCare — Day 4 流程图集</h1>
+  <div class="sub">B 端 PM 三件套：主流程图（泳道视图）· 工单状态机 · 权限矩阵</div>
+  <div class="meta">
+    <span class="tag">主流程图</span>
+    <span class="tag">状态机</span>
+    <span class="tag">RBAC 权限模型</span>
+    <span class="tag">AI × B 端</span>
+  </div>
+</div>
+
+<!-- 图 1：主流程图 -->
+<section class="fig">
+  <h2>图 1：售后主流程图（5 泳道视图，含 AI/人工分流）</h2>
+  <p class="legend">
+    <span class="legend-item"><span class="legend-swatch" style="background:#fff7ed;border:1px solid #fed7aa;"></span>客户</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:#eef9ff;border:1px solid #bae6fd;"></span>AI Agent</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:#f0fdf4;border:1px solid #bbf7d0;"></span>人工客服</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:#faf5ff;border:1px solid #e9d5ff;"></span>客服主管</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:#fff1f2;border:1px solid #fecdd3;"></span>系统</span>
+    <span class="legend-item"><span class="legend-line"></span>主流程</span>
+    <span class="legend-item"><span class="legend-line dashed"></span>回流/升级路径</span>
+  </p>
+
+<svg viewBox="0 0 1280 800" xmlns="http://www.w3.org/2000/svg" font-family='-apple-system, "PingFang SC", sans-serif'>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="640" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">售后主流程图</text>
+
+  <!-- 5 个泳道 -->
+  <rect x="40" y="50" width="1200" height="110" rx="8" fill="#fff7ed"/>
+  <text x="56" y="110" font-size="13" font-weight="700" fill="#9a3412">客户</text>
+
+  <rect x="40" y="170" width="1200" height="140" rx="8" fill="#eef9ff"/>
+  <text x="56" y="245" font-size="13" font-weight="700" fill="#075985">AI Agent</text>
+
+  <rect x="40" y="320" width="1200" height="120" rx="8" fill="#f0fdf4"/>
+  <text x="56" y="385" font-size="13" font-weight="700" fill="#166534">人工客服</text>
+
+  <rect x="40" y="450" width="1200" height="120" rx="8" fill="#faf5ff"/>
+  <text x="56" y="515" font-size="13" font-weight="700" fill="#6b21a8">客服主管</text>
+
+  <rect x="40" y="580" width="1200" height="140" rx="8" fill="#fff1f2"/>
+  <text x="56" y="655" font-size="13" font-weight="700" fill="#9f1239">系统</text>
+
+  <!-- ============ 节点 ============ -->
+
+  <!-- 1. 客户发起 -->
+  <rect x="60" y="100" width="140" height="50" rx="10" fill="#fff" stroke="#9a3412" stroke-width="2"/>
+  <text x="130" y="122" text-anchor="middle" font-size="13" fill="#1f2937">客户发起</text>
+  <text x="130" y="138" text-anchor="middle" font-size="13" fill="#1f2937">售后咨询</text>
+
+  <!-- 2. AI 接收 -->
+  <rect x="240" y="220" width="140" height="50" rx="10" fill="#fff" stroke="#075985" stroke-width="2"/>
+  <text x="310" y="242" text-anchor="middle" font-size="13" fill="#1f2937">AI 接收并</text>
+  <text x="310" y="258" text-anchor="middle" font-size="13" fill="#1f2937">意图识别</text>
+
+  <!-- 3. AI 判定 [菱形] -->
+  <polygon points="420,245 480,205 540,245 480,285" fill="#fff" stroke="#075985" stroke-width="2"/>
+  <text x="480" y="242" text-anchor="middle" font-size="13" fill="#1f2937">AI 能否</text>
+  <text x="480" y="260" text-anchor="middle" font-size="13" fill="#1f2937">直接答?</text>
+
+  <!-- 4. AI 自答 -->
+  <rect x="580" y="190" width="140" height="50" rx="10" fill="#dbeafe" stroke="#075985" stroke-width="1.5"/>
+  <text x="650" y="212" text-anchor="middle" font-size="13" fill="#1f2937">FAQ/订单</text>
+  <text x="650" y="228" text-anchor="middle" font-size="13" fill="#1f2937">自动应答</text>
+
+  <!-- 5. 转人工 -->
+  <rect x="580" y="270" width="140" height="50" rx="10" fill="#dbeafe" stroke="#075985" stroke-width="1.5"/>
+  <text x="650" y="292" text-anchor="middle" font-size="13" fill="#1f2937">复杂问题</text>
+  <text x="650" y="308" text-anchor="middle" font-size="13" fill="#1f2937">建工单转人工</text>
+
+  <!-- 6. 人工接单 -->
+  <rect x="760" y="355" width="140" height="50" rx="10" fill="#fff" stroke="#166534" stroke-width="2"/>
+  <text x="830" y="377" text-anchor="middle" font-size="13" fill="#1f2937">人工客服</text>
+  <text x="830" y="393" text-anchor="middle" font-size="13" fill="#1f2937">接单响应</text>
+
+  <!-- 7. 退款判定 [菱形] -->
+  <polygon points="940,380 1000,340 1060,380 1000,420" fill="#fff" stroke="#166534" stroke-width="2"/>
+  <text x="1000" y="377" text-anchor="middle" font-size="13" fill="#1f2937">是否需</text>
+  <text x="1000" y="395" text-anchor="middle" font-size="13" fill="#1f2937">退款?</text>
+
+  <!-- 8. 阈值判定 [菱形] -->
+  <polygon points="240,510 300,470 360,510 300,550" fill="#fff" stroke="#6b21a8" stroke-width="2"/>
+  <text x="300" y="507" text-anchor="middle" font-size="12" fill="#1f2937">金额是否</text>
+  <text x="300" y="525" text-anchor="middle" font-size="12" fill="#1f2937">&gt; 阈值?</text>
+
+  <!-- 9. 主管审批 -->
+  <rect x="400" y="485" width="140" height="50" rx="10" fill="#fff" stroke="#6b21a8" stroke-width="2"/>
+  <text x="470" y="507" text-anchor="middle" font-size="13" fill="#1f2937">主管审批</text>
+  <text x="470" y="523" text-anchor="middle" font-size="13" fill="#1f2937">通过/驳回</text>
+
+  <!-- 10. 系统执行退款 -->
+  <rect x="580" y="625" width="160" height="50" rx="10" fill="#fff" stroke="#9f1239" stroke-width="2"/>
+  <text x="660" y="647" text-anchor="middle" font-size="13" fill="#1f2937">系统执行退款</text>
+  <text x="660" y="663" text-anchor="middle" font-size="13" fill="#1f2937">改订单/物流</text>
+
+  <!-- 11. 关单邀请评价 -->
+  <rect x="1080" y="100" width="140" height="50" rx="10" fill="#fff" stroke="#9f1239" stroke-width="2"/>
+  <text x="1150" y="122" text-anchor="middle" font-size="13" fill="#1f2937">关单</text>
+  <text x="1150" y="138" text-anchor="middle" font-size="13" fill="#1f2937">邀请客户评价</text>
+
+  <!-- 12. 投诉升级 -->
+  <rect x="1080" y="485" width="140" height="50" rx="10" fill="#fff" stroke="#6b21a8" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="1150" y="507" text-anchor="middle" font-size="13" fill="#1f2937">投诉/二线</text>
+  <text x="1150" y="523" text-anchor="middle" font-size="13" fill="#1f2937">升级主管</text>
+
+  <!-- ============ 连线 ============ -->
+
+  <!-- 1. 客户→AI -->
+  <path d="M200,135 Q220,180 240,225" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+
+  <!-- 2. AI→判定 -->
+  <path d="M380,245 L420,245" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+
+  <!-- 3. 判定 是 → AI自答 -->
+  <path d="M480,205 L580,205" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="528" y="198" text-anchor="middle" font-size="11" fill="#166534" font-weight="700">是</text>
+
+  <!-- 4. 判定 否 → 转人工 -->
+  <path d="M480,285 L580,285" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="528" y="300" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="700">否</text>
+
+  <!-- 5. 转人工 → 人工接单 -->
+  <path d="M720,290 Q745,330 760,360" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+
+  <!-- 6. 人工 → 退款判定 -->
+  <path d="M900,380 L940,380" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+
+  <!-- 7. 退款判定 否 → 关单 (大弧线) -->
+  <path d="M1060,380 C1140,300 1140,200 1150,150" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="1148" y="265" font-size="11" fill="#166534" font-weight="700">否</text>
+
+  <!-- 8. 退款判定 是 → 阈值判定 -->
+  <path d="M970,420 C700,490 500,490 360,510" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="640" y="465" font-size="11" fill="#dc2626" font-weight="700">是</text>
+
+  <!-- 9. 阈值 ≤ → 系统执行 -->
+  <path d="M300,470 C300,580 500,640 580,640" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="320" y="585" font-size="11" fill="#166534" font-weight="700">≤阈值</text>
+
+  <!-- 10. 阈值 > → 主管审批 -->
+  <path d="M360,510 L400,510" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="368" y="504" font-size="11" fill="#dc2626" font-weight="700">&gt;阈值</text>
+
+  <!-- 11. 主管审批 通过 → 系统执行 -->
+  <path d="M540,510 C580,580 620,620 660,625" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="595" y="595" font-size="11" fill="#166534" font-weight="700">通过</text>
+
+  <!-- 12. 主管审批 驳回 → 人工接单 (虚线回流) -->
+  <path d="M470,485 Q650,420 830,400" stroke="#475569" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#arr)"/>
+  <text x="650" y="408" font-size="11" fill="#dc2626" font-weight="700">驳回回流</text>
+
+  <!-- 13. 系统执行 → 关单 -->
+  <path d="M740,650 C900,500 1050,300 1080,140" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+
+  <!-- 14. AI自答 → 关单 -->
+  <path d="M720,205 C900,180 1050,150 1080,125" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+
+  <!-- 15. 转人工 → 投诉升级 (虚线) -->
+  <path d="M720,290 C900,400 1050,470 1080,500" stroke="#475569" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#arr)"/>
+  <text x="940" y="370" font-size="11" fill="#dc2626" font-weight="700">差评/复杂升级</text>
+
+  <!-- 16. 投诉升级 → 关单 (虚线) -->
+  <path d="M1150,485 L1150,150" stroke="#475569" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#arr)"/>
+  <text x="1160" y="320" font-size="11" fill="#dc2626" font-weight="700">仲裁关单</text>
+
+</svg>
+
+  <div class="note">
+    <strong>图 1 阅读提示：</strong>实线 = 主流程，虚线 = 回流/升级。<br>
+    <strong>三条主线</strong>：① AI 自答直关单（秒级）→ ② 转人工响应 → ③ 需退款时进入"阈值+审批"闭环。<br>
+    <strong>两个回流</strong>：① 主管驳回 → 回到人工接单（不是打回客户）；② 客户差评/复杂 → 升级主管仲裁，避免一线反复扯皮。<br>
+    <strong>关键设计</strong>：AI 判定菱形把"流量"分成两股，AI 接管率达 <strong>60%</strong> 时一线只需处理 40% 的复杂 case。
+  </div>
+</section>
+
+<!-- 图 2：工单状态机 -->
+<section class="fig">
+  <h2>图 2：工单状态机（State Machine）</h2>
+  <p class="legend">
+    <span class="legend-item"><span class="legend-swatch" style="background:#fff;border:1px solid #475569;"></span>状态节点</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:#dcfce7;border:1px solid #16a34a;"></span>终态</span>
+    <span class="legend-item"><span class="legend-line"></span>状态流转</span>
+    <span class="legend-item"><span class="legend-line dashed"></span>超时/系统触发</span>
+  </p>
+
+<svg viewBox="0 0 1100 660" xmlns="http://www.w3.org/2000/svg" font-family='-apple-system, "PingFang SC", sans-serif'>
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">工单状态流转图</text>
+
+  <!-- 中心：已解决 -->
+  <circle cx="550" cy="370" r="65" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="550" y="365" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">已解决</text>
+  <text x="550" y="383" text-anchor="middle" font-size="11" fill="#92400e">Resolved</text>
+
+  <!-- 周围 8 个状态，环形布局 -->
+  <!-- 1. 新建 (顶部) -->
+  <rect x="495" y="80" width="120" height="55" rx="10" fill="#fff" stroke="#475569" stroke-width="2"/>
+  <text x="555" y="103" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2937">新建</text>
+  <text x="555" y="120" text-anchor="middle" font-size="11" fill="#6b7280">New</text>
+
+  <!-- 2. AI 处理中 (右上) -->
+  <rect x="820" y="135" width="135" height="55" rx="10" fill="#dbeafe" stroke="#075985" stroke-width="2"/>
+  <text x="887" y="158" text-anchor="middle" font-size="13" font-weight="600" fill="#075985">AI 处理中</text>
+  <text x="887" y="175" text-anchor="middle" font-size="11" fill="#075985">AI Handling</text>
+
+  <!-- 3. 待人工处理 (右侧) -->
+  <rect x="900" y="270" width="155" height="55" rx="10" fill="#fff" stroke="#166534" stroke-width="2"/>
+  <text x="977" y="293" text-anchor="middle" font-size="13" font-weight="600" fill="#166534">待人工处理</text>
+  <text x="977" y="310" text-anchor="middle" font-size="11" fill="#166534">Pending Agent</text>
+
+  <!-- 4. 待审批 (右下) -->
+  <rect x="900" y="430" width="155" height="55" rx="10" fill="#fff" stroke="#6b21a8" stroke-width="2"/>
+  <text x="977" y="453" text-anchor="middle" font-size="13" font-weight="600" fill="#6b21a8">待审批</text>
+  <text x="977" y="470" text-anchor="middle" font-size="11" fill="#6b21a8">Pending Approval</text>
+
+  <!-- 5. 已关闭 (底部, 终态) -->
+  <rect x="495" y="560" width="120" height="55" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="555" y="583" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">已关闭</text>
+  <text x="555" y="600" text-anchor="middle" font-size="11" fill="#166534">Closed</text>
+
+  <!-- 6. 待复审 (左下) -->
+  <rect x="60" y="430" width="155" height="55" rx="10" fill="#fff" stroke="#dc2626" stroke-width="2"/>
+  <text x="137" y="453" text-anchor="middle" font-size="13" font-weight="600" fill="#dc2626">待复审</text>
+  <text x="137" y="470" text-anchor="middle" font-size="11" fill="#dc2626">Reopened</text>
+
+  <!-- 7. 人工处理中 (左侧) -->
+  <rect x="60" y="270" width="155" height="55" rx="10" fill="#fff" stroke="#166534" stroke-width="2"/>
+  <text x="137" y="293" text-anchor="middle" font-size="13" font-weight="600" fill="#166534">人工处理中</text>
+  <text x="137" y="310" text-anchor="middle" font-size="11" fill="#166534">Agent Handling</text>
+
+  <!-- 8. 超期/超时 (左上) -->
+  <rect x="155" y="135" width="135" height="55" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="222" y="158" text-anchor="middle" font-size="13" font-weight="600" fill="#dc2626">超期监控</text>
+  <text x="222" y="175" text-anchor="middle" font-size="11" fill="#dc2626">Overdue</text>
+
+  <!-- ============ 流转连线 ============ -->
+
+  <!-- 新建 → AI 处理中 -->
+  <path d="M615,108 Q730,108 820,160" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="720" y="118" font-size="10" fill="#6b7280">AI 接管</text>
+
+  <!-- AI 处理中 → 待人工处理 -->
+  <path d="M887,190 L887,270" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="900" y="235" font-size="10" fill="#6b7280">AI 不能解</text>
+
+  <!-- AI 处理中 → 已解决 (直接) -->
+  <path d="M820,170 Q700,250 615,360" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="680" y="220" font-size="10" fill="#166534">AI 直接解决</text>
+
+  <!-- 待人工 → 人工处理中 -->
+  <path d="M900,300 Q650,300 215,300" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="500" y="293" font-size="10" fill="#6b7280">客服接单</text>
+
+  <!-- 人工处理中 → 待审批 -->
+  <path d="M215,325 Q400,420 900,455" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="430" y="410" font-size="10" fill="#6b21a8">需退款</text>
+
+  <!-- 人工处理中 → 已解决 -->
+  <path d="M170,325 Q350,340 488,360" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="320" y="335" font-size="10" fill="#166534">直接解决</text>
+
+  <!-- 待审批 → 已解决 (通过) -->
+  <path d="M935,455 Q800,430 615,395" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="780" y="430" font-size="10" fill="#166534">审批通过</text>
+
+  <!-- 待审批 → 人工处理中 (驳回, 虚线) -->
+  <path d="M977,430 Q650,490 215,325" stroke="#475569" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#arr2)"/>
+  <text x="600" y="500" font-size="10" fill="#dc2626">驳回回流</text>
+
+  <!-- 已解决 → 已关闭 -->
+  <path d="M555,435 L555,560" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="568" y="495" font-size="10" fill="#166534">关单</text>
+
+  <!-- 已解决 → 待复审 -->
+  <path d="M488,395 Q380,440 215,455" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="370" y="430" font-size="10" fill="#dc2626">客户不满意</text>
+
+  <!-- 待复审 → 人工处理中 -->
+  <path d="M137,430 Q137,360 137,325" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+  <text x="145" y="378" font-size="10" fill="#6b7280">重派</text>
+
+  <!-- 超期监控 (虚线) -->
+  <!-- 指向 AI 处理中 -->
+  <path d="M220,190 Q360,160 820,180" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 4" fill="none" marker-end="url(#arr2)"/>
+  <text x="400" y="155" font-size="10" fill="#dc2626">超时 60s 未响应</text>
+
+  <!-- 指向 人工处理中 -->
+  <path d="M222,190 Q180,250 145,270" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 4" fill="none" marker-end="url(#arr2)"/>
+  <text x="115" y="245" font-size="10" fill="#dc2626">超时 30min</text>
+
+  <!-- 指向 待审批 -->
+  <path d="M290,180 Q500,260 900,440" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 4" fill="none" marker-end="url(#arr2)"/>
+  <text x="540" y="350" font-size="10" fill="#dc2626">审批超时 2h 升级</text>
+
+  <!-- 起点指示：开始箭头 -->
+  <circle cx="555" cy="50" r="10" fill="#16a34a"/>
+  <text x="555" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="white">起</text>
+  <path d="M555,60 L555,80" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#arr2)"/>
+
+</svg>
+
+  <div class="note">
+    <strong>图 2 阅读提示：</strong>环形布局，<strong style="color:#f59e0b;">已解决（Resolved）</strong>居中作为枢纽。<br>
+    <strong>三种退出路径</strong>：① 满意关单（绿色 → 终态）→ ② 不满意复审（红色 → 回到人工）→ ③ 主管驳回回流（红色虚线 → 回到人工处理中）。<br>
+    <strong>超期监控</strong>（红色虚线）独立成块：AI 60 秒未响应 → 转人工；人工 30 分钟未响应 → 主管介入；审批 2 小时超时 → 自动升级主管。<br>
+    <strong>状态机的价值</strong>：把"售后"从一段对话变成可观测、可统计、可 SLA 化的对象。AI 拦截率、一次解决率、平均处理时长（SUM）都能从这里取数。
+  </div>
+</section>
+
+<!-- 图 3：权限矩阵 -->
+<section class="fig">
+  <h2>图 3：权限矩阵（RBAC，5 角色 × 15 操作）</h2>
+  <p class="legend">
+    <span class="legend-item"><span class="legend-swatch ok">✓</span>允许</span>
+    <span class="legend-item"><span class="legend-swatch cond">△</span>受限</span>
+    <span class="legend-item"><span class="legend-swatch no">✗</span>不允许</span>
+    <span class="legend-item"><span class="legend-swatch auto">⚙</span>系统自动</span>
+  </p>
+
+<table class="perm">
+<thead>
+  <tr>
+    <th>角色 \ 操作</th>
+    <th>查看<br>工单</th>
+    <th>查看<br>数据</th>
+    <th>创建<br>工单</th>
+    <th>接单<br>处理</th>
+    <th>转接<br>工单</th>
+    <th>退款<br>≤阈值</th>
+    <th>退款<br>&gt;阈值</th>
+    <th>退款<br>审批</th>
+    <th>AI<br>配置</th>
+    <th>敏感词<br>配置</th>
+    <th>用户<br>管理</th>
+    <th>账单<br>订阅</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="row-label">系统（自动）</td>
+    <td class="auto">⚙</td>
+    <td class="auto">⚙</td>
+    <td class="auto">⚙</td>
+    <td class="no">✗</td>
+    <td class="auto">⚙</td>
+    <td class="auto">⚙</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+  </tr>
+  <tr>
+    <td class="row-label">人工客服</td>
+    <td class="cond">△<br>仅自己</td>
+    <td class="no">✗</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+  </tr>
+  <tr>
+    <td class="row-label">客服主管</td>
+    <td class="ok">✓<br>全量</td>
+    <td class="cond">△<br>团队</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="cond">△<br>仅本团队</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="cond">△<br>团队级</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+  </tr>
+  <tr>
+    <td class="row-label">财务</td>
+    <td class="cond">△<br>退款相关</td>
+    <td class="cond">△<br>财务数据</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="cond">△<br>大额复核</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="ok">✓</td>
+  </tr>
+  <tr>
+    <td class="row-label">老板 / Owner</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+    <td class="ok">✓</td>
+  </tr>
+</tbody>
+</table>
+
+  <div class="note">
+    <strong>图 3 设计要点：</strong><br>
+    <strong>1. 把"系统"也作为一行</strong> — 不是装饰，而是说清哪些动作是 AI/系统自动做的（蓝色），哪些必须有人拍板。面试官问"AI 会干什么"，指着这行说就行。<br>
+    <strong>2. "受限 △" 大量存在</strong> — 比如客服主管"退款 &gt; 阈值"是受限的（仅本团队），财务"审批"也是受限的（仅大额复核）。这对应到 SaaS 的<strong>细粒度权限/数据隔离</strong>，是 B 端产品的硬功夫。<br>
+    <strong>3. 角色极简原则</strong> — 5 个角色比市面上常见的"角色爆炸"少一半。角色多了管理成本指数级上升，少了又管不住——5 个是反复推敲过的平衡点。<br>
+    <strong>4. 老板行全是 ✓ 但有审计</strong> — 老板权限最大，但所有操作会写进审计日志，老板能看到≠老板能做不被记录的坏事。这是合规线。
+  </div>
+</section>
+
+<div class="footer">
+  售后管家 AfterCare · Day 4 流程图集 · 配套文档见 README.md
+</div>
+
+</div>
+</body>
+</html>

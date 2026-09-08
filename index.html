@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>售后管家 AfterCare — 产品作品集 | 李志恒</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f7fa; color: #1f2937; line-height: 1.65;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #3b82f6 100%);
+  color: white; padding: 60px 0 52px;
+}
+.hero-tag {
+  display: inline-block; font-size: 12px; padding: 4px 14px; border-radius: 20px;
+  background: rgba(255,255,255,.16); margin-bottom: 16px; font-weight: 600;
+}
+.hero h1 { font-size: 38px; font-weight: 700; margin-bottom: 10px; letter-spacing: .5px; }
+.hero .sub { font-size: 17px; opacity: .88; margin-bottom: 22px; }
+.hero .desc { font-size: 14px; opacity: .78; max-width: 720px; line-height: 1.8; }
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 30px; flex-wrap: wrap;
+  padding-top: 24px; border-top: 1px solid rgba(255,255,255,.18);
+}
+.hstat .n { font-size: 28px; font-weight: 700; line-height: 1.1; }
+.hstat .l { font-size: 12px; opacity: .75; margin-top: 2px; }
+
+/* 通用 */
+.section { padding: 44px 0; }
+.sec-title {
+  font-size: 24px; font-weight: 700; margin-bottom: 8px; color: #0f172a;
+}
+.sec-sub { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
+.card {
+  background: white; border-radius: 12px; padding: 22px 24px;
+  border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+
+/* 亮点 */
+.highlights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.hl { background: white; border-radius: 12px; padding: 22px 24px; border: 1px solid #e5e7eb; }
+.hl .ic { font-size: 26px; margin-bottom: 10px; }
+.hl h3 { font-size: 16px; margin-bottom: 8px; color: #0f172a; }
+.hl p { font-size: 13.5px; color: #4b5563; line-height: 1.7; }
+.hl .kv { margin-top: 10px; font-size: 12.5px; color: #1e40af; font-weight: 600; }
+
+/* 时间线 */
+.timeline { position: relative; padding-left: 34px; }
+.timeline::before {
+  content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px;
+  width: 2px; background: #dbeafe;
+}
+.tl-item { position: relative; margin-bottom: 18px; }
+.tl-item::before {
+  content: ''; position: absolute; left: -28px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #2563eb; border: 2px solid white; box-shadow: 0 0 0 2px #dbeafe;
+}
+.tl-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+.tl-day {
+  font-size: 11px; font-weight: 700; color: white; background: #2563eb;
+  padding: 2px 9px; border-radius: 4px;
+}
+.tl-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+.tl-file {
+  font-size: 12px; color: #1e40af; background: #eff6ff;
+  padding: 2px 9px; border-radius: 4px; text-decoration: none; font-weight: 600;
+}
+.tl-file:hover { background: #dbeafe; }
+.tl-desc { font-size: 13.5px; color: #4b5563; line-height: 1.7; }
+.tl-meta { font-size: 12px; color: #9ca3af; margin-top: 5px; }
+
+/* 原型入口 */
+.proto-cta {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white; border-radius: 14px; padding: 34px 36px; text-align: center;
+}
+.proto-cta h3 { font-size: 22px; margin-bottom: 8px; }
+.proto-cta p { font-size: 14px; opacity: .88; margin-bottom: 20px; }
+.btn-big {
+  display: inline-block; background: white; color: #1e40af;
+  padding: 12px 32px; border-radius: 8px; font-size: 15px; font-weight: 700;
+  text-decoration: none; transition: transform .15s;
+}
+.btn-big:hover { transform: translateY(-2px); }
+.btn-ghost {
+  display: inline-block; border: 1.5px solid rgba(255,255,255,.5); color: white;
+  padding: 11px 28px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  text-decoration: none; margin-left: 12px;
+}
+.btn-ghost:hover { background: rgba(255,255,255,.12); }
+
+/* 说明 */
+.note-box {
+  background: #fffbeb; border-left: 4px solid #f59e0b;
+  padding: 16px 20px; border-radius: 6px; font-size: 13.5px; color: #78350f;
+  line-height: 1.75;
+}
+.note-box b { color: #92400e; }
+
+/* 页脚 */
+.footer {
+  background: #0f172a; color: #94a3b8; padding: 30px 0;
+  text-align: center; font-size: 13px;
+}
+.footer b { color: white; }
+
+@media (max-width: 760px) {
+  .highlights { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 28px; }
+  .hero-stats { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-tag">个人产品设计作品集 · 独立完成</div>
+    <h1>售后管家 AfterCare</h1>
+    <div class="sub">面向中小电商商家的 AI 售后工作台</div>
+    <div class="desc">
+      从 0 到 1 独立完成的 B 端 AI 产品完整设计。不做"只会答题的机器人"——让 AI 直接调 API 把事办完。
+      覆盖市场调研、用户研究、需求定义、流程设计、PRD 到可交互原型的全链路。
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n">7</div><div class="l">天完整产出</div></div>
+      <div class="hstat"><div class="n">8</div><div class="l">家竞品拆解</div></div>
+      <div class="hstat"><div class="n">33</div><div class="l">条需求定义</div></div>
+      <div class="hstat"><div class="n">23</div><div class="l">条 V1.0 范围</div></div>
+      <div class="hstat"><div class="n">14</div><div class="l">章 PRD</div></div>
+      <div class="hstat"><div class="n">4</div><div class="l">页可交互原型</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <h2 class="sec-title">这个项目要解决什么</h2>
+    <p class="sec-sub">先说清问题，再谈方案</p>
+    <div class="card">
+      <p style="font-size:14.5px;line-height:1.85;color:#374151;">
+        信通院数据显示：尽管智能客服已被广泛部署，但 <b style="color:#dc2626;">86% 的项目效果不及预期</b>，具备完整 Agent 自主决策能力的产品 <b style="color:#dc2626;">不足 15%</b>。
+      </p>
+      <p style="font-size:14.5px;line-height:1.85;color:#374151;margin-top:12px;">
+        典型表现：客户问"我的货到哪了"，大部分机器人的反应是<b>回一段物流查询教程</b>，而不是直接调 API 把结果查出来。
+        <b style="color:#1e40af;">会答题和会办事，是两回事。</b>
+      </p>
+      <p style="font-size:14.5px;line-height:1.85;color:#374151;margin-top:12px;">
+        同时，市场存在明显的价格断层：美洽等低价产品（3-8 万/年）做不了复杂工单，智齿等成熟产品（30-50 万/年）中小企业买不起。
+        <b style="color:#1e40af;">5-15 人客服团队的商家，卡在中间没人管。</b>
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="sec-title">四个核心设计</h2>
+    <p class="sec-sub">体现产品判断力的部分</p>
+    <div class="highlights">
+      <div class="hl">
+        <div class="ic">🌳</div>
+        <h3>退款 Agent 五步决策树</h3>
+        <p>不是"能自动退"，而是"知道什么时候不该自动退"。质量问题需要人看图判责，AI 不瞎判；金额超阈值必须人工拍板。</p>
+        <div class="kv">三重约束：条件自动 + 金额阈值 + 全程留痕</div>
+      </div>
+      <div class="hl">
+        <div class="ic">🔍</div>
+        <h3>决策链路可视化</h3>
+        <p>用 <code>decision_path</code> 字段记录决策树每一步的判断结果，商家问"这笔为什么没自动退"，指着这行就能回答——AI 不是黑盒。</p>
+        <div class="kv">拒绝黑盒 · 逐笔可追溯</div>
+      </div>
+      <div class="hl">
+        <div class="ic">🔄</div>
+        <h3>驳回不打回客户</h3>
+        <p>主管驳回后工单回到"人工处理中"，而不是打回客户重新描述。客户体感仍是同一个客服在跟他沟通。</p>
+        <div class="kv">B 端最容易忽略的体验细节</div>
+      </div>
+      <div class="hl">
+        <div class="ic">⚖️</div>
+        <h3>AI 自动化边界判断框架</h3>
+        <p>信息可得 / 规则明确 / 动作可执行 / 风险可控——四条全中才敢全自动。这是判断"AI 该不该接管某个场景"的可复用标准。</p>
+        <div class="kv">先看边界，再谈能力</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="sec-title">七天完整产出</h2>
+    <p class="sec-sub">每一天的交付物都是成品，不是计划</p>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 1</span>
+          <span class="tl-title">市场与竞品调研</span>
+          <a class="tl-file" href="01-调研/市场与竞品调研.html">查看文档</a>
+        </div>
+        <div class="tl-desc">市场规模（IDC 285 亿，CAGR 32%+）、8 家竞品逐家拆解、竞品对比表、三个市场空白、产品定位与 5 个可量化成功指标。</div>
+        <div class="tl-meta">关键结论：找到 5-15 人客服团队商家的价格断层</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 2</span>
+          <span class="tl-title">用户画像与场景拆解</span>
+          <a class="tl-file" href="02-用户研究/用户画像与场景拆解.html">查看文档</a>
+        </div>
+        <div class="tl-desc">3 个 Persona（老板 / 主管 / 一线客服）、15 个售后场景全量拆解、12 条用户故事、12 条需求启示、AI 能力边界判断框架。</div>
+        <div class="tl-meta">关键结论：B 端用的人和买的人不是同一个人，三方诉求直接打架</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 3</span>
+          <span class="tl-title">需求清单与优先级</span>
+          <a class="tl-file" href="03-需求/需求清单与优先级.html">查看文档</a>
+        </div>
+        <div class="tl-desc">6 大模块 33 条需求，MoSCoW 分级 + 三维度打分，每条带可量化验收标准；版本分期与明确不做清单。</div>
+        <div class="tl-meta">关键决策：金额阈值审批提到 Must（它是 AI 退款的技术前提）</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 4</span>
+          <span class="tl-title">流程图 / 状态机 / 权限矩阵</span>
+          <a class="tl-file" href="04-流程图/流程图.html">查看图集</a>
+          <a class="tl-file" href="04-流程图/README.html">设计说明</a>
+        </div>
+        <div class="tl-desc">5 泳道主流程图（含 AI/人工分流与两条回流）、工单状态机（8 状态 + 超期监控）、RBAC 权限矩阵（5 角色 × 12 操作）。</div>
+        <div class="tl-meta">关键设计：把"系统"也作为权限矩阵的一行，明确 AI 边界</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 5</span>
+          <span class="tl-title">PRD 产品需求文档</span>
+          <a class="tl-file" href="05-PRD/PRD.html">查看文档</a>
+        </div>
+        <div class="tl-desc">14 章覆盖 V1.0 全部 23 条需求。含退款决策树、4 个对象的字段级数据字典、14 个异常场景、11 个埋点事件与指标口径。</div>
+        <div class="tl-meta">关键细节：AI 拦截率分子不含客户主动要求人工的会话（口径歧义显式说明）</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 6</span>
+          <span class="tl-title">可交互高保真原型</span>
+          <a class="tl-file" href="06-原型/原型.html">打开原型</a>
+          <a class="tl-file" href="06-原型/README.html">设计说明</a>
+        </div>
+        <div class="tl-desc">4 个页面（工作台 / 工单 / 审批 / 看板），纯手写 HTML+CSS+JS 零依赖，真实 DOM 交互。含 AI 决策链路可视化。</div>
+        <div class="tl-meta">关键优势：真实网页可在线直接体验，比静态截图更有说服力</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-day">Day 7</span>
+          <span class="tl-title">作品集整合与交付</span>
+        </div>
+        <div class="tl-desc">将前六天的产出整合为统一入口，完成文档排版、编码兼容与在线可访问性优化，形成可直接对外展示的完整作品集。</div>
+        <div class="tl-meta">当前页面即为 Day 7 交付物</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="proto-cta">
+      <h3>直接体验可交互原型</h3>
+      <p>不是静态图，是能点能跳的真实网页 — 登录后随便点，都有反应</p>
+      <a class="btn-big" href="06-原型/原型.html">打开原型 →</a>
+      <a class="btn-ghost" href="05-PRD/PRD.html">先看 PRD</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="note-box">
+      <b>关于数据来源：</b>本作品集为个人产品设计练习，基于公开的行业资料与合理的商业推演完成，非真实商业计划。<br>
+      文档中所有关键假设（退款阈值 200 元、各类超时阈值、客服并发上限等）均在对应文档的「待验证假设」章节中明确标注，
+      未将推演数据包装为实测结果。
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="wrap">
+    <b>李志恒</b> · 2026 届应届本科 · 数据科学与大数据技术<br>
+    <span style="font-size:12px;">求职意向：产品经理（AI / B 端方向） · 15554508320 · 208768690@qq.com</span>
+  </div>
+</div>
+
+</body>
+</html>

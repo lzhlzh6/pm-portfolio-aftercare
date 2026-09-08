@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>需求清单与优先级 — 售后管家 AfterCare</title>
+<style>
+:root{
+  --ink:#1f2937; --sub:#64748b; --line:#e2e8f0; --accent:#1e40af;
+  --bg:#ffffff; --soft:#f8fafc; --code-bg:#0f172a; --code-fg:#e2e8f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.85; font-size:15px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px 80px;}
+.topbar{
+  border-bottom:1px solid var(--line); background:#fff;
+  position:sticky; top:0; z-index:10;
+}
+.topbar-in{max-width:920px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;}
+.back{
+  color:var(--accent); text-decoration:none; font-size:14px; font-weight:600;
+  border:1px solid var(--line); padding:5px 12px; border-radius:6px; white-space:nowrap;
+}
+.back:hover{background:var(--soft);}
+.crumb{color:var(--sub);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.badge{
+  background:#eff6ff;color:var(--accent);font-size:12px;font-weight:700;
+  padding:3px 9px;border-radius:4px;border:1px solid #dbeafe;white-space:nowrap;
+}
+h1{font-size:29px;font-weight:800;color:#0f172a;margin:46px 0 6px;letter-spacing:.5px;line-height:1.35;}
+h2{font-size:21px;font-weight:700;color:#0f172a;margin:44px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--line);}
+h3{font-size:17px;font-weight:700;color:#1e2937;margin:30px 0 10px;}
+h4{font-size:15px;font-weight:700;color:#334155;margin:22px 0 8px;}
+p{margin:12px 0;}
+ul,ol{margin:12px 0 12px 26px;}
+li{margin:6px 0;}
+a{color:var(--accent);}
+hr{border:0;border-top:1px solid var(--line);margin:38px 0;}
+strong{font-weight:700;color:#0f172a;}
+blockquote{
+  border-left:4px solid var(--accent); background:var(--soft);
+  margin:16px 0; padding:12px 18px; color:#475569; border-radius:0 6px 6px 0;
+}
+blockquote p{margin:6px 0;}
+code{
+  background:#f1f5f9; padding:2px 6px; border-radius:4px;
+  font-family:"Cascadia Code",Consolas,Monaco,monospace; font-size:13px; color:#be123c;
+}
+pre{
+  background:var(--code-bg); color:var(--code-fg);
+  padding:16px 18px; border-radius:8px; overflow-x:auto; margin:18px 0; line-height:1.65;
+}
+pre code{background:none;color:inherit;padding:0;font-size:13px;}
+table{
+  width:100%; border-collapse:collapse; margin:20px 0; font-size:14px;
+  box-shadow:0 0 0 1px var(--line); border-radius:8px; overflow:hidden;
+}
+th{
+  background:#f1f5f9; font-weight:700; color:#0f172a; text-align:left;
+  padding:11px 14px; border-bottom:2px solid var(--line); white-space:nowrap;
+}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#fafcff;}
+input[type=checkbox]{margin-right:6px;}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center;}
+@media print{.topbar{display:none;}}
+@media(max-width:640px){
+  .wrap{padding:0 16px 60px;}
+  .topbar-in{padding:12px 16px;}
+  h1{font-size:23px;margin-top:30px;}
+  h2{font-size:18px;}
+  table{font-size:13px;display:block;overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a class="back" href="../index.html">&larr; 返回作品集</a>
+  <span class="badge">Day 3</span>
+  <span class="crumb">需求清单与优先级</span>
+</div></div>
+<div class="wrap">
+<h1 id="aftercare">售后管家 AfterCare — 需求清单与优先级</h1>
+<blockquote>
+<p>文档类型：需求规格说明（Requirement List）<br />
+版本：v1.0<br />
+日期：2026-09-05<br />
+作者：李志恒<br />
+前置文档：<a href="../02-用户研究/用户画像与场景拆解.md">02-用户研究/用户画像与场景拆解.md</a></p>
+</blockquote>
+<hr />
+<h2 id="_1">一、需求追溯链路</h2>
+<p>需求不是拍脑袋列出来的，每一条都能往回追到痛点。</p>
+<pre><code>用户痛点（Day 2 第五章）
+    ↓
+用户故事（Day 2 第四章，US-1 ~ US-14）
+    ↓
+需求启示（Day 2 第六章，R1 ~ R12）
+    ↓
+功能需求（本文档，F1.1 ~ F6.6）
+</code></pre>
+<p><strong>示例</strong>：客服"在 4 个平台后台间切换"（痛点）→ US-1"希望消息汇总到一个工作台" → R1"全渠道会话聚合" → F1.1 多渠道会话接入。</p>
+<p>这条链路的价值在于：<strong>任何一条需求被挑战时，都能说清它为什么存在。</strong></p>
+<hr />
+<h2 id="_2">二、优先级方法</h2>
+<p>采用 <strong>MoSCoW 法</strong>，每条需求从三个维度打分后定级。</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>定义</th>
+<th>判定标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Must</strong></td>
+<td>必须有。缺了产品不成立或核心价值链断裂</td>
+<td>不满足则无法交付核心价值主张</td>
+</tr>
+<tr>
+<td><strong>Should</strong></td>
+<td>应该有。重要但不致命，可延后一个版本</td>
+<td>影响体验或效率，但不阻断主流程</td>
+</tr>
+<tr>
+<td><strong>Could</strong></td>
+<td>可以有。锦上添花，资源充裕时做</td>
+<td>有更好，没有也不影响决策</td>
+</tr>
+<tr>
+<td><strong>Won't</strong></td>
+<td>本期不做。明确排除，避免范围蔓延</td>
+<td>与定位不符、ROI 过低或依赖未成熟</td>
+</tr>
+</tbody>
+</table>
+<p><strong>打分三维度</strong></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户价值</td>
+<td>覆盖多少用户？解决多痛的痛点？（参考 Day 2 痛点严重度）</td>
+</tr>
+<tr>
+<td>实现成本</td>
+<td>研发工作量、技术难度、外部依赖复杂度</td>
+</tr>
+<tr>
+<td>依赖关系</td>
+<td>是否为其他需求的前置条件</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本期统计</strong>：Must 16 条 / Should 12 条 / Could 5 条 / Won't 6 项</p>
+<hr />
+<h2 id="_3">三、功能需求清单</h2>
+<h3 id="f1">F1 会话工作台</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>来源</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1.1</td>
+<td><strong>多渠道会话接入</strong></td>
+<td>US-1 / R1</td>
+<td>Must</td>
+<td>支持接入淘宝、天猫、京东、拼多多、抖音 5 个平台；新消息到达至工作台可见延迟 ≤ 3 秒；客服可在单一界面查看并回复任意渠道消息，无需打开平台后台</td>
+</tr>
+<tr>
+<td>F1.2</td>
+<td><strong>客户信息侧边栏</strong></td>
+<td>US-2 / R2</td>
+<td>Must</td>
+<td>打开会话即自动展示该客户的：近 90 天订单列表、当前物流状态、历史会话记录、历史工单；信息加载完成时间 ≤ 1.5 秒</td>
+</tr>
+<tr>
+<td>F1.3</td>
+<td><strong>会话分配与转接</strong></td>
+<td>US-1 / R1</td>
+<td>Must</td>
+<td>支持按"平均分配 / 技能组 / 指定客服"三种策略分配；支持会话转接并附带转接原因备注；转接后接手方可看到完整上文</td>
+</tr>
+<tr>
+<td>F1.4</td>
+<td><strong>一键升级主管</strong></td>
+<td>US-4 / R10</td>
+<td>Should</td>
+<td>客服可一键将会话升级至主管，升级时自动附带 AI 生成的会话摘要与已尝试的处理动作；主管端收到实时提醒</td>
+</tr>
+<tr>
+<td>F1.5</td>
+<td><strong>快捷话术库</strong></td>
+<td>US-3 / R9</td>
+<td>Should</td>
+<td>支持按场景分类维护话术模板；客服可通过关键词检索并一键插入；支持话术使用次数统计</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f2-ai">F2 AI 应答引擎</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>来源</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F2.1</td>
+<td><strong>售后意图识别</strong></td>
+<td>R3</td>
+<td>Must</td>
+<td>覆盖 Day 2 定义的 15 个售后场景；在测试集上意图识别准确率 ≥ 90%；单次识别响应 ≤ 800ms</td>
+</tr>
+<tr>
+<td>F2.2</td>
+<td><strong>规则引擎应答</strong></td>
+<td>R3</td>
+<td>Must</td>
+<td>对"查物流、查退款进度、催发货"等规则明确场景走确定性规则路径，不经大模型生成；命中率 ≥ 95%，零幻觉</td>
+</tr>
+<tr>
+<td>F2.3</td>
+<td><strong>大模型生成应答</strong></td>
+<td>R3</td>
+<td>Must</td>
+<td>复杂场景由大模型基于知识库生成回复；回复需标注引用来源；支持商家配置"禁用话题"（如价格谈判）</td>
+</tr>
+<tr>
+<td>F2.4</td>
+<td><strong>知识库管理</strong></td>
+<td>R9</td>
+<td>Must</td>
+<td>支持 FAQ 批量导入（Excel/CSV）；支持按商品 SKU 绑定专属知识；支持设置知识生效时间（如大促临时政策）</td>
+</tr>
+<tr>
+<td>F2.5</td>
+<td><strong>置信度与转人工策略</strong></td>
+<td>R3</td>
+<td>Must</td>
+<td>商家可配置置信度阈值（默认 0.85）；低于阈值或连续 2 轮未解决时自动转人工；转人工时携带 AI 已收集的信息与建议方案，避免客户重复描述</td>
+</tr>
+<tr>
+<td>F2.6</td>
+<td><strong>情绪识别与安抚</strong></td>
+<td>US-4 / R10</td>
+<td>Could</td>
+<td>识别客户负面情绪并提示客服；高风险情绪（辱骂、投诉威胁）自动优先排队并提醒主管</td>
+</tr>
+<tr>
+<td>F2.7</td>
+<td><strong>多轮上下文记忆</strong></td>
+<td>R3</td>
+<td>Should</td>
+<td>单会话内支持 ≥ 10 轮上下文；客户中途补充信息（如订单号）能被正确关联到原诉求</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f3-ai">F3 AI 任务执行（核心差异化）</h3>
+<blockquote>
+<p>本模块是"能办事"与"只会答题"的分界线，也是相对于美洽等低价竞品的核心壁垒。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>来源</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F3.1</td>
+<td><strong>订单查询 Agent</strong></td>
+<td>R5</td>
+<td>Must</td>
+<td>AI 可根据客户提供的手机号/订单号/商品名调用订单 API 查询；查不到时引导客户提供更多信息而非直接转人工</td>
+</tr>
+<tr>
+<td>F3.2</td>
+<td><strong>物流查询 Agent</strong></td>
+<td>R5</td>
+<td>Must</td>
+<td>调用物流 API 返回实时轨迹与预计到达时间；物流状态为"已签收"但客户称未收到时，自动转入异常工单</td>
+</tr>
+<tr>
+<td>F3.3</td>
+<td><strong>退款发起 Agent（条件自动）</strong></td>
+<td>R5</td>
+<td>Must</td>
+<td>满足"7 天无理由 + 商品金额 ≤ 阈值 + 无历史恶意记录"时自动审批并执行退款；不满足时生成工单转人工；<strong>所有自动退款记录可逐笔追溯</strong></td>
+</tr>
+<tr>
+<td>F3.4</td>
+<td><strong>退货单生成 Agent</strong></td>
+<td>R5</td>
+<td>Should</td>
+<td>退货申请通过后自动生成退货地址与物流单号并推送客户；支持上门取件预约</td>
+</tr>
+<tr>
+<td>F3.5</td>
+<td><strong>电子发票开具 Agent</strong></td>
+<td>R9</td>
+<td>Should</td>
+<td>客户提交抬头与税号后自动开具并推送；支持补开、改抬头（限未超过平台规定时限）</td>
+</tr>
+<tr>
+<td>F3.6</td>
+<td><strong>物流异常主动检测</strong></td>
+<td>R6</td>
+<td>Should</td>
+<td>对"物流停滞超 48 小时""包裹退回""配送异常"主动识别并生成预警工单，<strong>在客户来问之前先发现</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="f4">F4 工单系统</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>来源</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F4.1</td>
+<td><strong>工单创建与流转</strong></td>
+<td>R4 / R7</td>
+<td>Must</td>
+<td>会话可一键转为工单并自动带入客户、订单、会话摘要；支持指派、转派、协作处理；工单与会话双向关联</td>
+</tr>
+<tr>
+<td>F4.2</td>
+<td><strong>工单状态机</strong></td>
+<td>R4</td>
+<td>Must</td>
+<td>定义完整状态流转（待受理 → 处理中 → 待客户确认 → 已完成 / 已关闭 / 已升级）；状态变更留痕，含操作人与时间戳</td>
+</tr>
+<tr>
+<td>F4.3</td>
+<td><strong>SLA 监控与提醒</strong></td>
+<td>US-8 / R6</td>
+<td>Should</td>
+<td>支持按工单类型配置 SLA 时长；临期 80% 时提醒处理人，超期时标红并通知主管</td>
+</tr>
+<tr>
+<td>F4.4</td>
+<td><strong>工单升级机制</strong></td>
+<td>US-4 / R10</td>
+<td>Should</td>
+<td>支持手动升级与自动升级（超期未处理、客户二次催办、金额超阈值）；升级路径可配置（主管 → 老板）</td>
+</tr>
+<tr>
+<td>F4.5</td>
+<td><strong>工单模板自定义</strong></td>
+<td>R7</td>
+<td>Could</td>
+<td>商家可自定义工单字段与流转规则，适配非标业务</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f5">F5 审批与权限</h3>
+<blockquote>
+<p>本模块是打消客服主管顾虑的关键。主管怕 AI 乱来，就用规则 + 留痕解决。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>来源</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F5.1</td>
+<td><strong>角色权限矩阵</strong></td>
+<td>US-12 / R4</td>
+<td>Must</td>
+<td>预置三类角色（客服 / 主管 / 管理员），覆盖会话、工单、退款、配置、数据五类权限；支持自定义角色</td>
+</tr>
+<tr>
+<td>F5.2</td>
+<td><strong>金额阈值自动审批</strong></td>
+<td>US-6 / R4</td>
+<td>Must</td>
+<td>商家可设置自动审批金额上限（默认 200 元）；阈值内自动执行，超阈值按层级审批；<strong>阈值可按商品类目分别配置</strong></td>
+</tr>
+<tr>
+<td>F5.3</td>
+<td><strong>操作日志与留痕</strong></td>
+<td>US-9 / R4</td>
+<td>Must</td>
+<td>所有退款、赔偿、权限变更操作记录操作人、时间、前值后值；日志保留 ≥ 180 天且不可删除</td>
+</tr>
+<tr>
+<td>F5.4</td>
+<td><strong>审批流可视化配置</strong></td>
+<td>R4</td>
+<td>Could</td>
+<td>通过拖拽配置多级审批流，适配规模较大的团队</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f6">F6 数据看板</h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>来源</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F6.1</td>
+<td><strong>实时运营看板</strong></td>
+<td>US-7 / R7</td>
+<td>Should</td>
+<td>展示当前排队会话数、平均响应时长、在线客服数、今日工单量；数据刷新间隔 ≤ 30 秒</td>
+</tr>
+<tr>
+<td>F6.2</td>
+<td><strong>AI 效果报表</strong></td>
+<td>US-11 / R8</td>
+<td>Should</td>
+<td>展示 AI 拦截率、一次解决率、转人工率、平均处理时长（区分 AI 与人工）；支持按日/周/月与场景维度下钻</td>
+</tr>
+<tr>
+<td>F6.3</td>
+<td><strong>团队效能报表</strong></td>
+<td>US-7 / R7</td>
+<td>Should</td>
+<td>展示每位客服的处理量、平均响应时长、一次解决率、SLA 达成率；支持导出</td>
+</tr>
+<tr>
+<td>F6.4</td>
+<td><strong>成本节省核算</strong></td>
+<td>US-11 / R8</td>
+<td>Should</td>
+<td>按"AI 处理量 × 人工单条成本"估算节省金额，并折算为等效人力数；<strong>口径与计算过程对商家透明可查</strong></td>
+</tr>
+<tr>
+<td>F6.5</td>
+<td><strong>未解决会话聚类</strong></td>
+<td>US-10 / R11</td>
+<td>Could</td>
+<td>对转人工与未解决的会话自动聚类，输出高频缺口 TOP 10，指导知识库补充</td>
+</tr>
+<tr>
+<td>F6.6</td>
+<td><strong>售后问题分布与趋势</strong></td>
+<td>US-14 / R12</td>
+<td>Could</td>
+<td>按问题类型、商品 SKU 维度统计分布与环比趋势，支持导出用于供应链复盘</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">四、关键优先级决策说明</h2>
+<p>挑几条有代表性的，说明为什么这么排。</p>
+<h3 id="f33-agent-must">F3.3 退款发起 Agent → Must</h3>
+<p><strong>理由</strong>：这是"能办事"承诺的兑现点。没有它，产品就退化成又一个"只会答题的机器人"，与美洽无异。虽然涉及资金有风险，但通过"条件自动 + 金额阈值 + 全程留痕"三重约束，风险可控。且不做这条，AI 拦截率无法突破 60% 的目标，核心 ROI 不成立。</p>
+<h3 id="f52-must-should">F5.2 金额阈值自动审批 → Must（而非 Should）</h3>
+<p><strong>理由</strong>：它是 F3.3 的技术前提。没有阈值规则，每一笔退款都要人工点确认，AI 就只省了"填表"的时间，没省"决策"的时间。同时它直击主管"权限不清、客服擅自赔偿"的高严重度痛点。</p>
+<h3 id="f64-should-must">F6.4 成本节省核算 → Should（而非 Must）</h3>
+<p><strong>理由</strong>：老板最关心"这钱花得值不值"，看似应该是 Must。但它只影响续费决策，不影响产品能否跑通主流程。且它需要 F6.2 的 AI 效果数据作为基础，存在依赖。<strong>先让产品能用，再证明它有用。</strong></p>
+<h3 id="f26-could-should">F2.6 情绪识别 → Could（而非 Should）</h3>
+<p><strong>理由</strong>：需求真实（客服怕被骂），但技术成熟度和准确率在售后场景下不稳定，误报会干扰正常工作流。放到 V2.0，等技术验证充分再做。</p>
+<h3 id="f36-should">F3.6 物流异常主动检测 → Should</h3>
+<p><strong>理由</strong>：体验亮点（客户还没问，我们已经发现），但对 V1.0 主流程非必需。且强依赖物流 API 的数据质量，存在外部不确定性。</p>
+<hr />
+<h2 id="_5">五、版本范围</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>范围</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>V1.0</strong></td>
+<td>全部 Must（16 条）+ F1.4、F1.5、F2.7、F3.6、F4.3、F4.4、F6.2</td>
+<td>跑通"AI 自动处理 + 人工兜底"主闭环，可交付首批种子客户</td>
+</tr>
+<tr>
+<td><strong>V1.5</strong></td>
+<td>剩余 Should（F3.4、F3.5、F6.1、F6.3、F6.4）</td>
+<td>补齐数据闭环，支撑续费决策</td>
+</tr>
+<tr>
+<td><strong>V2.0</strong></td>
+<td>全部 Could（F2.6、F4.5、F5.4、F6.5、F6.6）</td>
+<td>差异化深化与智能化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_6">六、本期明确不做</h2>
+<p><strong>敢说不做什么，和知道要做什么一样重要。</strong></p>
+<table>
+<thead>
+<tr>
+<th>不做</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>售前咨询与营销获客</td>
+<td>定位是售后工作台，售前有专门工具（且是红海），不分散精力</td>
+</tr>
+<tr>
+<td>呼叫中心 / 电话客服</td>
+<td>中小电商售后以在线消息为主；电话涉及线路资源与硬件，成本结构完全不同</td>
+</tr>
+<tr>
+<td>私有化部署</td>
+<td>目标客户无强合规需求；SaaS 更轻、上线更快，符合"一周上线"目标</td>
+</tr>
+<tr>
+<td>CRM / 会员管理</td>
+<td>超出售后边界，且与商家现有系统重叠，容易变成又一个没人用的模块</td>
+</tr>
+<tr>
+<td>多语言 / 跨境</td>
+<td>目标客户以国内平台为主；跨境是另一个战场，需要完全不同的能力栈</td>
+</tr>
+<tr>
+<td>自定义大模型接入</td>
+<td>V1.0 由平台统一提供模型能力，避免商家陷入选型困境；待 V2.0 有明确需求再开放</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>本文档为个人产品设计练习。文中数据与方法基于公开资料推演，关键假设已在文中标注待验证。</em></p>
+<div class="foot">售后管家 AfterCare · 产品设计作品集 · 李志恒</div>
+</div>
+</body>
+</html>

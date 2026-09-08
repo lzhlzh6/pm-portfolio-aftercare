@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>售后管家 AfterCare — 可交互原型</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #dc2626;
+  --purple: #7c3aed;
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text-sub: #6b7280;
+  --text-light: #9ca3af;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* ============ 登录页 ============ */
+#login {
+  position: fixed; inset: 0; z-index: 999;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.login-box {
+  background: white; border-radius: 16px; padding: 44px 48px;
+  width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.login-logo { text-align: center; margin-bottom: 32px; }
+.login-logo .mark {
+  width: 56px; height: 56px; border-radius: 14px; margin: 0 auto 14px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 26px; font-weight: 700;
+}
+.login-logo h1 { font-size: 22px; margin-bottom: 4px; }
+.login-logo p { font-size: 13px; color: var(--text-sub); }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.field input {
+  width: 100%; padding: 11px 14px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; font-family: inherit; outline: none;
+}
+.field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+.btn-primary {
+  width: 100%; padding: 12px; background: var(--primary); color: white;
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: inherit; margin-top: 8px;
+}
+.btn-primary:hover { background: var(--primary-dark); }
+.login-tip { text-align: center; font-size: 12px; color: var(--text-light); margin-top: 18px; }
+
+/* ============ 主应用 ============ */
+#app { display: flex; height: 100vh; }
+.sidebar {
+  width: 208px; background: #0f172a; color: #cbd5e1;
+  display: flex; flex-direction: column; flex-shrink: 0;
+}
+.sidebar-brand {
+  padding: 20px 20px; font-size: 16px; font-weight: 700; color: white;
+  border-bottom: 1px solid #1e293b; display: flex; align-items: center; gap: 10px;
+}
+.sidebar-brand .mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 15px; font-weight: 700;
+}
+.nav-item {
+  padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+  font-size: 14px; border-left: 3px solid transparent; transition: all .15s;
+}
+.nav-item:hover { background: #1e293b; color: white; }
+.nav-item.active { background: #1e293b; color: white; border-left-color: var(--primary); }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-item .badge {
+  margin-left: auto; background: var(--danger); color: white;
+  font-size: 11px; padding: 1px 7px; border-radius: 10px; font-weight: 600;
+}
+.sidebar-footer {
+  margin-top: auto; padding: 16px 20px; border-top: 1px solid #1e293b;
+  display: flex; align-items: center; gap: 10px; font-size: 13px;
+}
+.sidebar-footer .avatar {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 13px; font-weight: 600;
+}
+
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar {
+  height: 56px; background: white; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0;
+}
+.topbar h2 { font-size: 16px; font-weight: 600; }
+.topbar .sub { font-size: 12px; color: var(--text-light); margin-left: 8px; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.status-pill {
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  background: #dcfce7; color: var(--success); font-weight: 600;
+}
+.page { flex: 1; overflow: hidden; display: none; }
+.page.active { display: flex; }
+
+/* ============ 工作台 ============ */
+.wb { display: flex; width: 100%; }
+.session-list {
+  width: 290px; background: white; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0;
+}
+.list-header {
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  display: flex; gap: 8px; align-items: center;
+}
+.search-box {
+  flex: 1; padding: 7px 12px; border: 1px solid var(--border);
+  border-radius: 6px; font-size: 13px; font-family: inherit; outline: none;
+}
+.search-box:focus { border-color: var(--primary); }
+.filter-tabs { display: flex; padding: 8px 12px; gap: 6px; border-bottom: 1px solid var(--border); }
+.filter-tab {
+  padding: 4px 12px; font-size: 12px; border-radius: 14px; cursor: pointer;
+  background: #f1f5f9; color: var(--text-sub);
+}
+.filter-tab.active { background: var(--primary); color: white; font-weight: 600; }
+.session-items { flex: 1; overflow-y: auto; }
+.session-item {
+  padding: 12px 16px; border-bottom: 1px solid #f1f5f9; cursor: pointer;
+  display: flex; gap: 10px; transition: background .15s;
+}
+.session-item:hover { background: #f8fafc; }
+.session-item.active { background: #eff6ff; border-left: 3px solid var(--primary); padding-left: 13px; }
+.s-avatar {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 600; font-size: 14px;
+}
+.s-body { flex: 1; min-width: 0; }
+.s-top { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.s-name { font-size: 13px; font-weight: 600; }
+.s-channel { font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+.ch-taobao { background: #fff7ed; color: #c2410c; }
+.ch-jd { background: #fee2e2; color: #b91c1c; }
+.ch-pdd { background: #fef3c7; color: #b45309; }
+.ch-douyin { background: #f3e8ff; color: #7e22ce; }
+.s-time { margin-left: auto; font-size: 11px; color: var(--text-light); }
+.s-msg { font-size: 12px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.s-badge {
+  margin-left: auto; background: var(--danger); color: white;
+  font-size: 10px; min-width: 17px; height: 17px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center; padding: 0 5px; font-weight: 600;
+}
+.s-tags { display: flex; gap: 4px; margin-top: 4px; }
+.mini-tag {
+  font-size: 10px; padding: 1px 6px; border-radius: 3px;
+  background: #f1f5f9; color: var(--text-sub);
+}
+.mini-tag.ai { background: #dbeafe; color: #1e40af; }
+.mini-tag.hot { background: #fee2e2; color: #b91c1c; }
+
+.chat-area { flex: 1; display: flex; flex-direction: column; background: #f8fafc; }
+.chat-header {
+  padding: 12px 20px; background: white; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.chat-header .name { font-weight: 600; }
+.chat-header .meta { font-size: 12px; color: var(--text-light); }
+.chat-actions { margin-left: auto; display: flex; gap: 8px; }
+.btn {
+  padding: 6px 14px; border-radius: 6px; font-size: 13px; cursor: pointer;
+  border: 1px solid var(--border); background: white; font-family: inherit;
+}
+.btn:hover { background: #f8fafc; }
+.btn-primary-sm {
+  background: var(--primary); color: white; border-color: var(--primary);
+}
+.btn-primary-sm:hover { background: var(--primary-dark); }
+.btn-danger-sm { background: var(--danger); color: white; border-color: var(--danger); }
+.btn-danger-sm:hover { background: #b91c1c; }
+
+.messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.msg { display: flex; gap: 10px; max-width: 74%; }
+.msg.customer { align-self: flex-start; }
+.msg.ai, .msg.agent { align-self: flex-end; flex-direction: row-reverse; }
+.msg-avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 12px; font-weight: 600;
+}
+.msg-avatar.cust { background: #64748b; }
+.msg-avatar.bot { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+.msg-avatar.human { background: var(--success); }
+.msg-content {
+  background: white; padding: 10px 14px; border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.msg.ai .msg-content { background: #eff6ff; border: 1px solid #dbeafe; }
+.msg.agent .msg-content { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.msg-text { font-size: 13px; line-height: 1.6; }
+.msg-meta { font-size: 11px; color: var(--text-light); margin-top: 5px; display: flex; gap: 8px; align-items: center; }
+.confidence { color: var(--success); font-weight: 600; }
+.confidence.low { color: var(--warning); }
+.ai-tag {
+  font-size: 10px; padding: 1px 6px; border-radius: 3px;
+  background: #dbeafe; color: #1e40af; font-weight: 600;
+}
+.sys-notice {
+  align-self: center; font-size: 11px; color: var(--text-light);
+  background: #f1f5f9; padding: 3px 12px; border-radius: 12px;
+}
+.quick-bar { padding: 8px 20px; background: white; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+.quick-chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 14px; cursor: pointer;
+  background: #f1f5f9; color: var(--text-sub); border: 1px solid transparent;
+}
+.quick-chip:hover { background: #eff6ff; color: var(--primary); border-color: #dbeafe; }
+.input-area { padding: 12px 20px; background: white; border-top: 1px solid var(--border); }
+.input-box { display: flex; gap: 10px; align-items: flex-end; }
+.input-box textarea {
+  flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-family: inherit; resize: none; height: 42px; outline: none;
+}
+.input-box textarea:focus { border-color: var(--primary); }
+
+.info-panel {
+  width: 300px; background: white; border-left: 1px solid var(--border);
+  overflow-y: auto; flex-shrink: 0;
+}
+.panel-section { padding: 16px; border-bottom: 1px solid var(--border); }
+.panel-title { font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }
+.info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+.info-row .k { color: var(--text-sub); }
+.info-row .v { font-weight: 500; }
+.order-card {
+  border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px;
+}
+.order-card .oname { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.order-card .ometa { font-size: 12px; color: var(--text-sub); display: flex; justify-content: space-between; }
+.track { border-left: 2px solid var(--border); padding-left: 12px; margin-left: 4px; }
+.track-item { position: relative; font-size: 12px; padding: 5px 0; color: var(--text-sub); }
+.track-item::before {
+  content: ''; position: absolute; left: -17px; top: 11px;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--border);
+}
+.track-item.latest::before { background: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+.track-item.latest { color: var(--text); font-weight: 500; }
+.risk-tag {
+  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px;
+  background: #fed7aa; color: #9a3412; font-weight: 600;
+}
+.risk-tag.safe { background: #dcfce7; color: #166534; }
+
+/* ============ 工单页 ============ */
+.page-inner { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.ticket-toolbar {
+  display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;
+}
+.ticket-table { background: white; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  background: #f8fafc; padding: 11px 14px; text-align: left;
+  font-size: 12px; font-weight: 600; color: var(--text-sub); border-bottom: 1px solid var(--border);
+}
+tbody td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: #f8fafc; }
+tbody tr { cursor: pointer; }
+.st {
+  font-size: 11px; padding: 3px 9px; border-radius: 12px; font-weight: 600; white-space: nowrap;
+}
+.st-new { background: #dbeafe; color: #1e40af; }
+.st-ai { background: #e0e7ff; color: #4338ca; }
+.st-agent { background: #fef3c7; color: #92400e; }
+.st-approval { background: #fae8ff; color: #86198f; }
+.st-resolved { background: #dcfce7; color: #166534; }
+.st-closed { background: #f1f5f9; color: #64748b; }
+.prio { font-size: 11px; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+.prio-high { background: #fee2e2; color: #b91c1c; }
+.prio-mid { background: #fef3c7; color: #92400e; }
+.prio-low { background: #f1f5f9; color: #64748b; }
+
+/* ============ 审批页 ============ */
+.approval-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-bottom: 16px;
+}
+.ac-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.ac-head .tno { font-weight: 700; font-size: 15px; }
+.ac-head .amt { margin-left: auto; font-size: 20px; font-weight: 700; color: var(--danger); }
+.ac-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.ac-field { font-size: 13px; }
+.ac-field .k { color: var(--text-sub); font-size: 12px; }
+.ac-field .v { font-weight: 500; }
+.decision-path {
+  background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 14px 16px;
+  font-family: "SF Mono", Consolas, monospace; font-size: 12px; line-height: 1.7;
+  margin-bottom: 16px; overflow-x: auto;
+}
+.dp-title {
+  font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.dp-step { display: flex; gap: 10px; }
+.dp-key { color: #7dd3fc; }
+.dp-pass { color: #4ade80; }
+.dp-fail { color: #f87171; }
+.ac-actions { display: flex; gap: 10px; }
+
+/* ============ 看板 ============ */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+.kpi-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px;
+}
+.kpi-label { font-size: 13px; color: var(--text-sub); margin-bottom: 8px; }
+.kpi-value { font-size: 30px; font-weight: 700; line-height: 1.1; }
+.kpi-unit { font-size: 15px; font-weight: 500; color: var(--text-sub); }
+.kpi-trend { font-size: 12px; margin-top: 6px; }
+.up { color: var(--success); }
+.down { color: var(--danger); }
+.chart-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px;
+}
+.chart-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.chart-sub { font-size: 12px; color: var(--text-light); margin-bottom: 16px; }
+.bars { display: flex; align-items: flex-end; gap: 14px; height: 180px; padding-bottom: 24px; position: relative; }
+.bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+.bar { width: 100%; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #60a5fa, #2563eb); position: relative; }
+.bar.ai { background: linear-gradient(180deg, #86efac, #16a34a); }
+.bar-val { font-size: 12px; font-weight: 600; }
+.bar-label { position: absolute; bottom: -22px; font-size: 11px; color: var(--text-sub); }
+.legend-row { display: flex; gap: 18px; margin-top: 8px; font-size: 12px; }
+.legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; }
+.hbar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.hbar-label { width: 110px; font-size: 13px; text-align: right; color: var(--text-sub); }
+.hbar-track { flex: 1; height: 22px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+.hbar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #60a5fa, #2563eb); }
+.hbar-val { width: 48px; font-size: 12px; font-weight: 600; text-align: right; }
+
+/* ============ Toast ============ */
+#toast {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-80px);
+  background: #0f172a; color: white; padding: 11px 22px; border-radius: 8px;
+  font-size: 13px; z-index: 9999; opacity: 0; transition: all .3s; pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+
+<!-- 登录页 -->
+<div id="login">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="mark">管</div>
+      <h1>售后管家 AfterCare</h1>
+      <p>AI 售后工作台 · 让 AI 不只是答题，而是办事</p>
+    </div>
+    <div class="field">
+      <label>账号</label>
+      <input type="text" id="loginUser" value="xiaozhang" placeholder="请输入账号">
+    </div>
+    <div class="field">
+      <label>密码</label>
+      <input type="password" id="loginPwd" value="123456" placeholder="请输入密码">
+    </div>
+    <button class="btn-primary" onclick="doLogin()">登录</button>
+    <div class="login-tip">演示原型 · 点击登录即可体验</div>
+  </div>
+</div>
+
+<!-- 主应用 -->
+<div id="app" style="display:none;">
+  <div class="sidebar">
+    <div class="sidebar-brand"><div class="mark">管</div>售后管家</div>
+    <div class="nav-item active" data-page="workbench" onclick="switchPage('workbench')">
+      <span class="icon">💬</span>会话工作台<span class="badge" id="navBadge">3</span>
+    </div>
+    <div class="nav-item" data-page="tickets" onclick="switchPage('tickets')">
+      <span class="icon">🎫</span>工单管理
+    </div>
+    <div class="nav-item" data-page="approval" onclick="switchPage('approval')">
+      <span class="icon">✅</span>退款审批<span class="badge" id="navApprBadge">2</span>
+    </div>
+    <div class="nav-item" data-page="dashboard" onclick="switchPage('dashboard')">
+      <span class="icon">📊</span>数据看板
+    </div>
+    <div class="sidebar-footer">
+      <div class="avatar">张</div>
+      <div>
+        <div style="color:white;font-size:13px;">张小雨</div>
+        <div style="font-size:11px;">一线客服</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h2 id="pageTitle">会话工作台</h2>
+      <span class="sub" id="pageSub">在线 · 当前接待 5 个会话</span>
+      <div class="topbar-right">
+        <span class="status-pill">● AI 运行中</span>
+        <span style="font-size:12px;color:var(--text-sub);">今日拦截率 63.2%</span>
+      </div>
+    </div>
+
+    <!-- 工作台 -->
+    <div class="page active" id="page-workbench">
+      <div class="wb">
+        <div class="session-list">
+          <div class="list-header">
+            <input class="search-box" placeholder="搜索客户 / 订单号">
+          </div>
+          <div class="filter-tabs">
+            <div class="filter-tab active">全部</div>
+            <div class="filter-tab">未读</div>
+            <div class="filter-tab">AI 处理中</div>
+            <div class="filter-tab">待我处理</div>
+          </div>
+          <div class="session-items" id="sessionList"></div>
+        </div>
+
+        <div class="chat-area">
+          <div class="chat-header">
+            <span class="name" id="chatName">—</span>
+            <span class="meta" id="chatMeta"></span>
+            <div class="chat-actions">
+              <button class="btn" onclick="toast('已转为工单，自动带入会话摘要')">建工单</button>
+              <button class="btn" onclick="toast('已升级至主管，附带 AI 会话摘要')">升级主管</button>
+              <button class="btn" onclick="toast('已转接至技能组，携带完整上文')">转接</button>
+            </div>
+          </div>
+          <div class="messages" id="messages"></div>
+          <div class="quick-bar">
+            <div class="quick-chip" onclick="insertQuick('您好，您的订单已发货，物流单号 SF1234567890，预计 2 天内送达。')">发货通知</div>
+            <div class="quick-chip" onclick="insertQuick('非常抱歉给您带来不便，我们已为您安排补发，预计 3 个工作日内发出。')">补发安抚</div>
+            <div class="quick-chip" onclick="insertQuick('您的退款申请已提交，将在 1-3 个工作日到账，请注意查收。')">退款进度</div>
+            <div class="quick-chip" onclick="insertQuick('麻烦您提供一下商品问题的照片，我们核实后第一时间为您处理。')">索要凭证</div>
+          </div>
+          <div class="input-area">
+            <div class="input-box">
+              <textarea id="msgInput" placeholder="输入回复内容，Enter 发送…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
+              <button class="btn btn-primary-sm" onclick="sendMsg()">发送</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-panel" id="infoPanel"></div>
+      </div>
+    </div>
+
+    <!-- 工单 -->
+    <div class="page" id="page-tickets">
+      <div class="page-inner">
+        <div class="ticket-toolbar">
+          <select class="btn" id="fType"><option>全部类型</option><option>退款</option><option>退货</option><option>物流异常</option><option>质量问题</option></select>
+          <select class="btn" id="fStatus"><option>全部状态</option><option>AI 处理中</option><option>人工处理中</option><option>待审批</option><option>已解决</option><option>已关闭</option></select>
+          <select class="btn" id="fPrio"><option>全部优先级</option><option>高</option><option>中</option><option>低</option></select>
+          <div style="margin-left:auto;font-size:13px;color:var(--text-sub);">共 <b id="tkCount">8</b> 条工单</div>
+        </div>
+        <div class="ticket-table">
+          <table>
+            <thead><tr>
+              <th>工单号</th><th>类型</th><th>客户</th><th>渠道</th><th>金额</th><th>状态</th><th>优先级</th><th>处理人</th><th>创建时间</th>
+            </tr></thead>
+            <tbody id="ticketBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 审批 -->
+    <div class="page" id="page-approval">
+      <div class="page-inner">
+        <div style="font-size:13px;color:var(--text-sub);margin-bottom:14px;">
+          待审批 <b style="color:var(--danger);">2</b> 笔 · 合计 <b>¥1,899.00</b> · 均因金额超过阈值（默认 ¥200）触发人工审批
+        </div>
+        <div id="approvalList"></div>
+      </div>
+    </div>
+
+    <!-- 看板 -->
+    <div class="page" id="page-dashboard">
+      <div class="page-inner">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">AI 拦截率</div>
+            <div class="kpi-value">63.2<span class="kpi-unit">%</span></div>
+            <div class="kpi-trend up">↑ 5.4% 较上周 · 目标 ≥60%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">一次解决率</div>
+            <div class="kpi-value">78.6<span class="kpi-unit">%</span></div>
+            <div class="kpi-trend up">↑ 3.1% 较上周 · 目标 ≥75%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">平均首次响应</div>
+            <div class="kpi-value">18<span class="kpi-unit">秒</span></div>
+            <div class="kpi-trend up">↓ 12 秒 · 目标 ≤30 秒</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">平均处理时长</div>
+            <div class="kpi-value">4.2<span class="kpi-unit">分钟</span></div>
+            <div class="kpi-trend up">↓ 41% 较上线前</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">近 7 天会话量与 AI 拦截量</div>
+          <div class="chart-sub">蓝色为总会话量，绿色为 AI 独立解决量</div>
+          <div class="bars" id="bars"></div>
+          <div class="legend-row">
+            <span><span class="legend-dot" style="background:#2563eb;"></span>总会话量</span>
+            <span><span class="legend-dot" style="background:#16a34a;"></span>AI 拦截量</span>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">售后意图分布（TOP 6）</div>
+          <div class="chart-sub">用于指导知识库补充优先级</div>
+          <div id="hbars"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ==================== 数据 ==================== */
+const SESSIONS = [
+  {
+    id: 1, name: "陈小雨", ch: "taobao", chName: "淘宝", color: "#f59e0b",
+    time: "14:23", unread: 2, tags: [{t:"查物流",c:"ai"}],
+    meta: "淘宝 · 累计 12 单 · 近 90 天消费 ¥3,420",
+    messages: [
+      { from:"sys", text:"客户从【淘宝】发起咨询 · 14:20" },
+      { from:"customer", text:"你好，我上周买的那个保温杯怎么还没到？", time:"14:20" },
+      { from:"ai", text:"您好！已帮您查询到订单：保温杯 500ml 星空蓝，物流单号 SF1234567890，当前在【上海转运中心】，预计 9 月 6 日送达。", time:"14:20", conf:0.96, src:"物流查询 API" },
+      { from:"customer", text:"都一周了，能帮我催一下吗", time:"14:22" },
+      { from:"customer", text:"急着用", time:"14:23" }
+    ],
+    customer: {
+      phone:"138****5678", reg:"2024-03-12", orders:12, amount:"¥3,420",
+      risk:"safe", riskText:"正常客户 · 近 90 天退款率 8%",
+      order:{ no:"T2026082900345", name:"保温杯 500ml 星空蓝", price:"¥158.00", status:"已发货" },
+      track:[
+        { t:"09-03 18:22", d:"【上海转运中心】已发出" },
+        { t:"09-03 12:40", d:"【杭州萧山集散点】已揽收" },
+        { t:"09-02 21:15", d:"【杭州仓】已发货" }
+      ]
+    }
+  },
+  {
+    id: 2, name: "林墨", ch: "jd", chName: "京东", color: "#dc2626",
+    time: "14:18", unread: 1, tags: [{t:"申请退款",c:"ai"},{t:"超阈值",c:"hot"}],
+    meta: "京东 · 累计 5 单 · 近 90 天消费 ¥8,960",
+    messages: [
+      { from:"sys", text:"客户从【京东】发起咨询 · 14:15" },
+      { from:"customer", text:"这个耳机我不想要了，能退吗", time:"14:15" },
+      { from:"ai", text:"您好，该订单符合 7 天无理由退货（签收第 3 天）。请问是商品质量问题还是不喜欢呢？", time:"14:15", conf:0.91, src:"退货政策 v2.3" },
+      { from:"customer", text:"不喜欢，音质一般", time:"14:16" },
+      { from:"ai", text:"明白。耳机实付 ¥1,299.00，超过自动退款阈值（¥200），已为您生成待审批工单，主管将在 2 小时内处理。", time:"14:16", conf:0.88, src:"退款决策树 · 步骤 2" },
+      { from:"customer", text:"好的，麻烦快点", time:"14:18" }
+    ],
+    customer: {
+      phone:"139****2341", reg:"2025-07-08", orders:5, amount:"¥8,960",
+      risk:"safe", riskText:"正常客户 · 近 90 天退款率 20%",
+      order:{ no:"J2026090200881", name:"无线降噪耳机 Pro", price:"¥1,299.00", status:"已签收" },
+      track:[ { t:"09-02 15:30", d:"已签收，感谢使用" }, { t:"09-01 09:12", d:"【北京朝阳站】派送中" } ]
+    }
+  },
+  {
+    id: 3, name: "王阿姨", ch: "pdd", chName: "拼多多", color: "#b45309",
+    time: "14:05", unread: 0, tags: [{t:"质量问题",c:""}],
+    meta: "拼多多 · 累计 31 单 · 近 90 天消费 ¥1,240",
+    messages: [
+      { from:"sys", text:"客户从【拼多多】发起咨询 · 13:58" },
+      { from:"customer", text:"收到的衣服破了个洞！", time:"13:58" },
+      { from:"ai", text:"非常抱歉给您带来不好的体验。质量问题需要人工核实图片，已为您转接客服，请稍等。", time:"13:59", conf:0.62, src:"意图识别 I6 → 转人工" },
+      { from:"sys", text:"已转人工 · 分配给 张小雨 · 13:59" },
+      { from:"agent", text:"您好，非常抱歉！麻烦您拍一下破损位置的照片，我这边核实后马上为您安排补发或退款。", time:"14:02" },
+      { from:"customer", text:"好，我拍一下", time:"14:05" }
+    ],
+    customer: {
+      phone:"137****8890", reg:"2023-11-20", orders:31, amount:"¥1,240",
+      risk:"safe", riskText:"正常客户 · 近 90 天退款率 13%",
+      order:{ no:"P2026083001204", name:"纯棉短袖 T 恤 白色 L", price:"¥69.00", status:"已签收" },
+      track:[ { t:"08-31 10:05", d:"已签收" } ]
+    }
+  },
+  {
+    id: 4, name: "赵先生", ch: "douyin", chName: "抖音", color: "#7c3aed",
+    time: "13:42", unread: 0, tags: [{t:"查订单",c:"ai"}],
+    meta: "抖音 · 累计 3 单 · 近 90 天消费 ¥520",
+    messages: [
+      { from:"sys", text:"客户从【抖音】发起咨询 · 13:40" },
+      { from:"customer", text:"我的订单号是多少来着", time:"13:40" },
+      { from:"ai", text:"您好，查到您近期有一笔订单：D2026090100567，厨房收纳架 3 层，实付 ¥89.00，当前状态【已发货】。", time:"13:41", conf:0.94, src:"订单查询 API" },
+      { from:"customer", text:"好的谢谢", time:"13:42" }
+    ],
+    customer: {
+      phone:"135****6621", reg:"2026-08-01", orders:3, amount:"¥520",
+      risk:"safe", riskText:"新客户 · 近 90 天退款率 0%",
+      order:{ no:"D2026090100567", name:"厨房收纳架 3 层", price:"¥89.00", status:"已发货" },
+      track:[ { t:"09-01 16:20", d:"【广州仓】已发货" } ]
+    }
+  },
+  {
+    id: 5, name: "周女士", ch: "taobao", chName: "淘宝", color: "#0891b2",
+    time: "13:20", unread: 0, tags: [{t:"高风险",c:"hot"}],
+    meta: "淘宝 · 累计 47 单 · 近 90 天消费 ¥6,180",
+    messages: [
+      { from:"sys", text:"客户从【淘宝】发起咨询 · 13:15" },
+      { from:"customer", text:"我要退货", time:"13:15" },
+      { from:"ai", text:"检测到该客户近 90 天退款率为 42%，属于高频退款客户，已转人工核实。", time:"13:16", conf:0.55, src:"退款决策树 · 步骤 3" },
+      { from:"sys", text:"已转人工 · 分配给 张小雨 · 13:16" },
+      { from:"agent", text:"您好，请问是哪个订单需要退货呢？方便提供订单号吗？", time:"13:18" }
+    ],
+    customer: {
+      phone:"186****3345", reg:"2022-05-30", orders:47, amount:"¥6,180",
+      risk:"high", riskText:"高频退款客户 · 近 90 天退款率 42%（阈值 30%）",
+      order:{ no:"T2026082800912", name:"真丝连衣裙 墨绿 M", price:"¥459.00", status:"已签收" },
+      track:[ { t:"08-29 14:50", d:"已签收" } ]
+    }
+  }
+];
+
+const TICKETS = [
+  { no:"TK202609050001", type:"退款", cust:"林墨", ch:"京东", amt:"¥1,299.00", st:"待审批", stc:"st-approval", prio:"高", prioC:"prio-high", own:"待分配", time:"09-05 14:16", ai:true },
+  { no:"TK202609050002", type:"质量问题", cust:"王阿姨", ch:"拼多多", amt:"¥69.00", st:"人工处理中", stc:"st-agent", prio:"中", prioC:"prio-mid", own:"张小雨", time:"09-05 13:59", ai:true },
+  { no:"TK202609040018", type:"物流异常", cust:"刘先生", ch:"淘宝", amt:"¥228.00", st:"人工处理中", stc:"st-agent", prio:"高", prioC:"prio-high", own:"张小雨", time:"09-04 17:22", ai:true },
+  { no:"TK202609040015", type:"退款", cust:"孙女士", ch:"抖音", amt:"¥158.00", st:"已解决", stc:"st-resolved", prio:"低", prioC:"prio-low", own:"系统（自动）", time:"09-04 11:08", ai:true },
+  { no:"TK202609040011", type:"退款", cust:"吴先生", ch:"淘宝", amt:"¥89.00", st:"已关闭", stc:"st-closed", prio:"低", prioC:"prio-low", own:"系统（自动）", time:"09-04 09:31", ai:true },
+  { no:"TK202609030027", type:"退货", cust:"郑女士", ch:"京东", amt:"¥320.00", st:"待审批", stc:"st-approval", prio:"中", prioC:"prio-mid", own:"待分配", time:"09-03 16:44", ai:true },
+  { no:"TK202609030019", type:"少件漏发", cust:"冯先生", ch:"拼多多", amt:"¥45.00", st:"已解决", stc:"st-resolved", prio:"中", prioC:"prio-mid", own:"李主管", time:"09-03 10:15", ai:false },
+  { no:"TK202609020008", type:"查物流", cust:"陈小雨", ch:"淘宝", amt:"—", st:"AI 处理中", stc:"st-ai", prio:"低", prioC:"prio-low", own:"系统（自动）", time:"09-02 14:20", ai:true }
+];
+
+const APPROVALS = [
+  {
+    no:"TK202609050001", cust:"林墨", ch:"京东", amt:1299.00, reason:"7 天无理由（不想要了）",
+    order:"J2026090200881", item:"无线降噪耳机 Pro", signed:"09-02", days:3,
+    custRate:"20%", skuBlack:false, dailyLeft:"¥3,200",
+    path:[
+      { k:"step1_reason", v:"no_reason_7d", r:"pass" },
+      { k:"step1_signed_days", v:"3 天（≤7）", r:"pass" },
+      { k:"step2_amount", v:"1299.00", r:"fail" },
+      { k:"step2_threshold", v:"200.00（全局默认）", r:"fail" },
+      { k:"step2_note", v:"金额 > 阈值 → 转人工审批", r:"fail" },
+      { k:"step3_refund_rate", v:"0.20（≤0.30）", r:"pass" },
+      { k:"step4_sku_blacklist", v:"false", r:"pass" },
+      { k:"final", v:"pending_approval", r:"fail" }
+    ]
+  },
+  {
+    no:"TK202609030027", cust:"郑女士", ch:"京东", amt:320.00, reason:"7 天无理由（尺码不合适）",
+    order:"J2026083100442", item:"真丝衬衫 白色 M", signed:"08-31", days:5,
+    custRate:"9%", skuBlack:false, dailyLeft:"¥3,200",
+    path:[
+      { k:"step1_reason", v:"no_reason_7d", r:"pass" },
+      { k:"step1_signed_days", v:"5 天（≤7）", r:"pass" },
+      { k:"step2_amount", v:"320.00", r:"fail" },
+      { k:"step2_threshold", v:"200.00（全局默认）", r:"fail" },
+      { k:"step2_note", v:"金额 > 阈值 → 转人工审批", r:"fail" },
+      { k:"step3_refund_rate", v:"0.09（≤0.30）", r:"pass" },
+      { k:"step4_sku_blacklist", v:"false", r:"pass" },
+      { k:"final", v:"pending_approval", r:"fail" }
+    ]
+  }
+];
+
+const BAR_DATA = [
+  { d:"08-30", t:186, a:112 }, { d:"08-31", t:204, a:131 }, { d:"09-01", t:198, a:127 },
+  { d:"09-02", t:221, a:145 }, { d:"09-03", t:243, a:158 }, { d:"09-04", t:232, a:151 },
+  { d:"09-05", t:167, a:106 }
+];
+
+const HBAR_DATA = [
+  { l:"查物流", v:28.4 }, { l:"申请退款", v:19.2 }, { l:"催发货", v:14.6 },
+  { l:"质量问题", v:11.3 }, { l:"查退款进度", v:9.8 }, { l:"退换货政策", v:7.5 }
+];
+
+/* ==================== 逻辑 ==================== */
+let current = 0;
+
+function doLogin() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  renderSessions();
+  selectSession(0);
+  renderTickets();
+  renderApprovals();
+  renderCharts();
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function switchPage(p) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === p));
+  document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  const titles = {
+    workbench: ['会话工作台', '在线 · 当前接待 5 个会话'],
+    tickets: ['工单管理', '按状态与优先级筛选'],
+    approval: ['退款审批', '超过阈值的退款需人工拍板'],
+    dashboard: ['数据看板', '数据准实时，延迟 ≤5 分钟']
+  };
+  document.getElementById('pageTitle').textContent = titles[p][0];
+  document.getElementById('pageSub').textContent = titles[p][1];
+}
+
+/* ---- 会话列表 ---- */
+function renderSessions() {
+  const box = document.getElementById('sessionList');
+  box.innerHTML = SESSIONS.map((s, i) => `
+    <div class="session-item ${i === current ? 'active' : ''}" onclick="selectSession(${i})">
+      <div class="s-avatar" style="background:${s.color}">${s.name[0]}</div>
+      <div class="s-body">
+        <div class="s-top">
+          <span class="s-name">${s.name}</span>
+          <span class="s-channel ch-${s.ch}">${s.chName}</span>
+          <span class="s-time">${s.time}</span>
+        </div>
+        <div class="s-msg">${s.messages.filter(m => m.from === 'customer').slice(-1)[0]?.text || ''}</div>
+        <div class="s-tags">
+          ${s.tags.map(t => `<span class="mini-tag ${t.c}">${t.t}</span>`).join('')}
+          ${s.unread ? `<span class="s-badge" style="margin-left:auto">${s.unread}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectSession(i) {
+  current = i;
+  const s = SESSIONS[i];
+  s.unread = 0;
+  renderSessions();
+  document.getElementById('chatName').textContent = s.name;
+  document.getElementById('chatMeta').textContent = s.meta;
+  renderMessages();
+  renderInfo(s.customer);
+}
+
+function renderMessages() {
+  const s = SESSIONS[current];
+  const box = document.getElementById('messages');
+  box.innerHTML = s.messages.map(m => {
+    if (m.from === 'sys') return `<div class="sys-notice">${m.text}</div>`;
+    const isCust = m.from === 'customer';
+    const cls = isCust ? 'customer' : m.from;
+    const avCls = isCust ? 'cust' : (m.from === 'ai' ? 'bot' : 'human');
+    const avText = isCust ? s.name[0] : (m.from === 'ai' ? 'AI' : '我');
+    let meta = `<span>${m.time}</span>`;
+    if (m.conf !== undefined) {
+      meta += `<span class="confidence ${m.conf < 0.85 ? 'low' : ''}">置信度 ${m.conf.toFixed(2)}</span>`;
+    }
+    if (m.src) meta += `<span>来源：${m.src}</span>`;
+    return `
+      <div class="msg ${cls}">
+        <div class="msg-avatar ${avCls}">${avText}</div>
+        <div class="msg-content">
+          <div class="msg-text">${m.text}</div>
+          <div class="msg-meta">${meta}</div>
+        </div>
+      </div>`;
+  }).join('');
+  box.scrollTop = box.scrollHeight;
+}
+
+function renderInfo(c) {
+  document.getElementById('infoPanel').innerHTML = `
+    <div class="panel-section">
+      <div class="panel-title">客户信息</div>
+      <div class="info-row"><span class="k">手机号</span><span class="v">${c.phone}</span></div>
+      <div class="info-row"><span class="k">注册时间</span><span class="v">${c.reg}</span></div>
+      <div class="info-row"><span class="k">累计订单</span><span class="v">${c.orders} 单</span></div>
+      <div class="info-row"><span class="k">累计消费</span><span class="v">${c.amount}</span></div>
+      <div style="margin-top:8px"><span class="risk-tag ${c.risk === 'high' ? '' : 'safe'}">${c.riskText}</span></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-title">关联订单</div>
+      <div class="order-card">
+        <div class="oname">${c.order.name}</div>
+        <div class="ometa"><span>${c.order.no}</span><span>${c.order.price}</span></div>
+        <div class="ometa" style="margin-top:4px"><span>状态</span><span style="color:var(--primary);font-weight:600">${c.order.status}</span></div>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-title">物流轨迹</div>
+      <div class="track">
+        ${c.track.map((t, i) => `<div class="track-item ${i === 0 ? 'latest' : ''}">${t.d}<br><span style="font-size:11px;color:var(--text-light)">${t.t}</span></div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function insertQuick(text) {
+  document.getElementById('msgInput').value = text;
+  document.getElementById('msgInput').focus();
+}
+
+function sendMsg() {
+  const inp = document.getElementById('msgInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  const s = SESSIONS[current];
+  const now = new Date();
+  const time = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+  s.messages.push({ from: 'agent', text, time });
+  inp.value = '';
+  renderMessages();
+  renderSessions();
+  toast('已发送');
+}
+
+/* ---- 工单 ---- */
+function renderTickets() {
+  document.getElementById('ticketBody').innerHTML = TICKETS.map(t => `
+    <tr onclick="toast('工单 ${t.no} 详情页（原型未展开）')">
+      <td style="font-weight:600;color:var(--primary)">${t.no}</td>
+      <td>${t.type}</td>
+      <td>${t.cust}</td>
+      <td>${t.ch}</td>
+      <td style="font-weight:600">${t.amt}</td>
+      <td><span class="st ${t.stc}">${t.st}</span></td>
+      <td><span class="prio ${t.prioC}">${t.prio}</span></td>
+      <td>${t.own}</td>
+      <td style="color:var(--text-sub)">${t.time}</td>
+    </tr>
+  `).join('');
+  document.getElementById('tkCount').textContent = TICKETS.length;
+}
+
+/* ---- 审批 ---- */
+function renderApprovals() {
+  document.getElementById('approvalList').innerHTML = APPROVALS.map((a, i) => `
+    <div class="approval-card" id="appr-${i}">
+      <div class="ac-head">
+        <span class="tno">${a.no}</span>
+        <span class="st st-approval">待审批</span>
+        <span class="amt">¥${a.amt.toFixed(2)}</span>
+      </div>
+      <div class="ac-grid">
+        <div class="ac-field"><div class="k">客户</div><div class="v">${a.cust}（${a.ch}）</div></div>
+        <div class="ac-field"><div class="k">商品</div><div class="v">${a.item}</div></div>
+        <div class="ac-field"><div class="k">订单号</div><div class="v">${a.order}</div></div>
+        <div class="ac-field"><div class="k">退款理由</div><div class="v">${a.reason}</div></div>
+        <div class="ac-field"><div class="k">签收时间 / 已过</div><div class="v">${a.signed} · ${a.days} 天</div></div>
+        <div class="ac-field"><div class="k">今日剩余额度</div><div class="v">${a.dailyLeft}</div></div>
+      </div>
+      <div class="dp-title">⚙ AI 决策链路（decision_path）</div>
+      <div class="decision-path">
+        ${a.path.map(p => `<div class="dp-step"><span class="dp-key">${p.k}</span><span>: </span><span>${p.v}</span><span style="margin-left:auto" class="dp-${p.r}">${p.r === 'pass' ? '✓ pass' : '✗ 拦截 / 转人工'}</span></div>`).join('')}
+      </div>
+      <div class="ac-actions">
+        <button class="btn btn-primary-sm" onclick="approve(${i}, true)">通过并执行退款</button>
+        <button class="btn btn-danger-sm" onclick="approve(${i}, false)">驳回</button>
+        <button class="btn" onclick="toast('已请求客户补充凭证图片')">要求补充凭证</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function approve(i, ok) {
+  const a = APPROVALS[i];
+  const card = document.getElementById('appr-' + i);
+  if (ok) {
+    card.innerHTML = `<div style="text-align:center;padding:28px;">
+      <div style="font-size:40px;margin-bottom:10px;">✅</div>
+      <div style="font-size:16px;font-weight:700;color:var(--success);margin-bottom:6px;">已通过 · 退款执行中</div>
+      <div style="font-size:13px;color:var(--text-sub);">¥${a.amt.toFixed(2)} 已提交至${a.ch}退款接口，预计 1-3 个工作日到账</div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:10px;">工单 ${a.no} 已更新为「已解决」，操作已写入审计日志</div>
+    </div>`;
+    toast('已通过，退款执行中');
+  } else {
+    card.innerHTML = `<div style="text-align:center;padding:28px;">
+      <div style="font-size:40px;margin-bottom:10px;">↩️</div>
+      <div style="font-size:16px;font-weight:700;color:var(--danger);margin-bottom:6px;">已驳回</div>
+      <div style="font-size:13px;color:var(--text-sub);">工单 ${a.no} 已回到「人工处理中」，客户体感仍为同一客服</div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:10px;">驳回原因将同步至处理人，操作已写入审计日志</div>
+    </div>`;
+    toast('已驳回，工单回到人工处理中');
+  }
+  const badge = document.getElementById('navApprBadge');
+  const n = parseInt(badge.textContent) - 1;
+  badge.textContent = n;
+  if (n <= 0) badge.style.display = 'none';
+}
+
+/* ---- 看板 ---- */
+function renderCharts() {
+  const max = Math.max(...BAR_DATA.map(d => d.t));
+  document.getElementById('bars').innerHTML = BAR_DATA.map(d => `
+    <div class="bar-wrap">
+      <div class="bar-val">${d.t}</div>
+      <div style="width:100%;display:flex;align-items:flex-end;gap:4px;height:150px;">
+        <div class="bar" style="height:${d.t / max * 140}px;flex:1"></div>
+        <div class="bar ai" style="height:${d.a / max * 140}px;flex:1"></div>
+      </div>
+      <div class="bar-label">${d.d}</div>
+    </div>
+  `).join('');
+
+  const hmax = Math.max(...HBAR_DATA.map(d => d.v));
+  document.getElementById('hbars').innerHTML = HBAR_DATA.map(d => `
+    <div class="hbar-row">
+      <div class="hbar-label">${d.l}</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:${d.v / hmax * 100}%"></div></div>
+      <div class="hbar-val">${d.v}%</div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>

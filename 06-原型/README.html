@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>原型说明 — 售后管家 AfterCare</title>
+<style>
+:root{
+  --ink:#1f2937; --sub:#64748b; --line:#e2e8f0; --accent:#1e40af;
+  --bg:#ffffff; --soft:#f8fafc; --code-bg:#0f172a; --code-fg:#e2e8f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.85; font-size:15px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px 80px;}
+.topbar{
+  border-bottom:1px solid var(--line); background:#fff;
+  position:sticky; top:0; z-index:10;
+}
+.topbar-in{max-width:920px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;}
+.back{
+  color:var(--accent); text-decoration:none; font-size:14px; font-weight:600;
+  border:1px solid var(--line); padding:5px 12px; border-radius:6px; white-space:nowrap;
+}
+.back:hover{background:var(--soft);}
+.crumb{color:var(--sub);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.badge{
+  background:#eff6ff;color:var(--accent);font-size:12px;font-weight:700;
+  padding:3px 9px;border-radius:4px;border:1px solid #dbeafe;white-space:nowrap;
+}
+h1{font-size:29px;font-weight:800;color:#0f172a;margin:46px 0 6px;letter-spacing:.5px;line-height:1.35;}
+h2{font-size:21px;font-weight:700;color:#0f172a;margin:44px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--line);}
+h3{font-size:17px;font-weight:700;color:#1e2937;margin:30px 0 10px;}
+h4{font-size:15px;font-weight:700;color:#334155;margin:22px 0 8px;}
+p{margin:12px 0;}
+ul,ol{margin:12px 0 12px 26px;}
+li{margin:6px 0;}
+a{color:var(--accent);}
+hr{border:0;border-top:1px solid var(--line);margin:38px 0;}
+strong{font-weight:700;color:#0f172a;}
+blockquote{
+  border-left:4px solid var(--accent); background:var(--soft);
+  margin:16px 0; padding:12px 18px; color:#475569; border-radius:0 6px 6px 0;
+}
+blockquote p{margin:6px 0;}
+code{
+  background:#f1f5f9; padding:2px 6px; border-radius:4px;
+  font-family:"Cascadia Code",Consolas,Monaco,monospace; font-size:13px; color:#be123c;
+}
+pre{
+  background:var(--code-bg); color:var(--code-fg);
+  padding:16px 18px; border-radius:8px; overflow-x:auto; margin:18px 0; line-height:1.65;
+}
+pre code{background:none;color:inherit;padding:0;font-size:13px;}
+table{
+  width:100%; border-collapse:collapse; margin:20px 0; font-size:14px;
+  box-shadow:0 0 0 1px var(--line); border-radius:8px; overflow:hidden;
+}
+th{
+  background:#f1f5f9; font-weight:700; color:#0f172a; text-align:left;
+  padding:11px 14px; border-bottom:2px solid var(--line); white-space:nowrap;
+}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#fafcff;}
+input[type=checkbox]{margin-right:6px;}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center;}
+@media print{.topbar{display:none;}}
+@media(max-width:640px){
+  .wrap{padding:0 16px 60px;}
+  .topbar-in{padding:12px 16px;}
+  h1{font-size:23px;margin-top:30px;}
+  h2{font-size:18px;}
+  table{font-size:13px;display:block;overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a class="back" href="../index.html">&larr; 返回作品集</a>
+  <span class="badge">Day 6</span>
+  <span class="crumb">原型说明</span>
+</div></div>
+<div class="wrap">
+<h1 id="day-6">Day 6 — 高保真可交互原型</h1>
+<blockquote>
+<p>作品集「售后管家 AfterCare」第六天产出。<br />
+<strong>不是静态图，是能点能跳的真实网页原型。</strong></p>
+</blockquote>
+<hr />
+<h2 id="_1">一、打开方式</h2>
+<p>双击 <code>原型.html</code>，用浏览器（Chrome / Edge）打开。无需安装任何东西，不联网也能跑。</p>
+<ol>
+<li>点击「登录」进入主应用</li>
+<li>左侧导航切换四个页面</li>
+<li>随便点、随便发消息，都是真的有反应</li>
+</ol>
+<hr />
+<h2 id="_2">二、四个页面</h2>
+<h3 id="1">1️⃣ 会话工作台（核心页）</h3>
+<p>三栏布局，这是 B 端客服产品的标准结构：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>展示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>左栏</strong></td>
+<td>会话列表：渠道标签、最后一条消息、未读徽章、AI/风险标签</td>
+</tr>
+<tr>
+<td><strong>中栏</strong></td>
+<td>对话区：客户/AI/客服三种气泡样式区分，AI 回复带<strong>置信度</strong>与<strong>引用来源</strong></td>
+</tr>
+<tr>
+<td><strong>右栏</strong></td>
+<td>客户信息：基本信息、关联订单、物流轨迹、风险标签</td>
+</tr>
+</tbody>
+</table>
+<p><strong>可以试的交互</strong><br />
+- 点左侧任一会话 → 对话内容和右侧客户信息同步切换<br />
+- 在输入框发消息 → 消息上屏，时间自动取当前时间<br />
+- 点底部快捷话术 → 自动填入输入框<br />
+- 点「建工单 / 升级主管 / 转接」→ 顶部弹出操作反馈</p>
+<h3 id="2">2️⃣ 工单管理</h3>
+<p>列表展示 8 条工单，含工单号、类型、客户、渠道、金额、状态、优先级、处理人、创建时间。</p>
+<p>状态用彩色标签区分（AI 处理中 / 人工处理中 / 待审批 / 已解决 / 已关闭），优先级高中低三档。</p>
+<h3 id="3">3️⃣ 退款审批（亮点页）</h3>
+<p><strong>这个页面是整套原型里最值得演示的。</strong></p>
+<p>每张待审批卡片下方都有一个黑底的 <strong>AI 决策链路（decision_path）</strong> 区块，逐行展示退款决策树每一步的判断：</p>
+<pre><code>step1_reason        : no_reason_7d              ✓ pass
+step1_signed_days   : 3 天（≤7）                ✓ pass
+step2_amount        : 1299.00                   ✗ 拦截 / 转人工
+step2_threshold     : 200.00（全局默认）        ✗ 拦截 / 转人工
+step2_note          : 金额 &gt; 阈值 → 转人工审批   ✗ 拦截 / 转人工
+step3_refund_rate   : 0.20（≤0.30）             ✓ pass
+step4_sku_blacklist : false                     ✓ pass
+final               : pending_approval          ✗ 拦截 / 转人工
+</code></pre>
+<p><strong>这就是 PRD 里 <code>decision_path</code> 字段的可视化。</strong> 商家问"这笔为什么没自动退"，指着这个区块就能回答——AI 把理由摆出来了，不是黑盒。</p>
+<p>可以点「通过并执行退款」/「驳回」，卡片会切换为结果态：<br />
+- 通过 → 绿色提示"退款执行中，1-3 个工作日到账"<br />
+- 驳回 → 红色提示"工单回到人工处理中，客户体感仍为同一客服"</p>
+<h3 id="4">4️⃣ 数据看板</h3>
+<ul>
+<li>4 个 KPI 卡片：AI 拦截率 63.2%、一次解决率 78.6%、平均首响 18 秒、AHT 4.2 分钟（均对照 Day 1 成功指标）</li>
+<li>近 7 天双色柱状图（总会话量 vs AI 拦截量）</li>
+<li>售后意图分布 TOP 6（横向条形图）</li>
+</ul>
+<hr />
+<h2 id="_3">三、原型刻意埋的设计细节</h2>
+<p>演示时如果能主动指出这些，说明你不是"画了个界面"，而是"想过业务"：</p>
+<table>
+<thead>
+<tr>
+<th>细节</th>
+<th>位置</th>
+<th>为什么这么设计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI 回复带置信度与来源</strong></td>
+<td>工作台对话区</td>
+<td>让客服敢信 AI。没来源的回复，客服不敢直接用</td>
+</tr>
+<tr>
+<td><strong>置信度低于 0.85 标橙</strong></td>
+<td>王阿姨那条会话</td>
+<td>视觉上区分"可放心用"和"需人工复核"</td>
+</tr>
+<tr>
+<td><strong>高风险客户红标签</strong></td>
+<td>周女士（退款率 42%）</td>
+<td>对应 PRD 决策树步骤 3，客服一眼看到风险</td>
+</tr>
+<tr>
+<td><strong>决策链路可视化</strong></td>
+<td>审批页</td>
+<td>打消主管"AI 乱来"顾虑的核心手段</td>
+</tr>
+<tr>
+<td><strong>驳回不回客户，回人工</strong></td>
+<td>审批驳回提示</td>
+<td>保持客户体感连续，这是 B 端最容易忽略的一点</td>
+</tr>
+<tr>
+<td><strong>AI 拦截率/一次解决率写真实目标</strong></td>
+<td>看板</td>
+<td>指标不是装饰，直接挂 Day 1 定的成功标准</td>
+</tr>
+<tr>
+<td><strong>未读徽章点击后清零</strong></td>
+<td>会话列表</td>
+<td>还原真实交互，细节到位</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">四、三分钟演示脚本</h2>
+<p><strong>第 1 分钟：工作台</strong></p>
+<blockquote>
+<p>"这是客服每天真正盯的界面。三栏：左边会话列表，中间对话，右边客户信息。<br />
+注意 AI 的回复都带置信度和引用来源——这不是装饰，是让客服敢直接用。<br />
+置信度低于 0.85 会标橙，提示这条需要人工复核。"</p>
+</blockquote>
+<p><strong>第 2 分钟：切到审批页，讲决策链路</strong></p>
+<blockquote>
+<p>"这是整个原型的核心页面。超阈值的退款会走到这里，下方黑底区块是 AI 的决策链路。<br />
+前两步判定通过，第三步金额 1299 超过阈值 200，因此拦截转人工。<br />
+<strong>AI 不只是给出结论，还把推理过程摆了出来。</strong> 商家问'这笔为什么没自动退'，指着这行就能回答。"</p>
+</blockquote>
+<p><strong>第 3 分钟：点一下"驳回"</strong></p>
+<blockquote>
+<p>"注意驳回的文案——'回到人工处理中，客户体感仍为同一客服'。<br />
+很多产品做审批流，驳回就把单子打回客户，客户得重新描述一遍问题。这个坑我们特意避开了。"</p>
+</blockquote>
+<hr />
+<h2 id="_5">五、技术实现说明</h2>
+<p><strong>纯手写 HTML + CSS + JavaScript，零依赖。</strong></p>
+<ul>
+<li>无框架、无构建、无外部 CDN 请求</li>
+<li>单文件 44 KB，可直接邮件发送或上传任意静态托管</li>
+<li>数据以 JS 对象模拟，可快速替换为真实接口</li>
+<li>图表为原生 SVG / CSS 绘制，未引入图表库</li>
+</ul>
+<p><strong>为什么不用墨刀/Figma 原型？</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比</th>
+<th>墨刀/Figma 原型</th>
+<th>本 HTML 原型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>交互真实度</td>
+<td>页面跳转为主</td>
+<td>真实 DOM 交互，数据联动</td>
+</tr>
+<tr>
+<td>交付形式</td>
+<td>需对方装客户端或看链接</td>
+<td>单个 HTML 文件，双击即开</td>
+</tr>
+<tr>
+<td>放进作品集</td>
+<td>只能截图</td>
+<td>可挂真实链接，对方能直接打开体验</td>
+</tr>
+<tr>
+<td>修改成本</td>
+<td>拖拽调整</td>
+<td>改数据对象即可</td>
+</tr>
+<tr>
+<td>技术说服力</td>
+<td>展示设计能力</td>
+<td>同时展示<strong>产品 + 技术理解</strong></td>
+</tr>
+</tbody>
+</table>
+<p>最后一条对技术背景的产品经理尤其重要——能跟开发用同一种语言对话。</p>
+<hr />
+<h2 id="_6">六、已知限制</h2>
+<table>
+<thead>
+<tr>
+<th>限制</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据为模拟</td>
+<td>未接真实后端，数据写死在 JS 对象里</td>
+</tr>
+<tr>
+<td>AI 回复为预设</td>
+<td>未接真实大模型，按关键词规则模拟</td>
+</tr>
+<tr>
+<td>未做响应式</td>
+<td>客服工作台定位为桌面端，主管审批页才需移动端适配</td>
+</tr>
+<tr>
+<td>异常流未全部覆盖</td>
+<td>PRD 第十一章列了 14 个异常场景，原型只演示了主流程</td>
+</tr>
+</tbody>
+</table>
+<p>明确原型的边界，本身就是产品素养的一部分。</p>
+<hr />
+<h2 id="_7">七、后续可做</h2>
+<ul>
+<li>接入真实大模型 API，让 AI 回复真实生成</li>
+<li>补工单详情页与状态流转时间线</li>
+<li>做主管端的移动端适配</li>
+<li>接入真实电商平台订单 / 物流 / 退款 API</li>
+</ul>
+<div class="foot">售后管家 AfterCare · 产品设计作品集 · 李志恒</div>
+</div>
+</body>
+</html>

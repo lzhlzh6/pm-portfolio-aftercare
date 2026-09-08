@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>产品需求文档 PRD — 售后管家 AfterCare</title>
+<style>
+:root{
+  --ink:#1f2937; --sub:#64748b; --line:#e2e8f0; --accent:#1e40af;
+  --bg:#ffffff; --soft:#f8fafc; --code-bg:#0f172a; --code-fg:#e2e8f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.85; font-size:15px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px 80px;}
+.topbar{
+  border-bottom:1px solid var(--line); background:#fff;
+  position:sticky; top:0; z-index:10;
+}
+.topbar-in{max-width:920px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;}
+.back{
+  color:var(--accent); text-decoration:none; font-size:14px; font-weight:600;
+  border:1px solid var(--line); padding:5px 12px; border-radius:6px; white-space:nowrap;
+}
+.back:hover{background:var(--soft);}
+.crumb{color:var(--sub);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.badge{
+  background:#eff6ff;color:var(--accent);font-size:12px;font-weight:700;
+  padding:3px 9px;border-radius:4px;border:1px solid #dbeafe;white-space:nowrap;
+}
+h1{font-size:29px;font-weight:800;color:#0f172a;margin:46px 0 6px;letter-spacing:.5px;line-height:1.35;}
+h2{font-size:21px;font-weight:700;color:#0f172a;margin:44px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--line);}
+h3{font-size:17px;font-weight:700;color:#1e2937;margin:30px 0 10px;}
+h4{font-size:15px;font-weight:700;color:#334155;margin:22px 0 8px;}
+p{margin:12px 0;}
+ul,ol{margin:12px 0 12px 26px;}
+li{margin:6px 0;}
+a{color:var(--accent);}
+hr{border:0;border-top:1px solid var(--line);margin:38px 0;}
+strong{font-weight:700;color:#0f172a;}
+blockquote{
+  border-left:4px solid var(--accent); background:var(--soft);
+  margin:16px 0; padding:12px 18px; color:#475569; border-radius:0 6px 6px 0;
+}
+blockquote p{margin:6px 0;}
+code{
+  background:#f1f5f9; padding:2px 6px; border-radius:4px;
+  font-family:"Cascadia Code",Consolas,Monaco,monospace; font-size:13px; color:#be123c;
+}
+pre{
+  background:var(--code-bg); color:var(--code-fg);
+  padding:16px 18px; border-radius:8px; overflow-x:auto; margin:18px 0; line-height:1.65;
+}
+pre code{background:none;color:inherit;padding:0;font-size:13px;}
+table{
+  width:100%; border-collapse:collapse; margin:20px 0; font-size:14px;
+  box-shadow:0 0 0 1px var(--line); border-radius:8px; overflow:hidden;
+}
+th{
+  background:#f1f5f9; font-weight:700; color:#0f172a; text-align:left;
+  padding:11px 14px; border-bottom:2px solid var(--line); white-space:nowrap;
+}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#fafcff;}
+input[type=checkbox]{margin-right:6px;}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center;}
+@media print{.topbar{display:none;}}
+@media(max-width:640px){
+  .wrap{padding:0 16px 60px;}
+  .topbar-in{padding:12px 16px;}
+  h1{font-size:23px;margin-top:30px;}
+  h2{font-size:18px;}
+  table{font-size:13px;display:block;overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a class="back" href="../index.html">&larr; 返回作品集</a>
+  <span class="badge">Day 5</span>
+  <span class="crumb">产品需求文档 PRD</span>
+</div></div>
+<div class="wrap">
+<h1 id="aftercare-prd">售后管家 AfterCare — 产品需求文档（PRD）</h1>
+<blockquote>
+<p><strong>文档类型</strong>：产品需求文档（Product Requirement Document）<br />
+<strong>版本</strong>：v1.0<br />
+<strong>日期</strong>：2026-09-05<br />
+<strong>作者</strong>：李志恒<br />
+<strong>状态</strong>：待评审</p>
+</blockquote>
+<hr />
+<h2 id="_1">修订记录</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>修改人</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.0</td>
+<td>2026-09-05</td>
+<td>李志恒</td>
+<td>初稿，覆盖 V1.0 全部 23 条需求</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">前置文档</h2>
+<table>
+<thead>
+<tr>
+<th>文档</th>
+<th>关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../01-调研/市场与竞品调研.md">01-调研/市场与竞品调研.md</a></td>
+<td>提供市场机会与成功指标</td>
+</tr>
+<tr>
+<td><a href="../02-用户研究/用户画像与场景拆解.md">02-用户研究/用户画像与场景拆解.md</a></td>
+<td>提供 Persona、用户故事、痛点</td>
+</tr>
+<tr>
+<td><a href="../03-需求/需求清单与优先级.md">03-需求/需求清单与优先级.md</a></td>
+<td>提供需求编号与优先级，本文档逐条展开</td>
+</tr>
+<tr>
+<td><a href="../04-流程图/流程图.html">04-流程图/流程图.html</a></td>
+<td>提供主流程图、状态机、权限矩阵</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">阅读对象</h2>
+<p>研发（前后端 + 算法）、测试、设计、项目管理。</p>
+<hr />
+<h1 id="_4">一、背景与目标</h1>
+<h2 id="11">1.1 问题陈述</h2>
+<p>中小电商商家（5-15 人客服团队）在售后环节面临三个结构性问题：</p>
+<ol>
+<li><strong>重复劳动占比高</strong>：约 70% 的售后咨询是重复问题（查物流、查退款进度、退换货政策），但全部由人工处理。</li>
+<li><strong>渠道割裂</strong>：客服需在淘宝、京东、拼多多、抖音等多个平台后台间切换，信息不同步，响应慢。</li>
+<li><strong>现有 AI 客服"只会答题，不会办事"</strong>：信通院数据显示 86% 的智能客服项目效果不及预期，具备完整 Agent 自主决策能力的产品不足 15%。典型表现是——客户问"我的货到哪了"，机器人回复一段物流查询教程，而不是直接调 API 查出结果。</li>
+</ol>
+<h2 id="12">1.2 产品定位</h2>
+<p><strong>一句话</strong>：面向中小电商商家的 AI 售后工作台，让 AI 不只是回答问题，而是直接把事办完。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>定位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标客户</td>
+<td>5-15 人客服团队的中小电商商家</td>
+</tr>
+<tr>
+<td>核心场景</td>
+<td>售后（不含售前营销）</td>
+</tr>
+<tr>
+<td>差异化</td>
+<td>AI 任务执行能力（查订单、查物流、自动退款），而非仅话术生成</td>
+</tr>
+<tr>
+<td>价格带</td>
+<td>年费 5-15 万，填补"美洽（3-8 万，做不了复杂工单）"与"智齿（30-50 万，中小企业买不起）"之间的价格断层</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13">1.3 目标用户</h2>
+<table>
+<thead>
+<tr>
+<th>Persona</th>
+<th>角色</th>
+<th>核心诉求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>王老板</strong></td>
+<td>商家老板 / 决策者</td>
+<td>降低人力成本，钱花得值</td>
+</tr>
+<tr>
+<td><strong>李主管</strong></td>
+<td>客服主管</td>
+<td>AI 可控、不出错、不惹客诉</td>
+</tr>
+<tr>
+<td><strong>小张</strong></td>
+<td>一线客服</td>
+<td>少做重复劳动，别被 AI 替代</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>详见 Day 2 文档第二章完整 Persona。</p>
+</blockquote>
+<h2 id="14">1.4 成功指标</h2>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI 拦截率</strong></td>
+<td>≥ 60%</td>
+<td>AI 独立解决的会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>一次解决率</strong></td>
+<td>≥ 75%</td>
+<td>无需二次跟进即解决的会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>平均首次响应时长</strong></td>
+<td>≤ 30 秒</td>
+<td>从客户发起至首次收到回复</td>
+</tr>
+<tr>
+<td><strong>平均处理时长（AHT）</strong></td>
+<td>降低 ≥ 40%</td>
+<td>对比上线前基线</td>
+</tr>
+<tr>
+<td><strong>客诉升级率</strong></td>
+<td>≤ 5%</td>
+<td>升级至主管或平台的会话占比</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_5">二、范围定义</h1>
+<h2 id="21-v10-23">2.1 V1.0 范围（23 条）</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>需求编号</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1 会话工作台</td>
+<td>F1.1、F1.2、F1.3</td>
+<td>Must</td>
+</tr>
+<tr>
+<td></td>
+<td>F1.4、F1.5</td>
+<td>Should（本期纳入）</td>
+</tr>
+<tr>
+<td>F2 AI 应答引擎</td>
+<td>F2.1、F2.2、F2.3、F2.4、F2.5</td>
+<td>Must</td>
+</tr>
+<tr>
+<td></td>
+<td>F2.7</td>
+<td>Should（本期纳入）</td>
+</tr>
+<tr>
+<td>F3 AI 任务执行</td>
+<td>F3.1、F3.2、F3.3</td>
+<td>Must</td>
+</tr>
+<tr>
+<td></td>
+<td>F3.6</td>
+<td>Should（本期纳入）</td>
+</tr>
+<tr>
+<td>F4 工单系统</td>
+<td>F4.1、F4.2</td>
+<td>Must</td>
+</tr>
+<tr>
+<td></td>
+<td>F4.3、F4.4</td>
+<td>Should（本期纳入）</td>
+</tr>
+<tr>
+<td>F5 审批与权限</td>
+<td>F5.1、F5.2、F5.3</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>F6 数据看板</td>
+<td>F6.2</td>
+<td>Should（本期纳入）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>合计</strong>：Must 16 条 + Should 7 条 = <strong>23 条</strong></p>
+<h2 id="22">2.2 本期明确不做</h2>
+<table>
+<thead>
+<tr>
+<th>不做</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>售前咨询与营销获客</td>
+<td>定位是售后工作台，售前是红海，不分散精力</td>
+</tr>
+<tr>
+<td>呼叫中心 / 电话客服</td>
+<td>中小电商售后以在线消息为主；电话涉及线路资源，成本结构不同</td>
+</tr>
+<tr>
+<td>私有化部署</td>
+<td>目标客户无强合规需求；SaaS 更轻，符合"一周上线"目标</td>
+</tr>
+<tr>
+<td>CRM / 会员管理</td>
+<td>超出售后边界，与商家现有系统重叠</td>
+</tr>
+<tr>
+<td>多语言 / 跨境</td>
+<td>目标客户以国内平台为主</td>
+</tr>
+<tr>
+<td>自定义大模型接入</td>
+<td>V1.0 由平台统一提供，避免商家陷入选型困境</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_6">三、术语表</h1>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>会话（Session）</strong></td>
+<td>客户与客服（含 AI）之间的一次完整对话</td>
+</tr>
+<tr>
+<td><strong>工单（Ticket）</strong></td>
+<td>需要跨时段跟进或需多方协作的售后事项，由会话转化或系统自动生成</td>
+</tr>
+<tr>
+<td><strong>AI 拦截率</strong></td>
+<td>AI 独立解决、未转人工的会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>一次解决率</strong></td>
+<td>无需客户二次进线即解决的会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>置信度（Confidence）</strong></td>
+<td>AI 对自身答复正确性的自评分数，0-1 之间，默认阈值 0.85</td>
+</tr>
+<tr>
+<td><strong>阈值（Threshold）</strong></td>
+<td>自动退款的金额上限，默认 200 元，可按商品类目覆盖</td>
+</tr>
+<tr>
+<td><strong>SLA</strong></td>
+<td>服务等级协议，指某类工单承诺的处理时长</td>
+</tr>
+<tr>
+<td><strong>AHT</strong></td>
+<td>Average Handle Time，平均处理时长</td>
+</tr>
+<tr>
+<td><strong>转人工（Handoff）</strong></td>
+<td>AI 将会话交给人工客服处理的动作</td>
+</tr>
+<tr>
+<td><strong>升级（Escalation）</strong></td>
+<td>工单从低权限处理人转移到高权限处理人的动作</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_7">四、角色与权限</h1>
+<h2 id="41">4.1 角色定义</h2>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>说明</th>
+<th>典型人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>系统（System）</strong></td>
+<td>AI 与自动化规则，非自然人</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>人工客服（Agent）</strong></td>
+<td>一线处理会话与工单</td>
+<td>5-15 人</td>
+</tr>
+<tr>
+<td><strong>客服主管（Supervisor）</strong></td>
+<td>管理团队，处理升级与审批</td>
+<td>1-2 人</td>
+</tr>
+<tr>
+<td><strong>财务（Finance）</strong></td>
+<td>复核大额退款，管理账单</td>
+<td>1 人</td>
+</tr>
+<tr>
+<td><strong>老板 / Owner</strong></td>
+<td>商家决策者，拥有全部权限</td>
+<td>1 人</td>
+</tr>
+</tbody>
+</table>
+<h2 id="42">4.2 权限矩阵</h2>
+<blockquote>
+<p>完整矩阵见 <a href="../04-流程图/流程图.html">Day 4 图 3</a>。此处列出关键约束：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>关键约束</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>客服仅可查看自己的工单</td>
+<td>数据隔离，避免串单与信息泄露</td>
+</tr>
+<tr>
+<td>客服可发起 ≤ 阈值退款</td>
+<td>阈值内无需审批，直接执行</td>
+</tr>
+<tr>
+<td>客服不可发起 &gt; 阈值退款</td>
+<td>必须生成待审批工单</td>
+</tr>
+<tr>
+<td>主管审批范围限本团队</td>
+<td>跨团队大额退款需更高权限</td>
+</tr>
+<tr>
+<td>财务仅可复核，不可发起退款</td>
+<td>避免"既当运动员又当裁判员"</td>
+</tr>
+<tr>
+<td>老板全权限但全部操作留痕</td>
+<td>技术上能看到 ≠ 能做不被记录的事</td>
+</tr>
+</tbody>
+</table>
+<h2 id="43">4.3 权限变更规则</h2>
+<ul>
+<li>角色由 Owner 或 Supervisor 分配，变更需二次确认。</li>
+<li>权限变更本身写入操作日志（见 F5.3），保留 ≥ 180 天。</li>
+<li>员工离职/转岗时，其进行中的会话与工单自动转派给直属主管，转派记录留痕。</li>
+</ul>
+<hr />
+<h1 id="_8">五、功能需求详述</h1>
+<blockquote>
+<p><strong>写作约定</strong>：每条需求按「功能描述 → 输入输出 → 业务规则 → 界面要素 → 异常流 → 验收标准」六段式展开。</p>
+</blockquote>
+<hr />
+<h2 id="51-f1">5.1 F1 会话工作台</h2>
+<h3 id="f11-must">F1.1 多渠道会话接入（Must）</h3>
+<p><strong>功能描述</strong><br />
+将淘宝、天猫、京东、拼多多、抖音五个平台的客户消息汇聚到统一工作台，客服在单一界面完成查看与回复。</p>
+<p><strong>输入 / 输出</strong></p>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>各平台推送的客户消息</td>
+<td>工作台会话列表实时更新</td>
+</tr>
+<tr>
+<td>客服输入的回复内容</td>
+<td>回传至对应平台，客户可见</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 新消息到达至工作台可见延迟 ≤ 3 秒。<br />
+2. 同一客户在不同平台的会话，若手机号一致则自动合并为"同一客户视图"，但保留渠道标识。<br />
+3. 会话按"最后消息时间倒序 + 未读优先"排序。<br />
+4. 支持按渠道、处理状态、处理人筛选。</p>
+<p><strong>界面要素</strong><br />
+- 左侧：会话列表（客户昵称、渠道图标、最后一条消息摘要、未读数、等待时长）<br />
+- 中间：对话区（消息气泡、输入框、快捷话术入口、转接/升级/建单按钮）<br />
+- 右侧：客户信息侧边栏（见 F1.2）</p>
+<p><strong>异常流</strong></p>
+<table>
+<thead>
+<tr>
+<th>异常</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平台 API 断连</td>
+<td>顶部红色横幅提示"XX 渠道连接中断，正在重连"；已收消息不受影响；重连后自动补拉中断期间消息</td>
+</tr>
+<tr>
+<td>消息发送失败</td>
+<td>输入框下方提示"发送失败，点击重试"；失败消息标红保留，不丢失</td>
+</tr>
+<tr>
+<td>客户在 5 个平台同时进线</td>
+<td>合并为一条会话，渠道标签显示多个图标；客服回复时可选渠道，默认全部回复</td>
+</tr>
+</tbody>
+</table>
+<p><strong>验收标准</strong><br />
+- 支持接入 5 个平台，可正常收发消息。<br />
+- 新消息到达至工作台可见延迟 ≤ 3 秒（P95）。<br />
+- 客服可在单一界面完成 5 个平台的查看与回复，全程无需打开平台后台。</p>
+<hr />
+<h3 id="f12-must">F1.2 客户信息侧边栏（Must）</h3>
+<p><strong>功能描述</strong><br />
+打开会话即自动展示该客户的相关业务信息，避免客服切后台查询。</p>
+<p><strong>展示内容</strong></p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>字段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>客户基本信息</td>
+<td>昵称、手机号（脱敏：138****5678）、注册时间、累计订单数、累计消费金额</td>
+</tr>
+<tr>
+<td>近 90 天订单</td>
+<td>订单号、商品名、金额、下单时间、订单状态</td>
+</tr>
+<tr>
+<td>当前物流</td>
+<td>最近一笔订单的物流公司、运单号、最新轨迹节点、预计到达时间</td>
+</tr>
+<tr>
+<td>历史会话</td>
+<td>近 5 条会话的主题、处理人、处理结果</td>
+</tr>
+<tr>
+<td>历史工单</td>
+<td>近 5 条工单的编号、类型、状态、处理结果</td>
+</tr>
+<tr>
+<td>风险标记</td>
+<td>是否为高频退款客户（近 90 天退款率 &gt; 30%）、是否在黑名单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 信息加载完成时间 ≤ 1.5 秒。<br />
+2. 手机号默认脱敏，点击"查看完整号码"需二次确认并留痕。<br />
+3. 高频退款客户显示橙色警示标签，黑名单客户显示红色标签。</p>
+<p><strong>异常流</strong><br />
+- 订单/物流 API 超时：对应模块显示"数据加载失败，点击重试"，其余模块正常展示，不阻塞会话处理。<br />
+- 客户无历史数据：显示空状态"暂无历史记录"。</p>
+<p><strong>验收标准</strong><br />
+- 打开会话后 1.5 秒内（P95）完整展示上述 6 个模块。<br />
+- 手机号默认脱敏，查看完整号码需二次确认且写入操作日志。</p>
+<hr />
+<h3 id="f13-must">F1.3 会话分配与转接（Must）</h3>
+<p><strong>功能描述</strong><br />
+新会话按策略自动分配给客服，并支持客服间转接。</p>
+<p><strong>分配策略</strong></p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>规则</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平均分配</td>
+<td>轮询分配给当前在线且负载最低的客服</td>
+<td>团队技能均匀</td>
+</tr>
+<tr>
+<td>技能组</td>
+<td>按会话意图匹配对应技能组（如退款组、物流组）</td>
+<td>团队有分工</td>
+</tr>
+<tr>
+<td>指定客服</td>
+<td>分配给特定客服</td>
+<td>大客户专属服务</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 客服有并发上限（默认 8 个会话），达到上限后不再分配新会话。<br />
+2. 客服离线时，其进行中的会话自动转给在线同事，转接时携带完整上文。<br />
+3. 转接需填写转接原因（下拉选择 + 可选备注），接手方可见。<br />
+4. 转接后，客户侧不感知（不显示"已转接"提示），保持体验连续。</p>
+<p><strong>异常流</strong><br />
+- 全员离线：会话进入"待分配队列"，显示排队位置；有客服上线后优先分配。<br />
+- 全员达并发上限：同上，但提示客户"当前咨询量较大，预计等待 X 分钟"。</p>
+<p><strong>验收标准</strong><br />
+- 三种分配策略可配置且生效正确。<br />
+- 转接后接手方可看到完整上文与转接原因。<br />
+- 客户侧无"已转接"提示。</p>
+<hr />
+<h3 id="f14-should">F1.4 一键升级主管（Should，本期纳入）</h3>
+<p><strong>功能描述</strong><br />
+客服遇到处理不了的会话，可一键升级至主管。</p>
+<p><strong>业务规则</strong><br />
+1. 点击"升级"后，系统自动生成会话摘要（AI 生成，含客户诉求、已尝试动作、当前卡点）。<br />
+2. 主管端收到实时提醒（站内 + 可选短信）。<br />
+3. 升级后会话进入主管的待办列表，原客服仍可见但转为"协作"状态。<br />
+4. 主管处理后可选择"退回原客服"或"直接办结"。</p>
+<p><strong>验收标准</strong><br />
+- 升级时自动附带 AI 生成的会话摘要。<br />
+- 主管端实时收到提醒（延迟 ≤ 5 秒）。</p>
+<hr />
+<h3 id="f15-should">F1.5 快捷话术库（Should，本期纳入）</h3>
+<p><strong>功能描述</strong><br />
+按场景维护话术模板，客服可检索并一键插入。</p>
+<p><strong>业务规则</strong><br />
+1. 话术按场景分类（退换货政策、物流解释、优惠券说明、安抚话术等）。<br />
+2. 支持关键词检索，支持按使用次数排序。<br />
+3. 支持插入变量（客户昵称、订单号、商品名），插入时自动替换。<br />
+4. 记录每条话术的使用次数，用于后续优化。</p>
+<p><strong>验收标准</strong><br />
+- 支持按场景分类维护、关键词检索、一键插入。<br />
+- 变量自动替换正确。</p>
+<hr />
+<h2 id="52-f2-ai">5.2 F2 AI 应答引擎</h2>
+<h3 id="f21-must">F2.1 售后意图识别（Must）</h3>
+<p><strong>功能描述</strong><br />
+识别客户消息所属的售后场景，为后续分流提供依据。</p>
+<p><strong>意图列表</strong>（15 个，详见 Day 2 文档第三章）</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>意图</th>
+<th>典型表述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I1</td>
+<td>查物流</td>
+<td>"我的货到哪了"</td>
+</tr>
+<tr>
+<td>I2</td>
+<td>查退款进度</td>
+<td>"退款什么时候到账"</td>
+</tr>
+<tr>
+<td>I3</td>
+<td>催发货</td>
+<td>"怎么还没发货"</td>
+</tr>
+<tr>
+<td>I4</td>
+<td>申请退货</td>
+<td>"我要退货"</td>
+</tr>
+<tr>
+<td>I5</td>
+<td>申请退款</td>
+<td>"不想要了，退款"</td>
+</tr>
+<tr>
+<td>I6</td>
+<td>质量问题</td>
+<td>"收到就是坏的"</td>
+</tr>
+<tr>
+<td>I7</td>
+<td>尺码/颜色不符</td>
+<td>"发错颜色了"</td>
+</tr>
+<tr>
+<td>I8</td>
+<td>少件漏发</td>
+<td>"少了一件"</td>
+</tr>
+<tr>
+<td>I9</td>
+<td>修改地址</td>
+<td>"能改收货地址吗"</td>
+</tr>
+<tr>
+<td>I10</td>
+<td>开发票</td>
+<td>"开个发票"</td>
+</tr>
+<tr>
+<td>I11</td>
+<td>优惠券/价保</td>
+<td>"能补差价吗"</td>
+</tr>
+<tr>
+<td>I12</td>
+<td>使用咨询</td>
+<td>"这个怎么用"</td>
+</tr>
+<tr>
+<td>I13</td>
+<td>投诉</td>
+<td>"我要投诉"</td>
+</tr>
+<tr>
+<td>I14</td>
+<td>催人工</td>
+<td>"转人工"</td>
+</tr>
+<tr>
+<td>I15</td>
+<td>其他</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 意图识别准确率 ≥ 90%（在标注测试集上）。<br />
+2. 单次识别响应 ≤ 800ms。<br />
+3. 识别为 I13（投诉）或 I14（催人工）时，直接转人工，不走 AI 应答。<br />
+4. 置信度低于阈值（默认 0.85）时，转人工。</p>
+<p><strong>验收标准</strong><br />
+- 测试集上意图识别准确率 ≥ 90%。<br />
+- P95 响应 ≤ 800ms。</p>
+<hr />
+<h3 id="f22-must">F2.2 规则引擎应答（Must）</h3>
+<p><strong>功能描述</strong><br />
+对规则明确的场景，走确定性规则路径，不经大模型生成，保证零幻觉。</p>
+<p><strong>适用意图</strong><br />
+I1（查物流）、I2（查退款进度）、I3（催发货）——这三类占售后咨询约 45%。</p>
+<p><strong>业务规则</strong><br />
+1. 命中规则后，调用对应 API 获取数据，用固定模板填充返回。<br />
+2. 不经大模型生成，杜绝幻觉。<br />
+3. 规则命中率 ≥ 95%。</p>
+<p><strong>示例</strong></p>
+<pre><code>客户：&quot;我的货到哪了&quot;
+→ 识别为 I1
+→ 提取订单号（或从客户信息侧边栏取最近订单）
+→ 调用物流 API
+→ 模板填充：&quot;您的订单已于 9 月 3 日从杭州发出，
+   当前在【上海转运中心】，预计 9 月 6 日送达。&quot;
+</code></pre>
+<p><strong>验收标准</strong><br />
+- 规则命中率 ≥ 95%，规则路径下零幻觉（人工抽检 100 条无事实性错误）。</p>
+<hr />
+<h3 id="f23-must">F2.3 大模型生成应答（Must）</h3>
+<p><strong>功能描述</strong><br />
+复杂场景由大模型基于知识库生成回复。</p>
+<p><strong>业务规则</strong><br />
+1. 仅对未命中规则的意图启用大模型。<br />
+2. 生成时必须携带知识库检索结果作为上下文。<br />
+3. 回复需标注引用来源（哪条知识/哪个文档），客服与客户均可查看。<br />
+4. 支持商家配置"禁用话题"（如价格谈判、承诺赔付），命中禁用话题时不生成，直接转人工。<br />
+5. 单次生成响应 ≤ 3 秒。</p>
+<p><strong>异常流</strong><br />
+- 大模型超时（&gt; 3 秒）：降级为"正在为您查询，请稍候"，并转人工。<br />
+- 检索不到相关知识：不强行生成，转人工并提示客服补充知识库。</p>
+<p><strong>验收标准</strong><br />
+- 生成回复均标注引用来源。<br />
+- 禁用话题配置生效。<br />
+- P95 响应 ≤ 3 秒。</p>
+<hr />
+<h3 id="f24-must">F2.4 知识库管理（Must）</h3>
+<p><strong>功能描述</strong><br />
+商家维护 FAQ 与商品知识，供 AI 检索使用。</p>
+<p><strong>功能点</strong><br />
+1. <strong>批量导入</strong>：支持 Excel / CSV 导入，模板含字段：问题、答案、适用 SKU、生效时间、失效时间。<br />
+2. <strong>SKU 绑定</strong>：知识可绑定特定商品 SKU，实现"问 A 商品时只检索 A 的知识"。<br />
+3. <strong>生效时间</strong>：支持设置生效/失效时间，适用于大促临时政策。<br />
+4. <strong>知识状态</strong>：草稿 / 已发布 / 已下线，仅"已发布"状态被检索。</p>
+<p><strong>业务规则</strong><br />
+1. 导入时校验必填字段缺失与格式错误，错误行标红并给出行号。<br />
+2. 知识变更后，检索索引 5 分钟内生效。</p>
+<p><strong>验收标准</strong><br />
+- 支持 Excel/CSV 批量导入，含错误行提示。<br />
+- 支持 SKU 绑定与生效时间设置。</p>
+<hr />
+<h3 id="f25-must">F2.5 置信度与转人工策略（Must）</h3>
+<p><strong>功能描述</strong><br />
+定义 AI 何时放弃、交给人工。</p>
+<p><strong>转人工触发条件</strong>（满足任一即触发）</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>置信度 &lt; 阈值</td>
+<td>默认阈值 0.85，商家可调</td>
+</tr>
+<tr>
+<td>连续 2 轮未解决</td>
+<td>客户对 AI 回复表示否定或重复提问</td>
+</tr>
+<tr>
+<td>客户明确要求人工</td>
+<td>含"转人工""找客服"等表述</td>
+</tr>
+<tr>
+<td>识别为投诉意图</td>
+<td>I13</td>
+</tr>
+<tr>
+<td>命中禁用话题</td>
+<td>如价格谈判</td>
+</tr>
+<tr>
+<td>大模型超时</td>
+<td>&gt; 3 秒未返回</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 转人工时，AI 需携带：已收集的信息（订单号、问题描述、客户诉求）、已尝试的动作、置信度、建议处理方案。<br />
+2. 客户无需重复描述问题。<br />
+3. 转人工后，会话进入待分配队列，按 F1.3 策略分配。</p>
+<p><strong>验收标准</strong><br />
+- 六种触发条件均可配置且生效正确。<br />
+- 转人工时携带完整上下文，客服端可见。</p>
+<hr />
+<h3 id="f27-should">F2.7 多轮上下文记忆（Should，本期纳入）</h3>
+<p><strong>功能描述</strong><br />
+单会话内保持上下文连贯。</p>
+<p><strong>业务规则</strong><br />
+1. 支持 ≥ 10 轮上下文。<br />
+2. 客户中途补充的信息（如订单号）能正确关联到原诉求。<br />
+3. 会话结束后上下文清空，不跨会话记忆（避免隐私风险）。</p>
+<p><strong>验收标准</strong><br />
+- 10 轮对话内，客户补充的信息能被正确关联。</p>
+<hr />
+<h2 id="53-f3-ai">5.3 F3 AI 任务执行（核心差异化）</h2>
+<blockquote>
+<p>本模块是"能办事"与"只会答题"的分界线，也是相对于美洽等低价竞品的核心壁垒。</p>
+</blockquote>
+<h3 id="f31-agentmust">F3.1 订单查询 Agent（Must）</h3>
+<p><strong>功能描述</strong><br />
+AI 根据客户提供的信息调用订单 API 查询。</p>
+<p><strong>业务规则</strong><br />
+1. 支持的查询键：手机号、订单号、商品名。<br />
+2. 查到多条时，展示列表让客户选择（最多展示 5 条）。<br />
+3. 查不到时，<strong>引导客户提供更多信息</strong>（如"麻烦提供下单手机号后四位"），而非直接转人工。<br />
+4. 连续 2 次查询失败才转人工。</p>
+<p><strong>异常流</strong><br />
+- 订单 API 不可用：回复"订单系统繁忙，正在为您转接人工"，同时转人工。</p>
+<p><strong>验收标准</strong><br />
+- 支持三种查询键，查询成功率 ≥ 90%。<br />
+- 查不到时引导补充信息，连续 2 次失败才转人工。</p>
+<hr />
+<h3 id="f32-agentmust">F3.2 物流查询 Agent（Must）</h3>
+<p><strong>功能描述</strong><br />
+调用物流 API 返回实时轨迹。</p>
+<p><strong>业务规则</strong><br />
+1. 返回：物流公司、运单号、最新 3 条轨迹节点、预计到达时间。<br />
+2. <strong>特殊规则</strong>：物流状态为"已签收"但客户称未收到时，自动生成异常工单（类型：物流异常，优先级：高），转人工处理。</p>
+<p><strong>验收标准</strong><br />
+- 实时轨迹返回正确。<br />
+- "已签收但客户称未收到"场景自动触发异常工单。</p>
+<hr />
+<h3 id="f33-agentmust">F3.3 退款发起 Agent（Must，本产品核心）</h3>
+<p><strong>功能描述</strong><br />
+满足条件时自动审批并执行退款，不满足时生成工单转人工。</p>
+<p><strong>完整决策树</strong></p>
+<pre><code>退款请求进入
+    │
+    ├─ 步骤 1：判断退款理由
+    │   ├─ 7 天无理由 → 进入步骤 2
+    │   ├─ 质量问题 / 描述不符 / 少件 → 转人工（需人工看图判责）
+    │   └─ 其他 / 无法判断 → 转人工
+    │
+    ├─ 步骤 2：判断金额
+    │   ├─ 金额 ≤ 阈值（默认 200 元）→ 进入步骤 3
+    │   └─ 金额 &gt; 阈值 → 生成&quot;待审批工单&quot;→ 主管审批
+    │       ├─ 通过 → 执行退款
+    │       └─ 驳回 → 回到人工处理中（客户体感仍是同一客服）
+    │
+    ├─ 步骤 3：判断客户风险
+    │   ├─ 近 90 天退款率 &gt; 30% → 转人工
+    │   ├─ 在黑名单 → 转人工
+    │   └─ 正常 → 进入步骤 4
+    │
+    ├─ 步骤 4：判断商品风险
+    │   ├─ SKU 在黑名单（高价值/易损）→ 转人工
+    │   └─ 正常 → 进入步骤 5
+    │
+    └─ 步骤 5：✅ 自动执行退款
+        ├─ 调用退款 API
+        ├─ 推送通知客户（站内 + 短信）
+        ├─ 生成工单（状态：已解决，标记&quot;自动退款&quot;）
+        └─ 写入操作日志（含决策链路全记录）
+</code></pre>
+<p><strong>关键业务规则</strong></p>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>7 天无理由起算点</strong></td>
+<td>从<strong>签收时间</strong>起算，非下单时间。未签收订单不适用</td>
+</tr>
+<tr>
+<td><strong>阈值默认值</strong></td>
+<td>200 元。商家可按商品类目分别配置（如服饰 200 元、数码 500 元）</td>
+</tr>
+<tr>
+<td><strong>高频退款客户</strong></td>
+<td>近 90 天退款率 &gt; 30%，转人工</td>
+</tr>
+<tr>
+<td><strong>黑名单 SKU</strong></td>
+<td>商家手动配置，典型为高价值商品、易损品、定制品</td>
+</tr>
+<tr>
+<td><strong>每日自动退款上限</strong></td>
+<td>单店每日自动退款总额上限（默认 5000 元），超出后转人工，防止异常批量退款</td>
+</tr>
+</tbody>
+</table>
+<p><strong>安全约束（三重）</strong><br />
+1. <strong>条件自动</strong>：必须全部满足决策树的 5 个步骤才自动执行。<br />
+2. <strong>金额阈值</strong>：默认 200 元，可按类目覆盖。<br />
+3. <strong>全程留痕</strong>：每一笔自动退款记录完整决策链路，可逐笔追溯。</p>
+<p><strong>异常流</strong></p>
+<table>
+<thead>
+<tr>
+<th>异常</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>退款 API 调用失败</td>
+<td>重试 2 次；仍失败则生成"待处理工单"，标记"退款执行失败"，转人工</td>
+</tr>
+<tr>
+<td>退款金额 &gt; 订单实付</td>
+<td>拦截，转人工（防止超额退款）</td>
+</tr>
+<tr>
+<td>订单已退款过</td>
+<td>提示"该订单已退款"，不重复执行</td>
+</tr>
+<tr>
+<td>触发每日上限</td>
+<td>转人工，并通知主管"今日自动退款额度已用尽"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>验收标准</strong><br />
+- 决策树 5 个步骤判断逻辑正确，边界值（恰好等于阈值）处理正确。<br />
+- 所有自动退款记录可逐笔追溯，含完整决策链路。<br />
+- 每日上限生效。</p>
+<hr />
+<h3 id="f36-should">F3.6 物流异常主动检测（Should，本期纳入）</h3>
+<p><strong>功能描述</strong><br />
+在客户来问之前，主动发现物流异常。</p>
+<p><strong>检测规则</strong></p>
+<table>
+<thead>
+<tr>
+<th>异常类型</th>
+<th>触发条件</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>物流停滞</td>
+<td>轨迹超 48 小时无更新</td>
+<td>生成预警工单</td>
+</tr>
+<tr>
+<td>包裹退回</td>
+<td>轨迹出现"退回"节点</td>
+<td>生成预警工单，优先级高</td>
+</tr>
+<tr>
+<td>配送异常</td>
+<td>轨迹出现"配送失败""地址异常"</td>
+<td>生成预警工单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 扫描频率：每 2 小时全量扫描一次近 15 天的在途订单。<br />
+2. 生成预警工单后，系统主动联系客户（站内消息 + 短信模板），告知异常并提供解决方案选项。<br />
+3. 同一订单的同类异常只预警一次，不重复打扰。</p>
+<p><strong>验收标准</strong><br />
+- 三类异常识别准确，无误报轰炸。<br />
+- 主动触达在客户进线前完成。</p>
+<hr />
+<h2 id="54-f4">5.4 F4 工单系统</h2>
+<h3 id="f41-must">F4.1 工单创建与流转（Must）</h3>
+<p><strong>功能描述</strong><br />
+会话一键转工单，支持指派、转派、协作。</p>
+<p><strong>创建方式</strong><br />
+1. <strong>手动</strong>：客服在会话中点击"创建工单"，自动带入客户信息、订单信息、会话摘要。<br />
+2. <strong>自动</strong>：退款超阈值、物流异常检测、AI 转人工时自动生成。</p>
+<p><strong>业务规则</strong><br />
+1. 工单与会话双向关联：从工单可跳会话，从会话可看关联工单。<br />
+2. 支持指派（指定处理人）、转派（更换处理人）、协作（添加协作者）。<br />
+3. 工单字段详见第七章数据字典。</p>
+<p><strong>验收标准</strong><br />
+- 一键转工单时自动带入客户、订单、会话摘要。<br />
+- 工单与会话双向跳转正常。</p>
+<hr />
+<h3 id="f42-must">F4.2 工单状态机（Must）</h3>
+<p><strong>状态定义</strong>（详见 <a href="../04-流程图/流程图.html">Day 4 图 2</a>）</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+<th>可流转到</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>新建</strong></td>
+<td>工单刚创建</td>
+<td>AI 处理中 / 待人工处理</td>
+</tr>
+<tr>
+<td><strong>AI 处理中</strong></td>
+<td>AI 正在尝试解决</td>
+<td>已解决 / 待人工处理</td>
+</tr>
+<tr>
+<td><strong>待人工处理</strong></td>
+<td>等待人工接单</td>
+<td>人工处理中</td>
+</tr>
+<tr>
+<td><strong>人工处理中</strong></td>
+<td>客服正在处理</td>
+<td>待审批 / 已解决</td>
+</tr>
+<tr>
+<td><strong>待审批</strong></td>
+<td>退款 &gt; 阈值，等待主管</td>
+<td>已解决（通过）/ 人工处理中（驳回）</td>
+</tr>
+<tr>
+<td><strong>已解决</strong></td>
+<td>问题已答复，待关单</td>
+<td>已关闭 / 待复审</td>
+</tr>
+<tr>
+<td><strong>待复审</strong></td>
+<td>客户对结果不满意</td>
+<td>人工处理中</td>
+</tr>
+<tr>
+<td><strong>已关闭</strong></td>
+<td>终态</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 状态变更留痕，含操作人、时间戳、变更前后的值。<br />
+2. 已关闭为终态，不可再流转（如需重开，走"待复审"路径）。</p>
+<p><strong>验收标准</strong><br />
+- 8 个状态流转正确，非法流转被拦截。<br />
+- 所有状态变更留痕可查。</p>
+<hr />
+<h3 id="f43-sla-should">F4.3 SLA 监控与提醒（Should，本期纳入）</h3>
+<p><strong>功能描述</strong><br />
+按工单类型配置处理时长，临期提醒，超期告警。</p>
+<p><strong>默认 SLA 配置</strong></p>
+<table>
+<thead>
+<tr>
+<th>工单类型</th>
+<th>首次响应</th>
+<th>解决时长</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>退款类</td>
+<td>30 分钟</td>
+<td>4 小时</td>
+</tr>
+<tr>
+<td>物流异常</td>
+<td>1 小时</td>
+<td>24 小时</td>
+</tr>
+<tr>
+<td>质量问题</td>
+<td>2 小时</td>
+<td>48 小时</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>4 小时</td>
+<td>72 小时</td>
+</tr>
+</tbody>
+</table>
+<p><strong>提醒规则</strong><br />
+1. 临期 80% 时，提醒处理人（站内 + 可选短信）。<br />
+2. 超期时，工单标红并通知主管。<br />
+3. 审批类工单 2 小时未审批，自动升级至上一级。</p>
+<p><strong>验收标准</strong><br />
+- SLA 配置生效，提醒在正确时点触发。</p>
+<hr />
+<h3 id="f44-should">F4.4 工单升级机制（Should，本期纳入）</h3>
+<p><strong>升级触发条件</strong></p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手动升级</td>
+<td>客服点击"升级"按钮</td>
+</tr>
+<tr>
+<td>超期未处理</td>
+<td>超过 SLA 解决时长</td>
+</tr>
+<tr>
+<td>客户二次催办</td>
+<td>客户就同一问题二次进线</td>
+</tr>
+<tr>
+<td>金额超阈值</td>
+<td>退款金额 &gt; 阈值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>升级路径</strong><br />
+可配置，默认：客服 → 主管 → 老板（两级封顶）。</p>
+<p><strong>业务规则</strong><br />
+1. 升级时自动生成工单摘要。<br />
+2. 升级次数记录在工单字段 <code>escalation_count</code>，用于后续分析。<br />
+3. 升级后原处理人转为协作者，可见但不负责。</p>
+<p><strong>验收标准</strong><br />
+- 四种触发条件生效，升级路径可配置。</p>
+<hr />
+<h2 id="55-f5">5.5 F5 审批与权限</h2>
+<h3 id="f51-must">F5.1 角色权限矩阵（Must）</h3>
+<p><strong>功能描述</strong><br />
+预置角色并支持自定义。</p>
+<p><strong>预置角色</strong>：系统（自动）、人工客服、客服主管、财务、老板 / Owner。</p>
+<p><strong>权限维度</strong>：会话、工单、退款、配置、数据五类。</p>
+<blockquote>
+<p>完整矩阵见 <a href="../04-流程图/流程图.html">Day 4 图 3</a>。</p>
+</blockquote>
+<p><strong>验收标准</strong><br />
+- 五类权限覆盖完整，支持自定义角色。</p>
+<hr />
+<h3 id="f52-must">F5.2 金额阈值自动审批（Must）</h3>
+<p><strong>功能描述</strong><br />
+商家配置自动审批金额上限，阈值内自动执行，超阈值按层级审批。</p>
+<p><strong>配置项</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全局阈值</td>
+<td>200 元</td>
+<td>所有商品的默认上限</td>
+</tr>
+<tr>
+<td>类目阈值</td>
+<td>可空</td>
+<td>按商品类目覆盖全局阈值</td>
+</tr>
+<tr>
+<td>每日自动退款上限</td>
+<td>5000 元</td>
+<td>单店每日自动退款总额</td>
+</tr>
+<tr>
+<td>审批层级</td>
+<td>1 级</td>
+<td>超阈值时需要的审批级数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务规则</strong><br />
+1. 类目阈值优先于全局阈值。<br />
+2. 阈值变更需 Owner 或 Supervisor 操作，且留痕。<br />
+3. 阈值变更对进行中的工单不生效，仅影响新工单（避免规则抖动）。</p>
+<p><strong>验收标准</strong><br />
+- 全局与类目阈值配置生效，优先级正确。<br />
+- 阈值变更留痕，且不影响进行中工单。</p>
+<hr />
+<h3 id="f53-must">F5.3 操作日志与留痕（Must）</h3>
+<p><strong>功能描述</strong><br />
+所有关键操作留痕，可追溯。</p>
+<p><strong>记录范围</strong></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>具体操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资金类</td>
+<td>退款发起、退款审批、退款执行、赔偿</td>
+</tr>
+<tr>
+<td>权限类</td>
+<td>角色变更、权限调整、账号启用/停用</td>
+</tr>
+<tr>
+<td>配置类</td>
+<td>阈值变更、知识库发布/下线、SLA 配置变更</td>
+</tr>
+<tr>
+<td>数据类</td>
+<td>查看完整手机号、数据导出</td>
+</tr>
+</tbody>
+</table>
+<p><strong>日志字段</strong><br />
+操作时间、操作人（含角色）、操作类型、操作对象、变更前值、变更后值、IP 地址、决策链路（自动操作必填）。</p>
+<p><strong>业务规则</strong><br />
+1. 日志保留 ≥ 180 天。<br />
+2. 日志不可删除、不可修改（仅追加）。<br />
+3. 支持按操作人、操作类型、时间范围、操作对象检索。<br />
+4. 支持导出（导出行为本身也留痕）。</p>
+<p><strong>验收标准</strong><br />
+- 四类操作全部留痕，字段完整。<br />
+- 日志不可删除（技术层面保证）。<br />
+- 检索与导出功能正常。</p>
+<hr />
+<h2 id="56-f6">5.6 F6 数据看板</h2>
+<h3 id="f62-ai-should">F6.2 AI 效果报表（Should，本期纳入）</h3>
+<p><strong>功能描述</strong><br />
+展示 AI 的实际效果，支撑商家判断"这钱花得值不值"。</p>
+<p><strong>核心指标</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>计算口径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI 拦截率</strong></td>
+<td>AI 独立解决（未转人工）的会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>一次解决率</strong></td>
+<td>无需客户二次进线即解决的会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>转人工率</strong></td>
+<td>转人工会话数 / 总会话数</td>
+</tr>
+<tr>
+<td><strong>平均处理时长（AHT）</strong></td>
+<td>会话创建至解决的平均时长，区分 AI 与人工</td>
+</tr>
+<tr>
+<td><strong>意图分布</strong></td>
+<td>15 个售后意图的会话量分布</td>
+</tr>
+<tr>
+<td><strong>转人工原因分布</strong></td>
+<td>六种转人工触发条件的占比</td>
+</tr>
+</tbody>
+</table>
+<p><strong>功能点</strong><br />
+1. 支持按日 / 周 / 月查看。<br />
+2. 支持按场景（意图）维度下钻。<br />
+3. 支持导出 CSV。</p>
+<p><strong>业务规则</strong><br />
+1. 数据延迟 ≤ 5 分钟（准实时）。<br />
+2. 指标口径在页面上提供说明入口，避免商家误解（如"拦截率"不含客户主动要求人工的会话）。</p>
+<p><strong>异常流</strong><br />
+- 数据量过少（当日会话 &lt; 20）：显示提示"样本量较小，数据仅供参考"。</p>
+<p><strong>验收标准</strong><br />
+- 六个指标计算正确，与埋点数据一致。<br />
+- 支持时间维度与场景维度下钻。</p>
+<hr />
+<h1 id="_9">六、核心业务流程规则汇总</h1>
+<blockquote>
+<p>本章是开发最需要对齐的部分，把散落在各需求中的判断逻辑集中定义。</p>
+</blockquote>
+<h2 id="61">6.1 意图识别与分流规则</h2>
+<pre><code>客户消息进入
+    │
+    ├─ 意图识别（F2.1）
+    │   ├─ 识别为 I13 投诉 / I14 催人工 → 直接转人工
+    │   └─ 其他意图 → 继续
+    │
+    ├─ 规则引擎匹配（F2.2）
+    │   ├─ 命中（I1 查物流 / I2 查退款 / I3 催发货）→ 调 API → 模板回复 → 结束
+    │   └─ 未命中 → 继续
+    │
+    ├─ 任务 Agent 匹配（F3）
+    │   ├─ 可执行的任务（查订单 / 查物流 / 退款）→ 执行 → 结束
+    │   └─ 不可执行 → 继续
+    │
+    ├─ 大模型生成（F2.3）
+    │   ├─ 置信度 ≥ 0.85 且未命中禁用话题 → 生成回复 → 结束
+    │   └─ 置信度 &lt; 0.85 或命中禁用话题 → 转人工
+    │
+    └─ 转人工（F2.5）→ 进入人工流程
+</code></pre>
+<h2 id="62">6.2 退款决策规则（核心）</h2>
+<blockquote>
+<p>完整决策树见 5.3 F3.3。此处强调边界值处理：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>边界场景</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>金额恰好 = 阈值</td>
+<td>走自动退款（≤ 含等于）</td>
+</tr>
+<tr>
+<td>签收刚好第 7 天</td>
+<td>走 7 天无理由（含第 7 天）</td>
+</tr>
+<tr>
+<td>近 90 天退款率恰好 30%</td>
+<td>不算高频（&gt; 30% 才算）</td>
+</tr>
+<tr>
+<td>订单分多笔支付</td>
+<td>按订单实付总额判断，不拆单</td>
+</tr>
+<tr>
+<td>使用优惠券的订单</td>
+<td>按实付金额判断，退款金额 ≤ 实付</td>
+</tr>
+</tbody>
+</table>
+<h2 id="63">6.3 转人工触发条件汇总</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>条件</th>
+<th>来源需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>置信度 &lt; 阈值（默认 0.85）</td>
+<td>F2.5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>连续 2 轮未解决</td>
+<td>F2.5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>客户明确要求人工</td>
+<td>F2.5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>识别为投诉意图</td>
+<td>F2.1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>命中禁用话题</td>
+<td>F2.3</td>
+</tr>
+<tr>
+<td>6</td>
+<td>大模型超时（&gt; 3s）</td>
+<td>F2.3</td>
+</tr>
+<tr>
+<td>7</td>
+<td>订单查询连续 2 次失败</td>
+<td>F3.1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>退款不满足自动条件（质量问题、超阈值、高风险）</td>
+<td>F3.3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="64-sla">6.4 升级与 SLA 规则</h2>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>阈值</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 未响应</td>
+<td>60 秒</td>
+<td>转人工</td>
+</tr>
+<tr>
+<td>人工未响应</td>
+<td>30 分钟</td>
+<td>通知主管</td>
+</tr>
+<tr>
+<td>审批未处理</td>
+<td>2 小时</td>
+<td>自动升级至上一级</td>
+</tr>
+<tr>
+<td>工单临期</td>
+<td>SLA 的 80%</td>
+<td>提醒处理人</td>
+</tr>
+<tr>
+<td>工单超期</td>
+<td>SLA 的 100%</td>
+<td>标红 + 通知主管</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_10">七、数据字典</h1>
+<h2 id="71-ticket">7.1 工单对象（Ticket）</h2>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ticket_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>工单号，规则：TK + yyyyMMdd + 6 位序列</td>
+</tr>
+<tr>
+<td><code>channel</code></td>
+<td>enum</td>
+<td>是</td>
+<td>来源渠道：taobao / tmall / jd / pdd / douyin / system</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>enum</td>
+<td>是</td>
+<td>类型：refund / return / logistics / quality / invoice / other</td>
+</tr>
+<tr>
+<td><code>order_id</code></td>
+<td>string</td>
+<td>否</td>
+<td>关联订单号</td>
+</tr>
+<tr>
+<td><code>customer_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>客户唯一标识</td>
+</tr>
+<tr>
+<td><code>customer_name</code></td>
+<td>string</td>
+<td>是</td>
+<td>客户昵称</td>
+</tr>
+<tr>
+<td><code>customer_phone</code></td>
+<td>string</td>
+<td>是</td>
+<td>手机号（存储加密，展示脱敏）</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td>是</td>
+<td>状态，见 5.4 F4.2</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td>enum</td>
+<td>是</td>
+<td>优先级：low / medium / high / urgent</td>
+</tr>
+<tr>
+<td><code>assignee_id</code></td>
+<td>string</td>
+<td>否</td>
+<td>当前处理人 ID</td>
+</tr>
+<tr>
+<td><code>creator_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>创建人 ID（system 表示系统自动创建）</td>
+</tr>
+<tr>
+<td><code>ai_involved</code></td>
+<td>boolean</td>
+<td>是</td>
+<td>AI 是否介入</td>
+</tr>
+<tr>
+<td><code>ai_confidence</code></td>
+<td>decimal(3,2)</td>
+<td>否</td>
+<td>AI 置信度，0-1</td>
+</tr>
+<tr>
+<td><code>refund_amount</code></td>
+<td>decimal(10,2)</td>
+<td>否</td>
+<td>退款金额</td>
+</tr>
+<tr>
+<td><code>is_auto_refund</code></td>
+<td>boolean</td>
+<td>是</td>
+<td>是否自动退款</td>
+</tr>
+<tr>
+<td><code>escalation_count</code></td>
+<td>int</td>
+<td>是</td>
+<td>升级次数，默认 0</td>
+</tr>
+<tr>
+<td><code>sla_due_at</code></td>
+<td>datetime</td>
+<td>否</td>
+<td>SLA 到期时间</td>
+</tr>
+<tr>
+<td><code>first_response_at</code></td>
+<td>datetime</td>
+<td>否</td>
+<td>首次响应时间</td>
+</tr>
+<tr>
+<td><code>resolved_at</code></td>
+<td>datetime</td>
+<td>否</td>
+<td>解决时间</td>
+</tr>
+<tr>
+<td><code>closed_at</code></td>
+<td>datetime</td>
+<td>否</td>
+<td>关闭时间</td>
+</tr>
+<tr>
+<td><code>csat_score</code></td>
+<td>int</td>
+<td>否</td>
+<td>满意度评分 1-5</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>是</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td>datetime</td>
+<td>是</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="72-session">7.2 会话对象（Session）</h2>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>session_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>会话唯一 ID</td>
+</tr>
+<tr>
+<td><code>channel</code></td>
+<td>enum</td>
+<td>是</td>
+<td>来源渠道</td>
+</tr>
+<tr>
+<td><code>customer_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>客户 ID</td>
+</tr>
+<tr>
+<td><code>assignee_id</code></td>
+<td>string</td>
+<td>否</td>
+<td>当前处理人（system 表示 AI 处理中）</td>
+</tr>
+<tr>
+<td><code>intent</code></td>
+<td>enum</td>
+<td>否</td>
+<td>识别出的意图 I1-I15</td>
+</tr>
+<tr>
+<td><code>ai_confidence</code></td>
+<td>decimal(3,2)</td>
+<td>否</td>
+<td>AI 置信度</td>
+</tr>
+<tr>
+<td><code>is_ai_resolved</code></td>
+<td>boolean</td>
+<td>是</td>
+<td>是否由 AI 独立解决</td>
+</tr>
+<tr>
+<td><code>handoff_reason</code></td>
+<td>enum</td>
+<td>否</td>
+<td>转人工原因，见 6.3</td>
+</tr>
+<tr>
+<td><code>message_count</code></td>
+<td>int</td>
+<td>是</td>
+<td>消息轮次</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td>是</td>
+<td>active / resolved / closed</td>
+</tr>
+<tr>
+<td><code>ticket_id</code></td>
+<td>string</td>
+<td>否</td>
+<td>关联工单 ID</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>是</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td><code>resolved_at</code></td>
+<td>datetime</td>
+<td>否</td>
+<td>解决时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="73-refund">7.3 退款单对象（Refund）</h2>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>refund_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>退款单号</td>
+</tr>
+<tr>
+<td><code>order_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>关联订单号</td>
+</tr>
+<tr>
+<td><code>ticket_id</code></td>
+<td>string</td>
+<td>否</td>
+<td>关联工单</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>decimal(10,2)</td>
+<td>是</td>
+<td>退款金额</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>enum</td>
+<td>是</td>
+<td>退款理由：no_reason_7d / quality / wrong_item / missing / other</td>
+</tr>
+<tr>
+<td><code>is_auto</code></td>
+<td>boolean</td>
+<td>是</td>
+<td>是否自动退款</td>
+</tr>
+<tr>
+<td><code>decision_path</code></td>
+<td>json</td>
+<td>是</td>
+<td><strong>决策链路全记录</strong>（决策树每一步的判断结果）</td>
+</tr>
+<tr>
+<td><code>approver_id</code></td>
+<td>string</td>
+<td>否</td>
+<td>审批人（人工审批时必填）</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td>是</td>
+<td>pending / approved / executing / success / failed</td>
+</tr>
+<tr>
+<td><code>fail_reason</code></td>
+<td>string</td>
+<td>否</td>
+<td>失败原因（执行失败时）</td>
+</tr>
+<tr>
+<td><code>executed_at</code></td>
+<td>datetime</td>
+<td>否</td>
+<td>执行时间</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>decision_path</code> 字段是 F3.3 "全程留痕" 的技术实现，示例：<br />
+<code>json
+{
+  "step1_reason": "no_reason_7d",
+  "step1_result": "pass",
+  "step2_amount": 158.00,
+  "step2_threshold": 200.00,
+  "step2_result": "pass",
+  "step3_refund_rate": 0.12,
+  "step3_result": "pass",
+  "step4_sku_blacklist": false,
+  "step4_result": "pass",
+  "step5_daily_quota_remaining": 3200.00,
+  "final": "auto_executed"
+}</code></p>
+</blockquote>
+<h2 id="74-auditlog">7.4 操作日志对象（AuditLog）</h2>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>log_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>日志 ID</td>
+</tr>
+<tr>
+<td><code>operator_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>操作人（system 表示自动）</td>
+</tr>
+<tr>
+<td><code>operator_role</code></td>
+<td>enum</td>
+<td>是</td>
+<td>操作人角色</td>
+</tr>
+<tr>
+<td><code>action_type</code></td>
+<td>enum</td>
+<td>是</td>
+<td>操作类型：refund / permission / config / data</td>
+</tr>
+<tr>
+<td><code>target_type</code></td>
+<td>enum</td>
+<td>是</td>
+<td>操作对象类型：ticket / refund / user / config</td>
+</tr>
+<tr>
+<td><code>target_id</code></td>
+<td>string</td>
+<td>是</td>
+<td>操作对象 ID</td>
+</tr>
+<tr>
+<td><code>before_value</code></td>
+<td>json</td>
+<td>否</td>
+<td>变更前值</td>
+</tr>
+<tr>
+<td><code>after_value</code></td>
+<td>json</td>
+<td>否</td>
+<td>变更后值</td>
+</tr>
+<tr>
+<td><code>decision_path</code></td>
+<td>json</td>
+<td>否</td>
+<td>决策链路（自动操作必填）</td>
+</tr>
+<tr>
+<td><code>ip</code></td>
+<td>string</td>
+<td>是</td>
+<td>操作 IP</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>是</td>
+<td>操作时间</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_11">八、非功能需求</h1>
+<h2 id="81">8.1 性能</h2>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新消息到达至工作台可见</td>
+<td>≤ 3 秒（P95）</td>
+</tr>
+<tr>
+<td>客户信息侧边栏加载</td>
+<td>≤ 1.5 秒（P95）</td>
+</tr>
+<tr>
+<td>意图识别响应</td>
+<td>≤ 800ms（P95）</td>
+</tr>
+<tr>
+<td>规则引擎应答</td>
+<td>≤ 1 秒（P95）</td>
+</tr>
+<tr>
+<td>大模型生成应答</td>
+<td>≤ 3 秒（P95）</td>
+</tr>
+<tr>
+<td>看板数据刷新</td>
+<td>≤ 30 秒</td>
+</tr>
+</tbody>
+</table>
+<h2 id="82">8.2 安全与合规</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手机号存储</td>
+<td>加密存储，展示脱敏，查看需二次确认并留痕</td>
+</tr>
+<tr>
+<td>传输安全</td>
+<td>全链路 HTTPS</td>
+</tr>
+<tr>
+<td>操作留痕</td>
+<td>关键操作保留 ≥ 180 天，不可删除</td>
+</tr>
+<tr>
+<td>权限隔离</td>
+<td>客服仅可查看自己负责的数据</td>
+</tr>
+<tr>
+<td>数据导出</td>
+<td>导出行为留痕，导出文件加水印（含操作人与时间）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="83">8.3 兼容性</h2>
+<ul>
+<li>浏览器：Chrome / Edge 最新两个大版本。</li>
+<li>分辨率：≥ 1366 × 768。</li>
+<li>移动端：V1.0 提供主管端的响应式适配（仅查看与审批），客服端要求桌面。</li>
+</ul>
+<h2 id="84">8.4 可用性</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务可用性</td>
+<td>≥ 99.5%</td>
+</tr>
+<tr>
+<td>数据备份</td>
+<td>每日全量 + 实时增量，保留 30 天</td>
+</tr>
+<tr>
+<td>降级策略</td>
+<td>大模型不可用时，降级为规则引擎 + 转人工，不影响基础客服功能</td>
+</tr>
+</tbody>
+</table>
+<h2 id="85">8.5 可扩展性</h2>
+<ul>
+<li>渠道接入层需抽象为插件式，新增平台时核心逻辑不改。</li>
+<li>任务 Agent 需支持注册表式扩展，新增 Agent 不改主流程。</li>
+</ul>
+<hr />
+<h1 id="_12">九、外部依赖与接口</h1>
+<table>
+<thead>
+<tr>
+<th>依赖方</th>
+<th>用途</th>
+<th>关键接口</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>淘宝 / 天猫开放平台</td>
+<td>会话收发、订单查询、退款执行</td>
+<td>消息推送、订单详情、退款创建</td>
+<td>平台政策变动</td>
+</tr>
+<tr>
+<td>京东开放平台</td>
+<td>同上</td>
+<td>同上</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>拼多多开放平台</td>
+<td>同上</td>
+<td>同上</td>
+<td>接口稳定性较弱</td>
+</tr>
+<tr>
+<td>抖音开放平台</td>
+<td>同上</td>
+<td>同上</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>物流查询服务</td>
+<td>物流轨迹查询</td>
+<td>实时轨迹查询</td>
+<td>数据延迟</td>
+</tr>
+<tr>
+<td>大模型服务</td>
+<td>意图识别、应答生成</td>
+<td>对话完成接口</td>
+<td>响应延迟、成本</td>
+</tr>
+<tr>
+<td>短信服务</td>
+<td>通知触达</td>
+<td>短信发送</td>
+<td>到达率</td>
+</tr>
+</tbody>
+</table>
+<p><strong>降级预案</strong><br />
+- 大模型不可用 → 降级为规则引擎 + 全部转人工，基础客服功能不受影响。<br />
+- 某平台 API 不可用 → 该渠道消息暂不可用，其余渠道正常，顶部提示。<br />
+- 物流 API 不可用 → 物流查询转人工，其余功能正常。</p>
+<hr />
+<h1 id="_13">十、数据埋点方案</h1>
+<h2 id="101">10.1 埋点事件清单</h2>
+<table>
+<thead>
+<tr>
+<th>事件名</th>
+<th>触发时机</th>
+<th>关键参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>session_created</code></td>
+<td>会话创建</td>
+<td>channel, customer_id</td>
+</tr>
+<tr>
+<td><code>ai_reply_sent</code></td>
+<td>AI 发送回复</td>
+<td>intent, confidence, is_rule_based</td>
+</tr>
+<tr>
+<td><code>ai_handoff</code></td>
+<td>AI 转人工</td>
+<td>handoff_reason, confidence, round_count</td>
+</tr>
+<tr>
+<td><code>agent_reply_sent</code></td>
+<td>人工发送回复</td>
+<td>assignee_id, response_duration</td>
+</tr>
+<tr>
+<td><code>ticket_created</code></td>
+<td>工单创建</td>
+<td>type, source(manual/auto), priority</td>
+</tr>
+<tr>
+<td><code>ticket_status_changed</code></td>
+<td>工单状态变更</td>
+<td>from_status, to_status, operator_id</td>
+</tr>
+<tr>
+<td><code>refund_auto_executed</code></td>
+<td>自动退款执行</td>
+<td>amount, decision_path</td>
+</tr>
+<tr>
+<td><code>refund_manual_approved</code></td>
+<td>人工审批退款</td>
+<td>amount, approver_id, is_approved</td>
+</tr>
+<tr>
+<td><code>sla_breached</code></td>
+<td>SLA 超期</td>
+<td>ticket_type, overdue_duration</td>
+</tr>
+<tr>
+<td><code>ticket_escalated</code></td>
+<td>工单升级</td>
+<td>from_level, to_level, trigger</td>
+</tr>
+<tr>
+<td><code>csat_submitted</code></td>
+<td>客户提交满意度</td>
+<td>score, ticket_id</td>
+</tr>
+</tbody>
+</table>
+<h2 id="102">10.2 核心指标计算口径</h2>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>计算式</th>
+<th>数据来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 拦截率</td>
+<td><code>count(is_ai_resolved = true) / count(*)</code></td>
+<td>session</td>
+</tr>
+<tr>
+<td>一次解决率</td>
+<td><code>count(无需二次进线) / count(*)</code></td>
+<td>session</td>
+</tr>
+<tr>
+<td>转人工率</td>
+<td><code>count(handoff_reason 非空) / count(*)</code></td>
+<td>session</td>
+</tr>
+<tr>
+<td>AHT（AI）</td>
+<td><code>avg(resolved_at - created_at) where assignee = system</code></td>
+<td>session</td>
+</tr>
+<tr>
+<td>AHT（人工）</td>
+<td><code>avg(resolved_at - created_at) where assignee != system</code></td>
+<td>session</td>
+</tr>
+<tr>
+<td>SLA 达成率</td>
+<td><code>count(未超期) / count(*)</code></td>
+<td>ticket</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>口径说明</strong>：AI 拦截率的分子<strong>不含</strong>客户主动要求人工的会话（<code>handoff_reason = customer_request</code>），否则会低估 AI 能力。此口径需在看板上明示。</p>
+</blockquote>
+<hr />
+<h1 id="_14">十一、异常与边界清单</h1>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>场景</th>
+<th>系统行为</th>
+<th>客户感知</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>平台 API 断连</td>
+<td>顶部红色提示，已收消息正常，重连后补拉</td>
+<td>无感知（除延迟）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>消息发送失败</td>
+<td>标红保留，提供重试</td>
+<td>提示"发送失败"</td>
+</tr>
+<tr>
+<td>3</td>
+<td>大模型超时</td>
+<td>降级提示 + 转人工</td>
+<td>"正在为您转接人工"</td>
+</tr>
+<tr>
+<td>4</td>
+<td>订单/物流 API 不可用</td>
+<td>该模块显示重试，其余正常</td>
+<td>轻微延迟</td>
+</tr>
+<tr>
+<td>5</td>
+<td>退款 API 调用失败</td>
+<td>重试 2 次，失败生成待处理工单</td>
+<td>"退款处理中，稍后通知"</td>
+</tr>
+<tr>
+<td>6</td>
+<td>退款金额 &gt; 实付</td>
+<td>拦截，转人工</td>
+<td>无感知（转人工处理）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>重复退款</td>
+<td>提示已退款，不重复执行</td>
+<td>"该订单已退款"</td>
+</tr>
+<tr>
+<td>8</td>
+<td>触发每日退款上限</td>
+<td>转人工 + 通知主管</td>
+<td>无感知（转人工处理）</td>
+</tr>
+<tr>
+<td>9</td>
+<td>全员离线</td>
+<td>会话进排队队列，显示排队位</td>
+<td>"预计等待 X 分钟"</td>
+</tr>
+<tr>
+<td>10</td>
+<td>全员达并发上限</td>
+<td>同上</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>11</td>
+<td>客户在 5 平台同时进线</td>
+<td>合并会话，回复可选渠道</td>
+<td>无感知</td>
+</tr>
+<tr>
+<td>12</td>
+<td>员工离职/转岗</td>
+<td>进行中会话与工单自动转派主管</td>
+<td>无感知（同一客服继续）</td>
+</tr>
+<tr>
+<td>13</td>
+<td>知识库检索无结果</td>
+<td>不强行生成，转人工 + 提示补知识</td>
+<td>无感知（转人工处理）</td>
+</tr>
+<tr>
+<td>14</td>
+<td>物流异常重复检测</td>
+<td>同订单同类异常只预警一次</td>
+<td>不重复打扰</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_15">十二、验收标准</h1>
+<h2 id="121">12.1 功能验收</h2>
+<ul>
+<li><input type="checkbox" disabled> 23 条需求全部实现，逐条对照第三章范围表。</li>
+<li><input type="checkbox" disabled> 每条需求满足其"验收标准"小节定义的可量化条件。</li>
+<li><input type="checkbox" disabled> 主流程图（Day 4 图 1）所有路径可走通。</li>
+<li><input type="checkbox" disabled> 状态机 8 个状态流转正确，非法流转被拦截。</li>
+<li><input type="checkbox" disabled> 权限矩阵 5 角色 × 12 操作全部生效。</li>
+</ul>
+<h2 id="122">12.2 性能验收</h2>
+<ul>
+<li><input type="checkbox" disabled> 第八章 8.1 全部性能指标达标（P95）。</li>
+<li><input type="checkbox" disabled> 并发 100 会话时，消息延迟仍 ≤ 3 秒。</li>
+</ul>
+<h2 id="123-checklist">12.3 上线 Checklist</h2>
+<ul>
+<li><input type="checkbox" disabled> 五个平台渠道接入测试通过（含断连重连）。</li>
+<li><input type="checkbox" disabled> 退款决策树边界值测试通过（金额=阈值、第 7 天、退款率=30%）。</li>
+<li><input type="checkbox" disabled> 操作日志留痕验证（不可删除）。</li>
+<li><input type="checkbox" disabled> 降级预案演练（大模型不可用、平台 API 不可用）。</li>
+<li><input type="checkbox" disabled> 数据看板指标与埋点数据一致性校验。</li>
+<li><input type="checkbox" disabled> 安全测试（越权访问、SQL 注入、XSS）。</li>
+</ul>
+<hr />
+<h1 id="_16">十三、风险与依赖</h1>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>影响</th>
+<th>应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平台 API 政策变动</td>
+<td>渠道接入失效</td>
+<td>抽象接入层，预留多方案；与平台保持沟通</td>
+</tr>
+<tr>
+<td>大模型响应延迟高</td>
+<td>客户体验差</td>
+<td>规则引擎覆盖高频场景；设置 3 秒超时降级</td>
+</tr>
+<tr>
+<td>自动退款出错</td>
+<td>商家资金损失</td>
+<td>三重约束（条件+阈值+留痕）+ 每日上限</td>
+</tr>
+<tr>
+<td>AI 准确率不达标</td>
+<td>拦截率达不到 60%</td>
+<td>知识库运营 + 持续优化；置信度阈值可调</td>
+</tr>
+<tr>
+<td>物流数据质量差</td>
+<td>异常检测误报</td>
+<td>误报率监控；人工可标记误报并反馈优化</td>
+</tr>
+<tr>
+<td>客服抵触 AI</td>
+<td>产品推不动</td>
+<td>产品叙事定位"替代重复劳动"而非"替代人"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="_17">十四、附录</h1>
+<h2 id="141">14.1 需求索引</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需求</th>
+<th>优先级</th>
+<th>章节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1.1</td>
+<td>多渠道会话接入</td>
+<td>Must</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>F1.2</td>
+<td>客户信息侧边栏</td>
+<td>Must</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>F1.3</td>
+<td>会话分配与转接</td>
+<td>Must</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>F1.4</td>
+<td>一键升级主管</td>
+<td>Should</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>F1.5</td>
+<td>快捷话术库</td>
+<td>Should</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>F2.1</td>
+<td>售后意图识别</td>
+<td>Must</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>F2.2</td>
+<td>规则引擎应答</td>
+<td>Must</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>F2.3</td>
+<td>大模型生成应答</td>
+<td>Must</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>F2.4</td>
+<td>知识库管理</td>
+<td>Must</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>F2.5</td>
+<td>置信度与转人工策略</td>
+<td>Must</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>F2.7</td>
+<td>多轮上下文记忆</td>
+<td>Should</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>F3.1</td>
+<td>订单查询 Agent</td>
+<td>Must</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td>F3.2</td>
+<td>物流查询 Agent</td>
+<td>Must</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td>F3.3</td>
+<td>退款发起 Agent</td>
+<td>Must</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td>F3.6</td>
+<td>物流异常主动检测</td>
+<td>Should</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td>F4.1</td>
+<td>工单创建与流转</td>
+<td>Must</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>F4.2</td>
+<td>工单状态机</td>
+<td>Must</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>F4.3</td>
+<td>SLA 监控与提醒</td>
+<td>Should</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>F4.4</td>
+<td>工单升级机制</td>
+<td>Should</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>F5.1</td>
+<td>角色权限矩阵</td>
+<td>Must</td>
+<td>5.5</td>
+</tr>
+<tr>
+<td>F5.2</td>
+<td>金额阈值自动审批</td>
+<td>Must</td>
+<td>5.5</td>
+</tr>
+<tr>
+<td>F5.3</td>
+<td>操作日志与留痕</td>
+<td>Must</td>
+<td>5.5</td>
+</tr>
+<tr>
+<td>F6.2</td>
+<td>AI 效果报表</td>
+<td>Should</td>
+<td>5.6</td>
+</tr>
+</tbody>
+</table>
+<h2 id="142">14.2 待验证假设</h2>
+<p>本文档中以下数据为基于行业资料的合理假设，上线前需通过真实商家访谈验证：</p>
+<table>
+<thead>
+<tr>
+<th>假设</th>
+<th>当前值</th>
+<th>验证方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>退款自动审批阈值</td>
+<td>200 元</td>
+<td>商家访谈 / 竞品产品文档</td>
+</tr>
+<tr>
+<td>每日自动退款上限</td>
+<td>5000 元</td>
+<td>商家访谈</td>
+</tr>
+<tr>
+<td>高频退款客户判定线</td>
+<td>近 90 天退款率 &gt; 30%</td>
+<td>数据分析</td>
+</tr>
+<tr>
+<td>置信度阈值</td>
+<td>0.85</td>
+<td>上线后按准确率数据调优</td>
+</tr>
+<tr>
+<td>AI 未响应超时</td>
+<td>60 秒</td>
+<td>客服主管访谈</td>
+</tr>
+<tr>
+<td>人工未响应超时</td>
+<td>30 分钟</td>
+<td>客服主管访谈</td>
+</tr>
+<tr>
+<td>审批超时</td>
+<td>2 小时</td>
+<td>客服主管访谈</td>
+</tr>
+<tr>
+<td>客服并发上限</td>
+<td>8 个会话</td>
+<td>客服访谈</td>
+</tr>
+<tr>
+<td>SLA 默认值</td>
+<td>见 5.4 F4.3</td>
+<td>商家访谈</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>本文档为个人产品设计练习。文中数据与方法基于公开资料推演，关键假设已在文中标注待验证。</em></p>
+<div class="foot">售后管家 AfterCare · 产品设计作品集 · 李志恒</div>
+</div>
+</body>
+</html>

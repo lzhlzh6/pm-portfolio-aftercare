@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>用户画像与场景拆解 — 售后管家 AfterCare</title>
+<style>
+:root{
+  --ink:#1f2937; --sub:#64748b; --line:#e2e8f0; --accent:#1e40af;
+  --bg:#ffffff; --soft:#f8fafc; --code-bg:#0f172a; --code-fg:#e2e8f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.85; font-size:15px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px 80px;}
+.topbar{
+  border-bottom:1px solid var(--line); background:#fff;
+  position:sticky; top:0; z-index:10;
+}
+.topbar-in{max-width:920px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;}
+.back{
+  color:var(--accent); text-decoration:none; font-size:14px; font-weight:600;
+  border:1px solid var(--line); padding:5px 12px; border-radius:6px; white-space:nowrap;
+}
+.back:hover{background:var(--soft);}
+.crumb{color:var(--sub);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.badge{
+  background:#eff6ff;color:var(--accent);font-size:12px;font-weight:700;
+  padding:3px 9px;border-radius:4px;border:1px solid #dbeafe;white-space:nowrap;
+}
+h1{font-size:29px;font-weight:800;color:#0f172a;margin:46px 0 6px;letter-spacing:.5px;line-height:1.35;}
+h2{font-size:21px;font-weight:700;color:#0f172a;margin:44px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--line);}
+h3{font-size:17px;font-weight:700;color:#1e2937;margin:30px 0 10px;}
+h4{font-size:15px;font-weight:700;color:#334155;margin:22px 0 8px;}
+p{margin:12px 0;}
+ul,ol{margin:12px 0 12px 26px;}
+li{margin:6px 0;}
+a{color:var(--accent);}
+hr{border:0;border-top:1px solid var(--line);margin:38px 0;}
+strong{font-weight:700;color:#0f172a;}
+blockquote{
+  border-left:4px solid var(--accent); background:var(--soft);
+  margin:16px 0; padding:12px 18px; color:#475569; border-radius:0 6px 6px 0;
+}
+blockquote p{margin:6px 0;}
+code{
+  background:#f1f5f9; padding:2px 6px; border-radius:4px;
+  font-family:"Cascadia Code",Consolas,Monaco,monospace; font-size:13px; color:#be123c;
+}
+pre{
+  background:var(--code-bg); color:var(--code-fg);
+  padding:16px 18px; border-radius:8px; overflow-x:auto; margin:18px 0; line-height:1.65;
+}
+pre code{background:none;color:inherit;padding:0;font-size:13px;}
+table{
+  width:100%; border-collapse:collapse; margin:20px 0; font-size:14px;
+  box-shadow:0 0 0 1px var(--line); border-radius:8px; overflow:hidden;
+}
+th{
+  background:#f1f5f9; font-weight:700; color:#0f172a; text-align:left;
+  padding:11px 14px; border-bottom:2px solid var(--line); white-space:nowrap;
+}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#fafcff;}
+input[type=checkbox]{margin-right:6px;}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center;}
+@media print{.topbar{display:none;}}
+@media(max-width:640px){
+  .wrap{padding:0 16px 60px;}
+  .topbar-in{padding:12px 16px;}
+  h1{font-size:23px;margin-top:30px;}
+  h2{font-size:18px;}
+  table{font-size:13px;display:block;overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a class="back" href="../index.html">&larr; 返回作品集</a>
+  <span class="badge">Day 2</span>
+  <span class="crumb">用户画像与场景拆解</span>
+</div></div>
+<div class="wrap">
+<h1 id="aftercare">售后管家 AfterCare — 用户画像与场景拆解</h1>
+<blockquote>
+<p>文档类型：用户研究报告<br />
+版本：v1.0<br />
+日期：2026-09-02<br />
+作者：李志恒<br />
+前置文档：<a href="../01-调研/市场与竞品调研.md">01-调研/市场与竞品调研.md</a></p>
+<p><strong>方法说明</strong>：本文的 Persona 基于公开行业资料、竞品产品文档与电商售后从业者访谈内容归纳而成。目标用户的行为特征与痛点推导有据可依，但<strong>具体数字（如会话量、团队规模）为合理区间假设</strong>，正式对外前应通过真实用户访谈校验。</p>
+</blockquote>
+<hr />
+<h2 id="_1">一、角色定义</h2>
+<p>B 端产品的一个基本事实：<strong>用的人和买的人不是同一个</strong>。售后管家涉及四类角色，四者的诉求经常冲突。</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>定位</th>
+<th>关注什么</th>
+<th>不关心什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>商家老板 / 运营负责人</strong></td>
+<td>决策者、付费方</td>
+<td>ROI、上线速度、店铺评分、成本</td>
+<td>界面细节、具体功能操作</td>
+</tr>
+<tr>
+<td><strong>客服主管</strong></td>
+<td>管理者、推动者</td>
+<td>团队效率、权限管控、质检、报表</td>
+<td>技术实现方式</td>
+</tr>
+<tr>
+<td><strong>一线客服</strong></td>
+<td>高频使用者</td>
+<td>界面简单、信息集中、少重复劳动</td>
+<td>成本、公司战略</td>
+</tr>
+<tr>
+<td><strong>消费者</strong></td>
+<td>服务的最终对象</td>
+<td>问题快点解决、别踢皮球</td>
+<td>谁在处理、用的什么系统</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键冲突点</strong>：老板想最大化 AI 替代率以省钱，客服主管担心 AI 出错引发客诉，一线客服担心 AI 抢饭碗。<strong>产品设计必须同时满足三方，否则推不动。</strong></p>
+<p>解法：不把 AI 定位成"替代客服"，而是定位成"替客服干掉重复劳动"。这既是产品叙事，也是推行策略——<strong>对老板讲人力成本，对主管讲可控性，对客服讲减负。</strong></p>
+<hr />
+<h2 id="persona">二、用户画像（Persona）</h2>
+<h3 id="persona-1">Persona 1：王磊 — 决策者</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>年龄 / 身份</td>
+<td>34 岁，某家居类目电商公司老板</td>
+</tr>
+<tr>
+<td>经营规模</td>
+<td>天猫 + 拼多多 + 抖音共 3 个店铺，月 GMV 约 200 万</td>
+</tr>
+<tr>
+<td>团队</td>
+<td>客服 8 人（含 1 名主管），两班倒</td>
+</tr>
+<tr>
+<td>预算</td>
+<td>年 3-5 万，要求 3 个月内见到效果</td>
+</tr>
+</tbody>
+</table>
+<p><strong>典型一天</strong>：上午看昨日数据，中午被主管告知大促排班缺口，下午处理一个升级到平台的投诉。</p>
+<p><strong>痛点</strong><br />
+1. 大促期间售后量翻倍，临时招人来不及，招来了也来不及培训<br />
+2. 客服流失率高，新人上手要 2 周，培训成本反复支出<br />
+3. 售后处理慢导致差评和店铺评分下滑，<strong>直接影响平台流量分配</strong>——这是最痛的<br />
+4. 花了钱上系统，但说不清到底省了多少钱</p>
+<p><strong>目标</strong>：用现有 8 个人扛住明年翻倍的订单量，且不出重大客诉。</p>
+<p><strong>决策关注点</strong>：投入产出比、上线周期、数据安全（不愿把客户数据交给不靠谱的小厂）。</p>
+<hr />
+<h3 id="persona-2">Persona 2：陈静 — 管理者</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>年龄 / 身份</td>
+<td>28 岁，客服主管，从业 5 年</td>
+</tr>
+<tr>
+<td>管理规模</td>
+<td>8 人团队，日均售后会话约 800 条</td>
+</tr>
+<tr>
+<td>熟练度</td>
+<td>熟悉各平台规则，能处理大部分疑难件</td>
+</tr>
+</tbody>
+</table>
+<p><strong>典型一天</strong>：处理 20+ 个升级工单，排下周班表，抽查 30 条会话记录。</p>
+<p><strong>痛点</strong><br />
+1. 被重复性问题打断，真正需要判断的疑难件反而没时间细看<br />
+2. 排班难——大促和夜班没人愿意上<br />
+3. 质检靠抽检，覆盖率低，问题发现滞后<br />
+4. <strong>权限不清</strong>：客服为了快点结案擅自承诺赔偿，最后公司买单<br />
+5. 无法实时知道哪个工单要超时，往往是客户催了才发现</p>
+<p><strong>目标</strong>：把 80% 的重复问题挡在下面，自己只处理真正需要判断的 20%。</p>
+<p><strong>关注点</strong>：能否设置自动规则、能否留痕追溯、报表是否可信。</p>
+<hr />
+<h3 id="persona-3">Persona 3：小雨 — 执行者</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>年龄 / 身份</td>
+<td>22 岁，一线客服，入职 3 个月</td>
+</tr>
+<tr>
+<td>工作状态</td>
+<td>同时看管淘宝、京东、拼多多、抖音 4 个后台窗口</td>
+</tr>
+<tr>
+<td>熟练度</td>
+<td>熟悉基本操作，遇复杂情况需请教主管</td>
+</tr>
+</tbody>
+</table>
+<p><strong>典型一天</strong>：处理 150+ 条消息，其中约 70% 是重复问题。</p>
+<p><strong>痛点</strong><br />
+1. <strong>在 4 个平台后台之间反复切换</strong>，手忙脚乱且容易发错窗口（最痛）<br />
+2. 重复问题回答到麻木："什么时候发货""怎么退货""能便宜点吗"<br />
+3. 查订单要跳出会话去 ERP 后台，来回切屏，客户等着急<br />
+4. 遇到情绪激动的客户不知道怎么接，怕被投诉<br />
+5. 新人记不住全部规则，遇到没见过的场景只能问主管</p>
+<p><strong>目标</strong>：少挨骂、少做重复劳动、遇到搞不定的能快速求助。</p>
+<p><strong>关注点</strong>：界面是否简单、信息是否集中、有没有话术推荐。</p>
+<hr />
+<h2 id="_2">三、售后场景全景拆解</h2>
+<h3 id="31">3.1 场景清单</h3>
+<p>按"AI 能接管到什么程度"给每个场景定级，这是决定产品边界的核心依据。</p>
+<p><strong>AI 可处理度定义</strong></p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>含义</th>
+<th>判定标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>全自动</strong></td>
+<td>AI 独立闭环，无需人工介入</td>
+<td>规则明确、可调用 API 完成、无金额风险</td>
+</tr>
+<tr>
+<td><strong>条件自动</strong></td>
+<td>满足预设规则时自动执行，否则转人工</td>
+<td>有明确判定条件，但存在例外情况</td>
+</tr>
+<tr>
+<td><strong>AI 辅助</strong></td>
+<td>AI 收集信息并生成方案，人工确认执行</td>
+<td>需要看图、需要主观判断、涉及金额</td>
+</tr>
+<tr>
+<td><strong>人工为主</strong></td>
+<td>AI 仅做信息整理，决策与执行全人工</td>
+<td>高风险、强沟通、需承担责任</td>
+</tr>
+</tbody>
+</table>
+<p><strong>场景全量表</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>场景</th>
+<th>频率</th>
+<th>复杂度</th>
+<th>AI 可处理度</th>
+<th>依赖系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>查物流（到哪了 / 何时到）</td>
+<td>极高</td>
+<td>低</td>
+<td>全自动</td>
+<td>物流 API</td>
+</tr>
+<tr>
+<td>2</td>
+<td>退款进度查询</td>
+<td>高</td>
+<td>低</td>
+<td>全自动</td>
+<td>支付 API</td>
+</tr>
+<tr>
+<td>3</td>
+<td>催发货（超时未发）</td>
+<td>高</td>
+<td>低</td>
+<td>全自动</td>
+<td>订单 API</td>
+</tr>
+<tr>
+<td>4</td>
+<td>7 天无理由退货</td>
+<td>高</td>
+<td>中</td>
+<td>条件自动</td>
+<td>订单 + 物流 + 支付</td>
+</tr>
+<tr>
+<td>5</td>
+<td>仅退款（未发货）</td>
+<td>中</td>
+<td>低</td>
+<td>条件自动</td>
+<td>订单 + 支付</td>
+</tr>
+<tr>
+<td>6</td>
+<td>开 / 补电子发票</td>
+<td>中</td>
+<td>低</td>
+<td>全自动</td>
+<td>发票系统</td>
+</tr>
+<tr>
+<td>7</td>
+<td>修改收货地址</td>
+<td>中</td>
+<td>低</td>
+<td>条件自动</td>
+<td>物流 API（未发货才可改）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>物流异常（停滞 / 退回 / 错发）</td>
+<td>中高</td>
+<td>中</td>
+<td>AI 辅助</td>
+<td>物流 API</td>
+</tr>
+<tr>
+<td>9</td>
+<td>退货退款（质量问题）</td>
+<td>中高</td>
+<td>中</td>
+<td>AI 辅助</td>
+<td>订单 + 物流 + 支付</td>
+</tr>
+<tr>
+<td>10</td>
+<td>描述不符 / 色差 / 尺寸偏差</td>
+<td>中</td>
+<td>中</td>
+<td>AI 辅助</td>
+<td>订单</td>
+</tr>
+<tr>
+<td>11</td>
+<td>缺件少件（赠品 / 配件缺失）</td>
+<td>中</td>
+<td>中</td>
+<td>AI 辅助</td>
+<td>订单</td>
+</tr>
+<tr>
+<td>12</td>
+<td>补偿协商（优惠券 / 部分退款）</td>
+<td>中</td>
+<td>高</td>
+<td>AI 辅助</td>
+<td>优惠券 + 支付</td>
+</tr>
+<tr>
+<td>13</td>
+<td>差评协商修改</td>
+<td>中</td>
+<td>高</td>
+<td>人工为主</td>
+<td>评价 API</td>
+</tr>
+<tr>
+<td>14</td>
+<td>平台投诉 / 介入</td>
+<td>低</td>
+<td>高</td>
+<td>人工为主</td>
+<td>平台后台</td>
+</tr>
+<tr>
+<td>15</td>
+<td>大额争议申诉</td>
+<td>低</td>
+<td>高</td>
+<td>人工为主</td>
+<td>全系统</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2 场景分布矩阵</h3>
+<p>（见配套图：以"发生频率"为横轴、"AI 可自动化程度"为纵轴的四象限矩阵）</p>
+<table>
+<thead>
+<tr>
+<th>象限</th>
+<th>场景</th>
+<th>产品策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>右上：高频 + 高自动化</strong></td>
+<td>查物流、查退款进度、催发货、7 天无理由退货</td>
+<td><strong>V1.0 核心，AI 全自动吃下</strong>。这批场景占比最大且规则明确，是 ROI 最高的部分</td>
+</tr>
+<tr>
+<td><strong>右下：高频 + 低自动化</strong></td>
+<td>退货退款执行、质量问题判定、物流异常</td>
+<td><strong>V1.0 重点，做人机协同</strong>。AI 负责信息归集与方案生成，人工做最后判断</td>
+</tr>
+<tr>
+<td><strong>左上：低频 + 高自动化</strong></td>
+<td>开电子发票、修改地址</td>
+<td><strong>V1.5 顺手做</strong>。实现成本低，作为功能完整度补充</td>
+</tr>
+<tr>
+<td><strong>左下：低频 + 低自动化</strong></td>
+<td>补偿协商、差评处理、平台投诉、大额争议</td>
+<td><strong>暂不投入</strong>。低频高风险，自动化收益低且出错代价大</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-ai">3.3 AI 能力边界的判断依据</h3>
+<p>这是本项目最能体现技术理解的部分。判断一个场景能否自动化，看四个条件：</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>信息可得</strong></td>
+<td>判断所需的数据能否通过 API 拿到</td>
+<td>查物流需要物流 API，拿不到就无法自动</td>
+</tr>
+<tr>
+<td><strong>规则明确</strong></td>
+<td>判定条件能否写成确定逻辑</td>
+<td>"7 天无理由"有明确时限，可写规则</td>
+</tr>
+<tr>
+<td><strong>动作可执行</strong></td>
+<td>结果能否通过 API 直接完成</td>
+<td>退款需要支付 API 的退款接口权限</td>
+</tr>
+<tr>
+<td><strong>风险可控</strong></td>
+<td>出错的代价是否在可承受范围</td>
+<td>小额退款可自动，大额必须人工</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四个条件同时满足 → 全自动；缺"规则明确"或"风险可控" → 转 AI 辅助。</strong></p>
+<p>举例说明为什么"质量问题退货"只能做到 AI 辅助：<br />
+- 信息可得 ✓（订单 API 能拿到商品、购买时间）<br />
+- 规则明确 ✗（"是不是质量问题"需要看图，模型判断有误差）<br />
+- 动作可执行 ✓（支付 API 可退款）<br />
+- 风险可控 ✗（误判导致商家损失货款）</p>
+<p>→ 结论：AI 负责收集订单信息、引导用户上传图片、按历史相似案例给出建议方案，由人工确认责任归属后执行。</p>
+<hr />
+<h2 id="_3">四、用户故事</h2>
+<h3 id="41">4.1 一线客服</h3>
+<ol>
+<li>作为同时看管 4 个平台的客服，我希望所有店铺的售后消息汇总到一个工作台，以便不用在多个后台之间来回切换。</li>
+<li>作为一线客服，我希望在处理会话时就能看到该客户的订单、物流和历史会话，以便不用跳到后台查完再回来。</li>
+<li>作为入职 3 个月的新人客服，我希望系统根据客户的问题自动推荐处理方案和话术，以便不用背完所有规则才能上岗。</li>
+<li>作为一线客服，我希望遇到情绪激动的客户时能一键升级给主管，以便不用独自承担压力。</li>
+<li>作为一线客服，我希望重复性问题（查物流、催发货）由系统自动回复，以便我能专注处理需要判断的复杂问题。</li>
+</ol>
+<h3 id="42">4.2 客服主管</h3>
+<ol start="6">
+<li>作为客服主管，我希望按金额和场景设置自动审批规则，以便小额退款不用我逐个点确认。</li>
+<li>作为客服主管，我希望看到每位客服的响应时长、一次解决率和质检分数，以便做绩效评估和培训安排。</li>
+<li>作为客服主管，我希望超过 SLA 未处理的工单自动标红并提醒，以便不会漏掉快要爆的雷。</li>
+<li>作为客服主管，我希望所有退款和赔偿操作留痕可追溯，以便出现纠纷时能查到是谁批的。</li>
+<li>作为客服主管，我希望看到 AI 处理不了的会话都卡在哪，以便知道该补充哪些知识库内容。</li>
+</ol>
+<h3 id="43">4.3 商家老板</h3>
+<ol start="11">
+<li>作为商家老板，我希望看到 AI 处理了多少售后、相当于省了几个人的工作量，以便判断这笔钱花得值不值。</li>
+<li>作为商家老板，我希望客服的操作权限可控，以便不会出现客服擅自大额赔偿的情况。</li>
+<li>作为商家老板，我希望新系统在一周内上线，以便不用等几个月的实施周期。</li>
+<li>作为商家老板，我希望看到售后问题的类型分布和趋势，以便反过来优化商品质量和供应链。</li>
+</ol>
+<hr />
+<h2 id="_4">五、痛点清单</h2>
+<h3 id="51">5.1 商家老板</h3>
+<table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>影响</th>
+<th>严重度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大促期间售后爆仓，招人不及</td>
+<td>响应慢、差评、店铺评分下滑</td>
+<td>高</td>
+</tr>
+<tr>
+<td>客服流失率高，培训成本反复支出</td>
+<td>隐性成本，难以量化</td>
+<td>高</td>
+</tr>
+<tr>
+<td>售后处理慢影响店铺评分和流量</td>
+<td><strong>直接影响营收</strong></td>
+<td>高</td>
+</tr>
+<tr>
+<td>上了系统但说不清省了多少钱</td>
+<td>续费决策困难</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52">5.2 客服主管</h3>
+<table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>影响</th>
+<th>严重度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>被重复问题打断，疑难件没时间细看</td>
+<td>个人效率瓶颈</td>
+<td>高</td>
+</tr>
+<tr>
+<td>权限不清，客服擅自承诺赔偿</td>
+<td>公司直接经济损失</td>
+<td>高</td>
+</tr>
+<tr>
+<td>质检靠抽检，问题发现滞后</td>
+<td>服务质量不可控</td>
+<td>中高</td>
+</tr>
+<tr>
+<td>无法实时监控超时工单</td>
+<td>客诉升级风险</td>
+<td>中高</td>
+</tr>
+<tr>
+<td>排班难（大促、夜班）</td>
+<td>管理负担</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53">5.3 一线客服</h3>
+<table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>影响</th>
+<th>严重度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>在 4 个平台后台间反复切换</td>
+<td>效率低、易发错窗口</td>
+<td>高</td>
+</tr>
+<tr>
+<td>重复问题占比约 70%，机械劳动</td>
+<td>倦怠、流失</td>
+<td>高</td>
+</tr>
+<tr>
+<td>查信息要切屏到 ERP</td>
+<td>响应慢、客户不耐烦</td>
+<td>中高</td>
+</tr>
+<tr>
+<td>新人记不住规则，遇复杂场景只能求助</td>
+<td>上手周期长</td>
+<td>中</td>
+</tr>
+<tr>
+<td>应对情绪化客户缺乏方法</td>
+<td>压力大、易被投诉</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_5">六、从痛点到功能：需求启示</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>痛点来源</th>
+<th>需求启示</th>
+<th>对应 Persona</th>
+<th>初判优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>多平台切换</td>
+<td>全渠道会话聚合工作台</td>
+<td>小雨</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>查信息切屏</td>
+<td>会话侧边栏集成订单/物流/历史</td>
+<td>小雨</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>重复问题占 70%</td>
+<td>AI 自动应答（查物流/催发货/退款进度）</td>
+<td>小雨、王磊</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>权限不清</td>
+<td>角色权限矩阵 + 金额阈值审批流</td>
+<td>陈静、王磊</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>AI 不能只答题</td>
+<td>AI Agent 调用业务 API 执行退款退货</td>
+<td>王磊</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>超时工单无感知</td>
+<td>SLA 监控 + 自动标红提醒</td>
+<td>陈静</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>质检靠抽检</td>
+<td>会话质检 + 团队效能看板</td>
+<td>陈静</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>效果不可见</td>
+<td>成本节省核算 + AI 拦截率报表</td>
+<td>王磊</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>新人上手慢</td>
+<td>场景化话术推荐 + 知识库</td>
+<td>小雨</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>情绪化客户</td>
+<td>情绪识别 + 一键升级主管</td>
+<td>小雨、陈静</td>
+<td>Could</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>不知道补什么知识</td>
+<td>未解决会话聚类分析</td>
+<td>陈静</td>
+<td>Could</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>售后反哺经营</td>
+<td>问题类型分布与趋势分析</td>
+<td>王磊</td>
+<td>Could</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>优先级采用 MoSCoW 法（Must / Should / Could / Won't），将在 Day 3 的需求清单中细化并说明理由。</p>
+</blockquote>
+<hr />
+<h2 id="_6">七、待验证的假设</h2>
+<ul>
+<li><input type="checkbox" disabled> "重复问题占比约 70%" —— 需用真实会话数据验证</li>
+<li><input type="checkbox" disabled> "客服同时看管 4 个平台" —— 取决于商家实际经营的平台数</li>
+<li><input type="checkbox" disabled> Persona 中的 GMV、团队规模 —— 需真实访谈校准</li>
+<li><input type="checkbox" disabled> 各场景的发生频率排序 —— 需真实数据或从业者确认</li>
+</ul>
+<hr />
+<p><em>本文档为个人产品设计练习。文中 Persona 基于公开行业资料归纳，非真实用户访谈样本；关键假设已在文中标注待验证。</em></p>
+<div class="foot">售后管家 AfterCare · 产品设计作品集 · 李志恒</div>
+</div>
+</body>
+</html>
