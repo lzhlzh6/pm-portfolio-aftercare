@@ -4,7 +4,7 @@
 >
 > **李志恒** · 2026 届应届本科（数据科学与大数据技术） · 求职方向：产品经理（AI / B 端）
 
-**在线浏览**：部署 GitHub Pages 后自动生成，见仓库 About 区域
+**在线浏览 → https://lzhlzh6.github.io/pm-portfolio-aftercare/**
 
 ---
 
